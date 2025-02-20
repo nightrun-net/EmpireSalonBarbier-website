@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Days Off</title>
+
+    <!-- ✅ Load Firebase v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <!-- ✅ Inline CSS for Styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background-color: #218838;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .back {
+            background-color: #ffc107;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back:hover {
+            background-color: #e0a800;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manage Days Off</h2>
+
+        <input type="date" id="dayOffInput">
+        <button class="add-btn" onclick="addDayOff()">Add Day Off</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Day Off</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="daysOffList">
+                <tr><td colspan="2">Loading...</td></tr>
+            </tbody>
+        </table>
+
+        <button class="back" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+    </div>
+
+    <script>
+        // ✅ Initialize Firebase (Use Your Config)
+        firebase.initializeApp({
+            apiKey: "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
+            authDomain: "empiresalonbarber.firebaseapp.com",
+            databaseURL: "https://empiresalonbarber-default-rtdb.europe-west1.firebasedatabase.app/",
+            projectId: "empiresalonbarber",
+            storageBucket: "empiresalonbarber.appspot.com",
+            messagingSenderId: "365303178903",
+            appId: "1:365303178903:web:c6f9eb19766934e443ebd2",
+            measurementId: "G-LMHTQJBCP6"
+        });
+
+        const db = firebase.database();
+
+        // ✅ Function to add a day off
+        function addDayOff() {
+            const dayOffInput = document.getElementById("dayOffInput").value;
+            
+            if (!dayOffInput) {
+                alert("⚠️ Please select a date.");
+                return;
+            }
+
+            const formattedDate = formatDate(dayOffInput);
+
+            db.ref("daysOff").child(formattedDate).set(true)
+                .then(() => {
+                    alert(`✅ Day Off added: ${formattedDate}`);
+                    document.getElementById("dayOffInput").value = "";
+                })
+                .catch(error => alert("⚠️ Error: " + error.message));
+        }
+
+        // ✅ Function to fetch and display all days off
+        function fetchDaysOff() {
+            db.ref("daysOff").on("value", snapshot => {
+                const daysOffList = document.getElementById("daysOffList");
+                daysOffList.innerHTML = "";
+
+                if (!snapshot.exists()) {
+                    daysOffList.innerHTML = "<tr><td colspan='2'>No Days Off Set</td></tr>";
+                    return;
+                }
+
+                snapshot.forEach(childSnapshot => {
+                    const date = childSnapshot.key;
+
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${date}</td>
+                        <td><button class="delete-btn" onclick="deleteDayOff('${date}')">Delete</button></td>
+                    `;
+
+                    daysOffList.appendChild(row);
+                });
+            });
+        }
+
+        // ✅ Function to delete a day off
+        function deleteDayOff(date) {
+            if (confirm(`Are you sure you want to remove ${date} as a day off?`)) {
+                db.ref("daysOff").child(date).remove()
+                    .then(() => alert(`✅ Removed: ${date}`))
+                    .catch(error => alert("⚠️ Error: " + error.message));
+            }
+        }
+
+        // ✅ Function to format date as dd-mm-yyyy
+        function formatDate(date) {
+            const d = new Date(date);
+            const day = String(d.getDate()).padStart(2, "0");
+            const month = String(d.getMonth() + 1).padStart(2, "0");
+            const year = d.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+        // ✅ Fetch days off on page load
+        fetchDaysOff();
+    </script>
+</body>
+</html>

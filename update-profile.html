@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+
+    <!-- ✅ Load Firebase v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <!-- ✅ Inline CSS for Styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 350px;
+            margin: auto;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-user {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .add-user:hover {
+            background-color: #0056b3;
+        }
+
+        .update-password {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .update-password:hover {
+            background-color: #218838;
+        }
+
+        .back {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .back:hover {
+            background-color: #e0a800;
+        }
+
+        #message {
+            margin-top: 10px;
+            font-size: 14px;
+            color: red;
+        }
+
+        #successMessage {
+            margin-top: 10px;
+            font-size: 14px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manage Users</h2>
+        <p><strong>Current Admin:</strong> <span id="currentEmail">Loading...</span></p>
+
+        <h3>Reauthenticate First</h3>
+        <input type="password" id="currentPassword" placeholder="Enter your password">
+
+        <h3>Add New User</h3>
+        <input type="email" id="newUserEmail" placeholder="Enter new user email">
+        <input type="password" id="newUserPassword" placeholder="Enter new user password">
+        <button class="add-user" onclick="addUser()">Add User</button>
+
+        <h3>Change Your Password</h3>
+        <input type="password" id="newPassword" placeholder="Enter new password">
+        <button class="update-password" onclick="updatePassword()">Update Password</button>
+
+        <p id="message"></p>
+        <p id="successMessage"></p>
+
+        <button class="back" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+    </div>
+
+    <script>
+        // ✅ Initialize Firebase (Use Your Config)
+        firebase.initializeApp({
+            apiKey: "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
+            authDomain: "empiresalonbarber.firebaseapp.com",
+            projectId: "empiresalonbarber",
+            storageBucket: "empiresalonbarber.appspot.com",
+            messagingSenderId: "365303178903",
+            appId: "1:365303178903:web:c6f9eb19766934e443ebd2",
+            measurementId: "G-LMHTQJBCP6"
+        });
+
+        const auth = firebase.auth();
+
+        // ✅ Display current email when page loads
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                document.getElementById("currentEmail").textContent = user.email;
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        // ✅ Function to reauthenticate the user
+        function reauthenticateUser(password, callback) {
+            const user = auth.currentUser;
+            const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+
+            user.reauthenticateWithCredential(credential)
+                .then(() => {
+                    console.log("✅ Reauthentication successful");
+                    callback(); // Call the next function (add user or update password)
+                })
+                .catch(error => {
+                    document.getElementById("message").textContent = "❌ Reauthentication failed: " + error.message;
+                });
+        }
+
+        // ✅ Function to add a new user
+        function addUser() {
+            const newUserEmail = document.getElementById("newUserEmail").value;
+            const newUserPassword = document.getElementById("newUserPassword").value;
+            const currentPassword = document.getElementById("currentPassword").value;
+            const message = document.getElementById("message");
+            const successMessage = document.getElementById("successMessage");
+
+            message.textContent = "";
+            successMessage.textContent = "";
+
+            if (!newUserEmail || !newUserPassword) {
+                message.textContent = "⚠️ Please enter new user email and password.";
+                return;
+            }
+
+            if (!currentPassword) {
+                message.textContent = "⚠️ Please enter your password to add a user.";
+                return;
+            }
+
+            reauthenticateUser(currentPassword, function () {
+                auth.createUserWithEmailAndPassword(newUserEmail, newUserPassword)
+                    .then(() => {
+                        successMessage.textContent = "✅ New user added successfully!";
+                        document.getElementById("newUserEmail").value = "";
+                        document.getElementById("newUserPassword").value = "";
+                    })
+                    .catch(error => {
+                        message.textContent = "❌ " + error.message;
+                    });
+            });
+        }
+
+        // ✅ Function to update password
+        function updatePassword() {
+            const newPassword = document.getElementById("newPassword").value;
+            const currentPassword = document.getElementById("currentPassword").value;
+            const message = document.getElementById("message");
+            const successMessage = document.getElementById("successMessage");
+
+            message.textContent = "";
+            successMessage.textContent = "";
+
+            if (!newPassword) {
+                message.textContent = "⚠️ Please enter a new password.";
+                return;
+            }
+
+            if (!currentPassword) {
+                message.textContent = "⚠️ Please enter your password.";
+                return;
+            }
+
+            reauthenticateUser(currentPassword, function () {
+                auth.currentUser.updatePassword(newPassword)
+                    .then(() => {
+                        successMessage.textContent = "✅ Password updated successfully!";
+                    })
+                    .catch(error => {
+                        message.textContent = "❌ " + error.message;
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

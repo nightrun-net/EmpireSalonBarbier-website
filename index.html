@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empire Salon Barber</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <!-- Google Font (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; /* New Font */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        label{
+            font-family: 'Times New Roman', Times, serif;
+        }
+           /* Navbar */
+           .navbar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #222;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .navbar a i {
+            font-size: 24px;
+            display: block;
+        }
+
+        .navbar a:hover {
+            color: #f4b400;
+        }
+
+        /* Section Styling */
+        section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 24px;
+        }
+
+/* Home Section */
+#home {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+    padding: 50px 20px;
+    background: url('home1.jpg') no-repeat center center/cover;
+    background-size: cover;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.logo {
+    width: 200px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 10px; /* Space between logo and label */
+}
+
+.home-label {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff; /* Adjust color if needed */
+}
+
+
+/* Ensures text stays on top of dark overlay */
+#home h1,
+#home .language-selector {
+    position: relative;
+    z-index: 1;
+}
+
+/* Language Selector (Centered Below Title) */
+.language-selector {
+    margin-top: 20px;
+}
+
+.language-selector label {
+    display: block;
+    font-size: 18px;
+    color: #f4b400;
+    margin-bottom: 5px;
+}
+
+.language-selector select {
+    padding: 10px;
+    border: 2px solid #f4b400;
+    background: #222;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    appearance: none; /* Removes default browser styling */
+}
+
+
+        /* Smooth Fade Effect */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+        }
+        section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        section h1 {
+            position: relative;
+            z-index: 2;
+        }
+/* Gallery Section */
+#gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #111; /* Dark background to make images pop */
+}
+
+/* Scrollable Grid */
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    white-space: nowrap;
+    padding: 10px;
+    max-width: 90%;
+    scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif; /* New Font */
+}
+
+h1{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Images in the grid */
+.gallery-container img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.gallery-container img:hover {
+    transform: scale(1.1);
+}
+
+/* Make scrolling smooth on iPhone devices */
+.gallery-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.gallery-container::-webkit-scrollbar-thumb {
+    background-color: #f4b400;
+    border-radius: 10px;
+}
+
+/* Services Section */
+#services {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #222;
+}
+
+/* Scrollable Grid */
+.services-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    white-space: nowrap;
+    padding: 10px;
+    max-width: 90%;
+    scroll-behavior: smooth;
+}
+
+/* Service Image Box */
+.service-item {
+    position: relative;
+    width: 400px; /* Matches gallery size */
+    height: 400px;
+    flex-shrink: 0; /* Prevents items from resizing */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Service Images */
+.service-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Labels for Service Name & Price */
+.service-name, .service-price {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    font-family:'Times New Roman', Times, serif;
+}
+
+/* Positioning the Labels */
+.service-name {
+    top: 10px;
+    font-weight: bold;
+}
+
+.service-price {
+    bottom: 10px;
+}
+
+/* Hover Effect */
+.service-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Custom Scrollbar */
+.services-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.services-container::-webkit-scrollbar-thumb {
+    background-color: #f4b400;
+    border-radius: 10px;
+}
+
+/* Contact Section */
+#contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #111;
+}
+
+/* Contact Container */
+.contact-container {
+    max-width: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Contact Info (White Text) */
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    justify-content: center;
+    color: white; /* White text */
+}
+
+/* Contact Icons */
+.contact-item i {
+    font-size: 20px;
+    color: #f4b400;
+}
+
+/* Social Media Links (Including WhatsApp) */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.social-links a {
+    color: #f4b400;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: white;
+}
+
+
+/* Booking Section */
+#booking {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    font-size: 24px;
+    padding: 50px 20px;
+    background-size: cover;
+    transition: padding-bottom 0.3s ease-in-out; /* Smooth transition for spacing */
+}
+
+/* Dark overlay for better readability */
+#booking::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* Ensures content appears above overlay */
+#booking h1,
+#booking .calendar-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Calendar Container */
+.calendar-container {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    max-width: 350px; /* Ensures proper mobile fit */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Calendar Header */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+/* Navigation Buttons */
+.calendar-btn {
+    background: none;
+    border: none;
+    color: #f4b400;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.calendar-btn:hover {
+    color: white;
+}
+
+/* Calendar Table */
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Fix width for all columns */
+}
+
+/* Table Header (Weekdays) */
+.calendar-table th {
+    background: #f4b400;
+    color: black;
+    font-size: 15px;
+    padding: 10px;
+    text-align: center;
+    width:  14.28%; /* Ensure all days fit evenly */
+    border-radius: 5px;
+}
+
+/* Calendar Cells */
+.calendar-table td {
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+    width:  14.28%; /* Ensures proper grid alignment */
+}
+.inactive-day {
+    color: #999; /* Gray color for disabled dates */
+    pointer-events: none; /* Prevent clicking */
+    text-decoration: line-through ; /* Cross out past dates */
+}
+
+.closed-day {
+    background-color: #ffcccc; /* Light red background for closed days */
+    color: #d00000; /* Dark red text to indicate closure */
+    font-weight: bold;
+}
+
+
+
+/* Highlight Current Day */
+.today {
+    background: #f4b400 !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+/* Empty Cells */
+.empty {
+    background: transparent !important;
+    cursor: default;
+}
+
+/* Time Slots Grid */
+.time-slots-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    max-width: 350px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Time Slot Box */
+.time-slot {
+    background: #333;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.time-slot:hover {
+    background: #f4b400;
+    color: black;
+}
+
+/* Selected Time Slot */
+.time-slot.selected {
+    background: #f4b400;
+    color: black;
+    font-weight: bold;
+}
+/* Highlight Selected Day */
+.selected-day {
+    background: #f4b400 !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+/* Booking Details Form */
+#bookingDetails {
+    background: #222; /* Dark background */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+
+/* Form Header */
+#bookingDetails h2 {
+    color: #f4b400;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+/* Labels */
+#bookingDetails label {
+    display: block;
+    font-size: 16px;
+    color: white;
+    margin-top: 10px;
+    text-align: left;
+}
+
+/* Input Fields */
+#bookingDetails input,
+#bookingDetails select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid #f4b400;
+    background: #333;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Make Read-Only Inputs Look Different */
+#bookingDetails input[readonly] {
+    background: #444;
+    color: #aaa;
+    border: 2px solid #666;
+}
+
+/* Checkbox Styling */
+#bookingDetails label input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Submit Button */
+#submitBooking {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #f4b400;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+#submitBooking:hover {
+    background: #ffcc00;
+}
+
+/* Mobile Input Styling */
+.mobile-input {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-input input {
+    width: 100%;
+    padding-right: 40px; /* Space for the icon */
+}
+
+/* Mobile Validation Icon */
+#mobileIcon {
+    position: absolute;
+    right: 10px;
+    font-size: 22px;
+}
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #222;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 12px;
+}
+
+.navbar a i {
+    font-size: 20px;
+    display: block;
+}
+
+.navbar a:hover {
+    color: #f4b400;
+}
+
+/* Section Styling */
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+    min-height: 100vh;
+    padding:100px 80px; /* Ensures the section does not overlap with navbar */
+    padding-bottom: 40px; /* Adds space for bottom navbar */
+}
+
+/* Space between sections */
+section + section {
+    margin-top: 50px; /* Space between sections */
+}
+
+/* Fix iPhone-specific screen spacing */
+@media only screen and (max-width: 414px) {
+    /* iPhone 7, 8, SE (1st Gen), X, 11, 12 Mini */
+    section {
+        min-height: 120vh;
+        padding-top: 120px; /* Space at the top */
+        padding-bottom: 60px; /* Space at the bottom */
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    /* iPhone 6, 7, 8, SE (2nd Gen), 12 Mini */
+    section {
+        padding-top:110px;
+        padding-bottom: 110px;
+        margin-bottom: 70px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    /* iPhone 5, SE */
+    section {
+        padding-top: 130px;
+        padding-bottom: 130px;
+        margin-bottom: 80px;
+    }
+}
+
+/* iPhone 7 Plus, 8 Plus, X, XR, 11, 12, 13, 14 */
+@media only screen and (min-width: 414px) and (max-width: 768px) {
+    section {
+        padding-top: 100px;
+        padding-bottom: 100px;
+        margin-bottom: 50px;
+    }
+}
+
+/* Large iPhones (iPhone 14 Pro Max, etc.) */
+@media only screen and (min-width: 768px) {
+    section {
+        padding-top: 90px;
+        padding-bottom: 90px;
+        margin-bottom: 50px;
+    }
+}
+    </style>
+
+    
+</head>
+<body>
+<!-- Home Section -->
+<section id="home" class="fade-in">
+    <div class="home-container">
+        <img src="FullLogo_Transparent.png" alt="Empire Salon Logo" class="logo">
+        <label class="home-label">Welcome to Empire Salon Barber</label>
+    </div>
+    
+    <!-- Language Selector (Now Centered Below Label) -->
+    <div class="language-selector">
+        <label for="language">Select Language:</label>
+        <select id="language" onchange="changeLanguage()">
+            <option value="en" selected>English</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+        </select>
+    </div>
+</section>
+
+
+
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="fade-in">
+    <h1>Our Gallery</h1>
+    <br>
+    <br>
+    <br>
+    <div class="gallery-container">
+        <img src="1.jpeg" alt="Barber Image 1"></a>
+        <img src="2.jpeg" alt="Barber Image 2"></a>
+        <img src="3.jpeg" alt="Barber Image 3"></a>
+        <img src="4.jpeg" alt="Barber Image 4"></a>
+        <img src="5.jpeg" alt="Barber Image 5"></a>
+        <img src="6.jpeg" alt="Barber Image 6"></a>
+        <img src="3.jpeg" alt="Barber Image 3"></a>
+        <img src="4.jpeg" alt="Barber Image 4"></a>
+        <img src="5.jpeg" alt="Barber Image 5"></a>
+        <img src="6.jpeg" alt="Barber Image 6"></a>
+        <img src="3.jpeg" alt="Barber Image 3"></a>
+        <img src="4.jpeg" alt="Barber Image 4"></a>
+        <img src="5.jpeg" alt="Barber Image 5"></a>
+        <img src="6.jpeg" alt="Barber Image 6"></a>
+        <img src="6.jpeg" alt="Barber Image 6"></a>
+        <img src="6.jpeg" alt="Barber Image 6"></a>
+    </div>
+    </section>
+
+
+
+<!-- Services Section -->
+<section id="services" class="fade-in">
+    <h1>Our Services</h1>
+    <br>
+    <div class="services-container">
+        <div class="service-item">
+            <img src="HairCut.jpg" alt="Haircut">
+            <div class="service-name">Haircut</div>
+            <div class="service-price">$25</div>
+        </div>
+        <div class="service-item">
+            <img src="beard.jpg" alt="Shaving">
+            <div class="service-name">Beard</div>
+            <div class="service-price">$15</div>
+        </div>
+        <div class="service-item">
+            <img src="sourcils.jpg" alt="Hair Styling">
+            <div class="service-name">Eyebrows</div>
+            <div class="service-price">$30</div>
+        </div>
+        <div class="service-item">
+            <img src="Coupe & Barbe.jpg" alt="Beard Trim">
+            <div class="service-name">HairCut & Beard</div>
+            <div class="service-price">$20</div>
+        </div>
+        <div class="service-item">
+            <img src="Coupe & Surcils.jpg" alt="Hair Wash">
+            <div class="service-name">HairCut & Eyebrows</div>
+            <div class="service-price">$10</div>
+        </div>
+        <div class="service-item">
+            <img src="Coupe & Barbe & Sourcils.jpg" alt="Men's Grooming">
+            <div class="service-name">HairCut & Beard & Eyebrows</div>
+            <div class="service-price">$35</div>
+        </div>
+        <div class="service-item">
+            <img src="Shampo.jpg" alt="Facial">
+            <div class="service-name">Shampoo</div>
+            <div class="service-price">$40</div>
+        </div>
+        <div class="service-item">
+            <img src="Kids under 15.jpg" alt="Scalp Massage">
+            <div class="service-name">Kids Under 15 years</div>
+            <div class="service-price">$20</div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Contact Section -->
+<section id="contact" class="fade-in">
+    <h1 style="color: #f4b400;">Contact Us</h1>
+    <br>
+    <div class="contact-container">
+        <!-- Address -->
+        <div class="contact-item">
+            <span> <i class=" fas fa-map-marker-alt"></i> We are located at :<br>  Fbg Saint-Germain 16, 2900 Porrentruy</span>
+        </div>
+
+        <!-- Phone -->
+        <div class="contact-item">
+            <span><i class="fas fa-phone-alt"></i> Phone Number : <br> <a href="tel:+41762460205" style="color: white; text-decoration: none;">+41 76 246 0205</a></span>
+        </div>
+
+        <!-- Business Hours -->
+        <div class="contact-item">
+            <span> <i class="fas fa-clock"></i> Business Hours:<br> 
+                <br>
+                Thursday - Friday : <br> 09:00 to 12:00 - 13:00 to 18:00 <br>
+                <br>
+                Saturday :  <br> 09:00 to 12:00 - 13:00 to 17:00 <br>
+                <br>
+                Sunday & Monday : <br> Closed
+            </span>
+        </div>
+        <br>
+
+        <!-- Social Media Links (Including WhatsApp) -->
+        <div class="social-links">
+            <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://wa.me/41762460205" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Section -->
+<section id="booking" class="fade-in">
+    <h1>Book Appointment</h1>
+
+<br>
+<br>
+    <!-- Calendar Container -->
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button class="calendar-btn" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
+            <span id="calendarMonth"></span>
+            <button class="calendar-btn" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <table class="calendar-table">
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody id="calendarBody"></tbody>
+        </table>
+                    <!-- Time Slots Grid -->
+<h2 id="selectedDateText" style="display: none; color: #f4b400; margin-top: 20px;">
+    Select a time for <span id="selectedDate"></span>
+</h2>
+
+<div class="time-slots-container" id="timeSlots" style="display: none;"></div>
+
+<!-- Booking Details Form (Initially Hidden) -->
+<div id="bookingDetails" style="display: none; opacity: 0; transition: opacity 0.5s;">
+    <h2 style="color: #f4b400;">Booking Detalis</h2>
+    
+    <!-- Read-only selected date and time -->
+    <label>Selected Date:</label>
+    <input type="text" id="bookingDate" readonly>
+
+    <label>Selected Time:</label>
+    <input type="text" id="bookingTime" readonly>
+
+    <!-- User input fields -->
+    <label>Name:</label>
+    <input type="text" id="userName" placeholder="Enter your name" required>
+
+    <label>Mobile Number:</label>
+    <div class="mobile-input">
+        <input type="tel" id="userMobile" placeholder="Enter your mobile number" oninput="formatAndValidateMobile()">
+        <span id="mobileIcon"></span>
+    </div>
+
+    <!-- Age Checkbox -->
+    <label>
+        <input type="checkbox" id="under15"> Under 15 years old
+    </label>
+
+    <!-- Service Type Dropdown -->
+    <label>Service Type:</label>
+    <select id="serviceType">
+        <option value="Haircut">Haircut</option>
+        <option value="Beard">Beard</option>
+        <option value="Eyebrows">Eyebrows</option>
+        <option value="Haircut & Beard">Haircut & Beard</option>
+        <option value="Haircut & Beard & Eyebrows">Haircut & Beard & Eyebrows</option>
+        <option value="Haircut & Eyebrows">Haircut & Eyebrows</option>
+        <option value="Children's haircut up to 15 years old">Children's haircut up to 15 years old</option>
+        <option value="Shampoo">Shampoo</option>
+    </select>
+
+    <!-- Submit Button -->
+    <button id="submitBooking" style="margin-top: 20px; padding: 10px 20px; background: #f4b400; color: black; border: none; cursor: pointer; border-radius: 5px; font-size: 16px;">
+        Submit Booking
+    </button>
+</div>
+
+    </div>
+</section>
+
+
+
+
+    <!-- Navigation Menu -->
+    <nav class="navbar">
+        <a href="#home"><i class="fas fa-home"></i></a>
+        <a href="#gallery"><i class="fas fa-images"></i></a>
+        <a href="#services"><i class="fas fa-cut"></i></a>
+        <a href="#contact"><i class="fas fa-phone-alt"></i></a>
+        <a href="#booking"><i class="fas fa-calendar-check"></i></a>
+    </nav>
+
+<script>
+    // Smooth fade-in effect when scrolling
+    document.addEventListener("scroll", function() {
+        let sections = document.querySelectorAll(".fade-in");
+        sections.forEach(section => {
+            let sectionTop = section.getBoundingClientRect().top;
+            let windowHeight = window.innerHeight;
+            if (sectionTop < windowHeight - 100) {
+                section.classList.add("visible");
+            }
+        });
+    });
+</script>
+<!-- WhatsApp Toggle Script -->
+<script>
+    function toggleWhatsAppOptions() {
+        var options = document.getElementById("whatsappOptions");
+        if (options.style.display === "flex") {
+            options.style.display = "none";
+        } else {
+            options.style.display = "flex";
+        }
+    }
+
+    document.querySelectorAll(".gallery-container img").forEach(img => {
+img.addEventListener("click", function() {
+    const fullscreenImg = document.createElement("div");
+    fullscreenImg.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;";
+    fullscreenImg.innerHTML = `<img src="${img.src}" style="max-width:90%;max-height:90%;border-radius:10px;">`;
+    fullscreenImg.addEventListener("click", () => fullscreenImg.remove());
+    document.body.appendChild(fullscreenImg);
+});
+});
+
+</script>
+<script>
+function changeLanguage() {
+    var language = document.getElementById("language").value;
+    var homeTitle = document.getElementById("homeTitle");
+
+    switch (language) {
+        case "en":
+            homeTitle.textContent = " Empire Salon Barber";
+            break;
+        case "fr":
+            homeTitle.textContent = "Empire Salon Barber";
+            break;
+        case "de":
+            homeTitle.textContent = "Empire Salon Barber";
+            break;
+    }
+}
+function formatAndValidateMobile() {
+const mobileInput = document.getElementById("userMobile");
+const mobileIcon = document.getElementById("mobileIcon");
+let mobileNumber = mobileInput.value.replace(/\D/g, ""); // Remove all non-numeric characters
+
+let countryFlag = "❌"; // Default to invalid
+let formattedNumber = mobileNumber; // Default no formatting
+
+// Switzerland 🇨🇭 (+41 XX XXX XX XX or 0XX XXX XX XX)
+if (mobileNumber.startsWith("41") || mobileNumber.startsWith("0")) {
+    if (mobileNumber.length >= 11) {
+        formattedNumber = `+41 ${mobileNumber.substring(2, 4)} ${mobileNumber.substring(4, 7)} ${mobileNumber.substring(7, 9)} ${mobileNumber.substring(9, 11)}`;
+        countryFlag = "🇨🇭";
+    } else if (mobileNumber.length >= 10) {
+        formattedNumber = `0${mobileNumber.substring(1, 3)} ${mobileNumber.substring(3, 6)} ${mobileNumber.substring(6, 8)} ${mobileNumber.substring(8, 10)}`;
+        countryFlag = "🇨🇭";
+    }
+}
+
+// France 🇫🇷 (+33 6 XX XX XX XX or 07 XX XX XX XX)
+else if (mobileNumber.startsWith("33") || mobileNumber.startsWith("06") || mobileNumber.startsWith("07")) {
+    if (mobileNumber.length >= 11) {
+        formattedNumber = `+33 ${mobileNumber.substring(2, 3)} ${mobileNumber.substring(3, 5)} ${mobileNumber.substring(5, 7)} ${mobileNumber.substring(7, 9)} ${mobileNumber.substring(9, 11)}`;
+        countryFlag = "🇫🇷";
+    } else if (mobileNumber.length >= 10) {
+        formattedNumber = `${mobileNumber.substring(0, 2)} ${mobileNumber.substring(2, 4)} ${mobileNumber.substring(4, 6)} ${mobileNumber.substring(6, 8)} ${mobileNumber.substring(8, 10)}`;
+        countryFlag = "🇫🇷";
+    }
+}
+
+// Germany 🇩🇪 (+49 1XX XXX XXXX or 0 1XX XXX XXXX)
+else if (mobileNumber.startsWith("49") || mobileNumber.startsWith("01")) {
+    if (mobileNumber.length >= 12) {
+        formattedNumber = `+49 ${mobileNumber.substring(2, 5)} ${mobileNumber.substring(5, 8)} ${mobileNumber.substring(8, 12)}`;
+        countryFlag = "🇩🇪";
+    } else if (mobileNumber.length >= 11) {
+        formattedNumber = `0${mobileNumber.substring(1, 4)} ${mobileNumber.substring(4, 7)} ${mobileNumber.substring(7, 11)}`;
+        countryFlag = "🇩🇪";
+    }
+}
+
+// Apply formatted number and validation icon
+mobileInput.value = formattedNumber;
+mobileIcon.innerHTML = countryFlag;
+mobileIcon.style.color = countryFlag === "❌" ? "red" : "green"; // Red if invalid, green if valid
+}
+</script>
+
+<!-- 🔹 Load Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+
+<script>
+      // ✅ Correct Firebase Configuration
+  const firebaseConfig = {
+      apiKey: "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
+      authDomain: "empiresalonbarber.firebaseapp.com",
+      databaseURL: "https://empiresalonbarber-default-rtdb.europe-west1.firebasedatabase.app/", // ✅ Fixed Database URL
+      projectId: "empiresalonbarber",
+      storageBucket: "empiresalonbarber.appspot.com", // ✅ Fixed storageBucket
+      messagingSenderId: "365303178903",
+      appId: "1:365303178903:web:c6f9eb19766934e443ebd2",
+      measurementId: "G-LMHTQJBCP6"
+  };
+
+     // ✅ Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+// ✅ Define the month names array (Ensure this is only declared once)
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+// ✅ Declare current month and year once (Remove duplicates!)
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+let daysOff = {}; //enana rojet grte j database
+let selectedDate = null;
+let selectedTime = null;
+
+    // ✅ Fetch "Days Off" from Firebase
+    function fetchDaysOff() {
+        db.ref("daysOff").on("value", snapshot => {
+            daysOff = snapshot.val() || {};
+            renderCalendar(currentMonth, currentYear);
+        });
+    }
+
+// Function to render the calendar and disable past dates, Sundays, and Mondays
+function renderCalendar(month, year) {
+    const calendarBody = document.getElementById("calendarBody");
+    const monthYearText = document.getElementById("calendarMonth");
+    const firstDay = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize time for accurate comparison
+
+    // Update month and year display
+    monthYearText.textContent = `${monthNames[month]} ${year}`;
+    calendarBody.innerHTML = ""; // Clear previous calendar
+
+    let date = 1;
+
+    for (let row = 0; row < 6; row++) {
+        let tr = document.createElement("tr");
+
+        for (let col = 0; col < 7; col++) {
+            let td = document.createElement("td");
+
+            if (row === 0 && col < firstDay) {
+                td.classList.add("empty");
+                td.textContent = "";
+            } else if (date > totalDays) {
+                td.classList.add("empty");
+                td.textContent = "";
+            } else {
+                let currentDate = new Date(year, month, date);
+                let dayOfWeek = currentDate.getDay(); // Get day index (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+                let formattedDate = `${String(date).padStart(2, "0")}-${String(month + 1).padStart(2, "0")}-${year}`;
+                td.textContent = date;
+
+                // ✅ Disable past dates
+                if (currentDate < today) {
+                    td.classList.add("inactive-day");
+                } 
+                // ✅ Disable Sundays (0) and Mondays (1)
+                else if (dayOfWeek === 0 || dayOfWeek === 1) {
+                    td.classList.add("inactive-day");
+                    td.classList.add("closed-day"); // Additional class for styling
+                }
+                // ✅ Disable "Days Off" from Firebase
+                else if (daysOff[formattedDate]) {
+                    td.classList.add("inactive-day");
+                    td.style.color = "white";
+                }
+                
+                else {
+                    td.classList.add("selectable-day");
+
+                    // ✅ Highlight today's date
+                    if (currentDate.getTime() === today.getTime()) {
+                        td.classList.add("today");
+                    }
+
+                    // ✅ Click event to select a date
+                    td.addEventListener("click", function () {
+                        selectDate(date, month, year, this);
+                    });
+                }
+
+                date++;
+            }
+            tr.appendChild(td);
+        }
+        calendarBody.appendChild(tr);
+    }
+    
+}
+// Function to select a date
+function selectDate(day, month, year, clickedCell) {
+    document.querySelectorAll(".selectable-day").forEach(cell => cell.classList.remove("selected-day"));
+    clickedCell.classList.add("selected-day");
+
+    // Store the selected date
+    selectedDate = `${clickedCell.textContent.trim()}-${month + 1}-${year}`;
+    document.getElementById("selectedDate").textContent = selectedDate;
+    document.getElementById("selectedDateText").style.display = "block";
+
+    // Show available time slots
+    showTimeSlots();
+}
+
+// ✅ Function to move to the next month
+function nextMonth() {
+    currentMonth++;
+    if (currentMonth > 11) { // If December, move to next year
+        currentMonth = 0;
+        currentYear++;
+    }
+    renderCalendar(currentMonth, currentYear);
+}
+
+// ✅ Function to move to the previous month
+function prevMonth() {
+    currentMonth--;
+    if (currentMonth < 0) { // If January, move to previous year
+        currentMonth = 11;
+        currentYear--;
+    }
+    renderCalendar(currentMonth, currentYear);
+}
+
+function showTimeSlots() {
+    selectedTime = null;
+    document.getElementById("bookingDetails").style.display = "none"; // Hide booking form
+
+    const timeSlotsContainer = document.getElementById("timeSlots");
+    timeSlotsContainer.innerHTML = ""; // Clear previous slots
+
+    console.log("🔄 Checking booked times for:", selectedDate);
+
+    // ✅ Get the selected date and determine if it's a Saturday
+    let selectedDateObj = new Date(selectedDate.split("-")[2], selectedDate.split("-")[1] - 1, selectedDate.split("-")[0]);
+    let isSaturday = selectedDateObj.getDay() === 6; // Saturday = 6
+
+    // ✅ Define default time slots
+    let allTimeSlots = [
+        "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+        "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+        "16:00", "16:30", "17:00", "17:30", "18:00"
+    ];
+
+    // ✅ Remove slots after 16:30 if it's a Saturday
+    let availableTimeSlots = isSaturday ? allTimeSlots.filter(time => time !== "17:00" && time !== "17:30" && time !== "18:00") : allTimeSlots;
+
+    // ✅ Fetch booked times from Firebase for the selected date
+    firebase.database().ref("bookings")
+        .orderByChild("date")
+        .equalTo(selectedDate)
+        .once("value")
+        .then(snapshot => {
+            let bookedTimes = new Set(); // Use a Set for faster lookup
+
+            if (snapshot.exists()) {
+                snapshot.forEach(childSnapshot => {
+                    bookedTimes.add(childSnapshot.val().time);
+                });
+            }
+
+            console.log("⛔ Booked times:", Array.from(bookedTimes));
+
+            let availableSlots = 0;
+            availableTimeSlots.forEach(time => {
+                if (!bookedTimes.has(time)) { // ✅ Show only available times
+                    availableSlots++;
+                    const slot = document.createElement("div");
+                    slot.classList.add("time-slot");
+                    slot.textContent = time;
+
+                    slot.addEventListener("click", function () {
+                        document.querySelectorAll(".time-slot").forEach(s => s.classList.remove("selected"));
+                        slot.classList.add("selected");
+                        selectedTime = time;
+                        showBookingDetails();
+                    });
+
+                    timeSlotsContainer.appendChild(slot);
+                }
+            });
+
+            // ✅ If no available slots, show a message
+            if (availableSlots === 0) {
+                timeSlotsContainer.innerHTML = `<p style="color: red; text-align: center;">⚠️ No available time slots for this date.</p>`;
+            }
+
+            timeSlotsContainer.style.display = "grid";
+            setTimeout(() => {
+                timeSlotsContainer.style.opacity = "1";
+            }, 100);
+        })
+        .catch(error => {
+            console.error("❌ Error fetching booked times:", error);
+        });
+}
+
+
+// Function to show booking details form
+function showBookingDetails() {
+    document.getElementById("timeSlots").style.opacity = "0"; // Fade out time slots
+    document.getElementById("selectedDateText").style.opacity = "0"; // Fade out the header
+    
+    setTimeout(() => {
+        document.getElementById("timeSlots").style.display = "none";
+        document.getElementById("selectedDateText").style.display = "none"; // Hide the header completely
+
+        // Populate form with selected values
+        document.getElementById("bookingDate").value = selectedDate;
+        document.getElementById("bookingTime").value = selectedTime;
+
+        document.getElementById("bookingDetails").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("bookingDetails").style.opacity = "1"; // Fade in form
+        }, 100);
+    }, 300);
+}
+document.getElementById("submitBooking").addEventListener("click", () => {
+    console.log("✅ Submit button clicked!");
+
+    let name = document.getElementById("userName").value.trim();
+    let mobile = document.getElementById("userMobile").value.trim();
+    let service = document.getElementById("serviceType") ? document.getElementById("serviceType").value : "";
+    let ageGroup = document.getElementById("under15") && document.getElementById("under15").checked ? "Under 15" : "Over 15";
+
+    if (!selectedDate || !selectedTime) {
+        alert("⚠️ Please select a date and time before booking.");
+        return;
+    }
+
+    if (!name || !mobile) {
+        alert("⚠️ Please fill in all required fields before submitting!");
+        return;
+    }
+
+    console.log("🔍 Checking if customer is blocked...");
+
+    // ✅ Check if the mobile number is blocked before proceeding
+    firebase.database().ref("blockedCustomers").child(mobile).once("value", snapshot => {
+        if (snapshot.exists()) {
+            alert("⛔ This phone number is blocked. You cannot book an appointment.");
+            return; // Stop booking submission
+        }
+
+        console.log("✅ Customer is not blocked. Proceeding with booking...");
+
+        const bookingData = {
+            username: name,  
+            mobile: mobile,
+            service: service,
+            ageGroup: ageGroup,
+            date: selectedDate,
+            time: selectedTime,
+            timestamp: new Date().toISOString()
+        };
+
+        // ✅ Save booking to Firebase only if the customer is not blocked
+        firebase.database().ref("bookings").push(bookingData)
+            .then(() => {
+                console.log("✅ Booking successfully saved in Firebase!");
+
+                alert(
+                    `✅ Booking Confirmed!\n\n` +
+                    `📅 Date: ${selectedDate}\n` +
+                    `⏰ Time: ${selectedTime}\n` +
+                    `👤 Name: ${name}\n` +
+                    `📞 Mobile: ${mobile}\n` +
+                    `💇 Service: ${service}\n\n` +
+                    `📸 Please take a screenshot for your reference.`
+                );
+
+                // ✅ Clear input fields after successful booking
+                document.getElementById("userName").value = "";
+                document.getElementById("userMobile").value = "";
+                document.getElementById("serviceType").value = "";
+                if (document.getElementById("under15")) {
+                    document.getElementById("under15").checked = false;
+                }
+
+                setTimeout(() => location.reload(), 300);
+            })
+            .catch(error => {
+                console.error("❌ Error saving booking:", error);
+                alert("⚠️ Booking could not be saved. Check console for details.");
+            });
+    });
+
+
+    // ✅ Clear form fields after submission
+    document.getElementById("userName").value = "";
+    document.getElementById("userMobile").value = "";
+    if (document.getElementById("serviceType")) {
+        document.getElementById("serviceType").value = "";
+    }
+    if (document.getElementById("under15")) {
+        document.getElementById("under15").checked = false;
+    }
+    if (document.getElementById("over15")) {
+        document.getElementById("over15").checked = false;
+    }
+
+    // ✅ Refresh page after submission
+    setTimeout(() => {
+        location.reload();
+    }, 2000);
+});
+// Load the calendar on page load
+document.addEventListener("DOMContentLoaded", () => {
+    renderCalendar(currentMonth, currentYear);
+    fetchDaysOff();
+});
+</script>
+
+</body>
+</html>
