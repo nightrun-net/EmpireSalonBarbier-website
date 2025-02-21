@@ -92,15 +92,15 @@
 }
 
 .logo {
-    width: 500px; /* Adjust size as needed */
+    width: 300px; /* Adjust size as needed */
     height: auto;
     margin-bottom: 10px; /* Space between logo and label */
 }
 
 .home-label {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    color: #f4b400; /* Adjust color if needed */
+    color: #f4b400;; /* Adjust color if needed */
 }
 
 
@@ -111,28 +111,20 @@
     z-index: 1;
 }
 
-/* Language Selector (Centered Below Title) */
-.language-selector {
-    margin-top: 20px;
-}
-
-.language-selector label {
-    display: block;
-    font-size: 18px;
-    color: #f4b400;
-    margin-bottom: 5px;
-}
-
-.language-selector select {
+#language {
     padding: 10px;
     border: 2px solid #f4b400;
     background: #222;
     color: white;
-    font-size: 16px;
+    font-size: 13px;
     border-radius: 5px;
     cursor: pointer;
     appearance: none; /* Removes default browser styling */
 }
+
+        label{
+            font-size: 18px;
+        }
         /* Smooth Fade Effect */
         .fade-in {
             opacity: 0;
@@ -180,6 +172,7 @@
 
 h1{
     font-family: 'Times New Roman', Times, serif;
+    color: #f4b400;
 }
 
 /* Images in the grid */
@@ -560,22 +553,6 @@ h1{
     margin-right: 10px;
     vertical-align: middle;
 }
-button 
-        {
-            width: 17%;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            display: block;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-        button a{
-            text-decoration: none;
-        }
 
 /* Submit Button */
 #submitBooking {
@@ -645,7 +622,7 @@ body {
     color: white;
     text-decoration: none;
     text-align: center;
-    font-size: 25px;
+    font-size: 17px;
 }
 
 .navbar a i {
@@ -732,14 +709,19 @@ section + section {
         <label class="home-label">Bienvenue à Empire Salon Barbier</label>
     </div>
     <br>
-    <button> <a href="index.html">English</a></button>
-    <button>
-        <a href="franch.html">Français</a>
-    </button>
-    <button>
-        <a href="Deutsch.html">Deutsch</a>
-    </button>
+    <label for="language">Choisissez la langue:</label>
+    <select id="language" onchange="switchLanguage()">
+        <option value="index.html">English</option>
+        <option value="franch.html" selected>Français</option>
+        <option value="Deutsch.html">Deutsch</option>
+    </select>
 </section>
+<script>
+    function switchLanguage() {
+        var selectedLang = document.getElementById("language").value;
+        window.location.href = selectedLang; // Redirects to selected page
+    }
+</script>
 
 
 
@@ -851,10 +833,11 @@ section + section {
 
         <!-- Social Media Links (Including WhatsApp) -->
         <div class="social-links">
-            <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.facebook.com/people/salon-Barbier-Empire/61563358539804/?rdid=3SL0z7vgzXoW7sl1&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F166yCc9EpR%2F" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/?next=%2Fsalonbarbierempire%2F&source=omni_redirect" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@barberdriving?_t=ZN-8trfwYaffVu&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
             <a href="https://wa.me/41762460205" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
         </div>
     </div>
 </section>
