@@ -1,3 +1,13 @@
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -697,6 +707,25 @@ section + section {
         margin-bottom: 50px;
     }
 }
+
+button 
+        {
+            width: 15%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        button a{
+            text-decoration: none;
+        }
     </style>
 
     
@@ -706,15 +735,16 @@ section + section {
 <section id="home" class="fade-in">
     <div class="home-container">
         <img src="FullLogo_Transparent.png" alt="Empire Salon Logo" class="logo">
-        <label class="home-label">Bienvenue à Empire Salon Barbier</label>
+        <label class="home-label">Welcome to Empire Salon Barber</label>
     </div>
     <br>
-    <label for="language">Choisissez la langue:</label>
+    <label for="language">Choose Language:</label>
     <select id="language" onchange="switchLanguage()">
-        <option value="index.html">English</option>
-        <option value="franch.html" selected>Français</option>
+        <option value="franch.html">English</option>
+        <option value="index.html">Français</option>
         <option value="Deutsch.html">Deutsch</option>
     </select>
+
 </section>
 <script>
     function switchLanguage() {
@@ -728,7 +758,7 @@ section + section {
 
     <!-- Gallery Section -->
     <section id="gallery" class="fade-in">
-    <h1>Notre galerie</h1>
+    <h1>Our Gallery</h1>
     <br>
     <br>
     <br>
@@ -756,47 +786,47 @@ section + section {
 
 <!-- Services Section -->
 <section id="services" class="fade-in">
-    <h1>Nos services</h1>
+    <h1>Our Services</h1>
     <br>
     <div class="services-container">
         <div class="service-item">
             <img src="HairCut.jpg" alt="Haircut">
-            <div class="service-name">Coupe</div>
-            <div class="service-price"> 30 frs</div>
+            <div class="service-name">Haircut</div>
+            <div class="service-price">30 frs</div>
         </div>
         <div class="service-item">
             <img src="beard.jpg" alt="Shaving">
-            <div class="service-name">Barbe</div>
+            <div class="service-name">Beard</div>
             <div class="service-price">20 frs</div>
         </div>
         <div class="service-item">
             <img src="sourcils.jpg" alt="Hair Styling">
-            <div class="service-name">Sourcils</div>
+            <div class="service-name">Eyebrows</div>
             <div class="service-price">20 frs</div>
         </div>
         <div class="service-item">
             <img src="Coupe & Barbe.jpg" alt="Beard Trim">
-            <div class="service-name">Coupe & Barbe</div>
+            <div class="service-name">HairCut & Beard</div>
             <div class="service-price">45 frs</div>
         </div>
         <div class="service-item">
             <img src="Coupe & Surcils.jpg" alt="Hair Wash">
-            <div class="service-name">Coupe & Sourcils</div>
+            <div class="service-name">HairCut & Eyebrows</div>
             <div class="service-price">40 frs</div>
         </div>
         <div class="service-item">
             <img src="Coupe & Barbe & Sourcils.jpg" alt="Men's Grooming">
-            <div class="service-name">Coupe & Barbe & Sourcils</div>
+            <div class="service-name">HairCut & Beard & Eyebrows</div>
             <div class="service-price">60 frs</div>
         </div>
         <div class="service-item">
             <img src="Shampo.jpg" alt="Facial">
-            <div class="service-name">Shampooing</div>
+            <div class="service-name">Shampoo</div>
             <div class="service-price">5 frs</div>
         </div>
         <div class="service-item">
             <img src="Kids under 15.jpg" alt="Scalp Massage">
-            <div class="service-name"> Enfants de moins de 15 ans</div>
+            <div class="service-name">Kids Under 15 years</div>
             <div class="service-price">25 frs</div>
         </div>
     </div>
@@ -805,28 +835,28 @@ section + section {
 
 <!-- Contact Section -->
 <section id="contact" class="fade-in">
-    <h1 style="color: #f4b400;">Contactez-nous</h1>
+    <h1 style="color: #f4b400;">Contact Us</h1>
     <br>
     <div class="contact-container">
         <!-- Address -->
         <div class="contact-item">
-            <span> <i class=" fas fa-map-marker-alt"></i> Nous sommes situés à :<br>  Fbg Saint-Germain 16, 2900 Porrentruy</span>
+            <span> <i class=" fas fa-map-marker-alt"></i> We are located at :<br>  Fbg Saint-Germain 16, 2900 Porrentruy</span>
         </div>
 
         <!-- Phone -->
         <div class="contact-item">
-            <span><i class="fas fa-phone-alt"></i> Numéro de téléphone : <br> <a href="tel:+41 76 246 0205" style="color: white; text-decoration: none;">+41 76 246 0205</a></span>
+            <span><i class="fas fa-phone-alt"></i> Phone Number : <br> <a href="tel:+41762460205" style="color: white; text-decoration: none;">+41 76 246 0205</a></span>
         </div>
 
         <!-- Business Hours -->
         <div class="contact-item">
-            <span> <i class="fas fa-clock"></i> Heures d’ouverture :<br> 
+            <span> <i class="fas fa-clock"></i> Business Hours:<br> 
                 <br>
-                Jeudi - Vendredi : <br> 09:00 a 12:00 - 13:00 a 18:00 <br>
+                Tuesday - Friday : <br> 09:00 to 12:00 - 13:00 to 18:30 <br>
                 <br>
-                Samedi :  <br> 09:00 a 12:00 - 13:00 a 17:00 <br>
+                Saturday :  <br> 09:00 to 12:00 - 13:00 to 17:00 <br>
                 <br>
-                Dimanche & Lundi : <br> Fermé
+                Sunday & Monday : <br> Closed
             </span>
         </div>
         <br>
@@ -838,13 +868,12 @@ section + section {
             <a href="https://www.tiktok.com/@barberdriving?_t=ZN-8trfwYaffVu&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
             <a href="https://wa.me/41762460205" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
-        </div>
     </div>
 </section>
 
 <!-- Booking Section -->
 <section id="booking" class="fade-in">
-    <h1>Prendre rendez-vous</h1>
+    <h1>Book Appointment</h1>
 
 <br>
 <br>
@@ -858,40 +887,40 @@ section + section {
         <table class="calendar-table">
             <thead>
                 <tr>
-                    <th>Dim</th>
-                    <th>Lun</th>
-                    <th>Mar</th>
-                    <th>Mer</th>
-                    <th>Jeu</th>
-                    <th>Ven</th>
-                    <th>Sam</th>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
                 </tr>
             </thead>
             <tbody id="calendarBody"></tbody>
         </table>
                     <!-- Time Slots Grid -->
 <h2 id="selectedDateText" style="display: none; color: #f4b400; margin-top: 20px;">
-    Sélectionnez une heure pour <span id="selectedDate"></span>
+    Select a time for <span id="selectedDate"></span>
 </h2>
 
 <div class="time-slots-container" id="timeSlots" style="display: none;"></div>
 
 <!-- Booking Details Form (Initially Hidden) -->
 <div id="bookingDetails" style="display: none; opacity: 0; transition: opacity 0.5s;">
-    <h2 style="color: #f4b400;">Détails de la réservation</h2>
+    <h2 style="color: #f4b400;">Booking Detalis</h2>
     
     <!-- Read-only selected date and time -->
-    <label>Date sélectionnée :</label>
+    <label>Selected Date:</label>
     <input type="text" id="bookingDate" readonly>
 
-    <label>Heure sélectionnée :</label>
+    <label>Selected Time:</label>
     <input type="text" id="bookingTime" readonly>
 
     <!-- User input fields -->
-    <label>Nom :</label>
+    <label>Name:</label>
     <input type="text" id="userName" placeholder="Enter your name" required>
 
-    <label>Numéro de téléphone mobile :</label>
+    <label>Mobile Number:</label>
     <div class="mobile-input">
         <input type="tel" id="userMobile" placeholder="Enter your mobile number" oninput="formatAndValidateMobile()">
         <span id="mobileIcon"></span>
@@ -899,25 +928,25 @@ section + section {
 
     <!-- Age Checkbox -->
     <label>
-        <input type="checkbox" id="under15"> Moins de 15 ans
+        <input type="checkbox" id="under15"> Under 15 years old
     </label>
 
     <!-- Service Type Dropdown -->
-    <label>Type de service</label>
+    <label>Service Type:</label>
     <select id="serviceType">
-        <option value="Haircut">Coupe</option>
-        <option value="Beard">Barbe</option>
-        <option value="Eyebrows">Sourcils</option>
-        <option value="Haircut & Beard">Coupe & Barbe</option>
-        <option value="Haircut & Beard & Eyebrows">Coupe & Barbe & Sourcils</option>
-        <option value="Haircut & Eyebrows">Coupe & Sourcils</option>
-        <option value="Children's haircut up to 15 years old">Enfants de moins de 15 ans</option>
-        <option value="Shampoo">Shampooing</option>
+        <option value="Haircut">Haircut</option>
+        <option value="Beard">Beard</option>
+        <option value="Eyebrows">Eyebrows</option>
+        <option value="Haircut & Beard">Haircut & Beard</option>
+        <option value="Haircut & Beard & Eyebrows">Haircut & Beard & Eyebrows</option>
+        <option value="Haircut & Eyebrows">Haircut & Eyebrows</option>
+        <option value="Children's haircut up to 15 years old">Children's haircut up to 15 years old</option>
+        <option value="Shampoo">Shampoo</option>
     </select>
 
     <!-- Submit Button -->
     <button id="submitBooking" style="margin-top: 20px; padding: 10px 20px; background: #f4b400; color: black; border: none; cursor: pointer; border-radius: 5px; font-size: 16px;">
-        Valider la réservation
+        Submit Booking
     </button>
 </div>
 
@@ -948,6 +977,12 @@ section + section {
             }
         });
     });
+</script>
+<script>
+    function navigatePage() {
+        var selectedPage = document.getElementById("pages").value;
+        window.location.href = selectedPage; // Redirect to selected page
+    }
 </script>
 <!-- WhatsApp Toggle Script -->
 <script>
@@ -1309,7 +1344,7 @@ document.getElementById("submitBooking").addEventListener("click", () => {
                     `⏰ Time: ${selectedTime}\n` +
                     `👤 Name: ${name}\n` +
                     `📞 Mobile: ${mobile}\n` +
-                    `💇 Service: ${service}\n\n`   
+                    `💇 Service: ${service}\n\n` 
                 );
 
                 // ✅ Clear input fields after successful booking
@@ -1356,3 +1391,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
+
+
+
