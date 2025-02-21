@@ -8,6 +8,7 @@
     <!-- ✅ Load Firebase v8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
     <!-- ✅ Inline CSS for Styling -->
     <style>
@@ -134,7 +135,14 @@
             measurementId: "G-LMHTQJBCP6"
         });
 
+        const auth = firebase.auth();
         const db = firebase.database();
+        // ✅ Check if user is logged in
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
+                window.location.href = "login.html"; // 🚨 Redirect to login if not logged in
+            }
+        });
 
         // ✅ Function to block a customer from the appointments list
 function blockCustomer(name, mobile) {
