@@ -92,13 +92,13 @@
 }
 
 .logo {
-    width: 500px; /* Adjust size as needed */
+    width: 300px; /* Adjust size as needed */
     height: auto;
     margin-bottom: 10px; /* Space between logo and label */
 }
 
 .home-label {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: #f4b400;; /* Adjust color if needed */
 }
@@ -111,28 +111,20 @@
     z-index: 1;
 }
 
-/* Language Selector (Centered Below Title) */
-.language-selector {
-    margin-top: 20px;
-}
-
-.language-selector label {
-    display: block;
-    font-size: 18px;
-    color: #f4b400;
-    margin-bottom: 5px;
-}
-
-.language-selector select {
+#language {
     padding: 10px;
     border: 2px solid #f4b400;
     background: #222;
     color: white;
-    font-size: 16px;
+    font-size: 13px;
     border-radius: 5px;
     cursor: pointer;
     appearance: none; /* Removes default browser styling */
 }
+
+        label{
+            font-size: 18px;
+        }
         /* Smooth Fade Effect */
         .fade-in {
             opacity: 0;
@@ -180,6 +172,7 @@
 
 h1{
     font-family: 'Times New Roman', Times, serif;
+    color: #f4b400;
 }
 
 /* Images in the grid */
@@ -629,7 +622,7 @@ body {
     color: white;
     text-decoration: none;
     text-align: center;
-    font-size: 25px;
+    font-size: 17px;
 }
 
 .navbar a i {
@@ -707,12 +700,14 @@ section + section {
 
 button 
         {
-            width: 17%;
+            width: 15%;
             padding: 12px;
             border: none;
             border-radius: 5px;
             margin-bottom: 10px;
-            display: block;
+            display: flex;
+            flex-direction: column;
+            
             font-size: 14px;
             cursor: pointer;
             transition: 0.3s;
@@ -733,14 +728,20 @@ button
         <label class="home-label">Welcome to Empire Salon Barber</label>
     </div>
     <br>
-    <button> <a href="index.html">English</a></button>
-    <button>
-        <a href="franch.html">Français</a>
-    </button>
-    <button>
-        <a href="Deutsch.html">Deutsch</a>
-    </button>
+    <label for="language">Choose Language:</label>
+    <select id="language" onchange="switchLanguage()">
+        <option value="index.html">English</option>
+        <option value="franch.html">Français</option>
+        <option value="Deutsch.html">Deutsch</option>
+    </select>
+
 </section>
+<script>
+    function switchLanguage() {
+        var selectedLang = document.getElementById("language").value;
+        window.location.href = selectedLang; // Redirects to selected page
+    }
+</script>
 
 
 
