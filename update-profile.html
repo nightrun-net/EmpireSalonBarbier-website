@@ -89,25 +89,25 @@
 </head>
 <body>
     <div class="container">
-        <h2>Manage Users</h2>
-        <p><strong>Current Admin:</strong> <span id="currentEmail">Loading...</span></p>
+        <h2>Gérer les utilisateurs</h2>
+        <p><strong>Administrateur actuel :</strong> <span id="currentEmail">Loading...</span></p>
 
-        <h3>Reauthenticate First</h3>
-        <input type="password" id="currentPassword" placeholder="Enter your password">
+        <h3>Réauthentifiez-vous d'abord</h3>
+        <input type="password" id="currentPassword" placeholder="Veuillez saisir votre mot de passe.">
 
-        <h3>Add New User</h3>
-        <input type="email" id="newUserEmail" placeholder="Enter new user email">
-        <input type="password" id="newUserPassword" placeholder="Enter new user password">
-        <button class="add-user" onclick="addUser()">Add User</button>
+        <h3> Ajouter un nouvel utilisateur</h3>
+        <input type="email" id="newUserEmail" placeholder="Saisissez l'email du nouvel utilisateur">
+        <input type="password" id="newUserPassword" placeholder="Saisissez le mot de passe du nouvel utilisateur">
+        <button class="add-user" onclick="addUser()"> Ajouter un utilisateur</button>
 
-        <h3>Change Your Password</h3>
-        <input type="password" id="newPassword" placeholder="Enter new password">
-        <button class="update-password" onclick="updatePassword()">Update Password</button>
+        <h3>Changer votre mot de passe</h3>
+        <input type="password" id="newPassword" placeholder="Saisissez un nouveau mot de passe">
+        <button class="update-password" onclick="updatePassword()">Mettre à jour le mot de passe</button>
 
         <p id="message"></p>
         <p id="successMessage"></p>
 
-        <button class="back" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+        <button class="back" onclick="window.location.href='dashboard.html'">Retour au tableau de bord</button>
     </div>
 
     <script>
@@ -144,7 +144,7 @@
                     callback(); // Call the next function (add user or update password)
                 })
                 .catch(error => {
-                    document.getElementById("message").textContent = "❌ Reauthentication failed: " + error.message;
+                    document.getElementById("message").textContent = "❌  Échec de la réauthentification : " + error.message;
                 });
         }
 
@@ -160,19 +160,19 @@
             successMessage.textContent = "";
 
             if (!newUserEmail || !newUserPassword) {
-                message.textContent = "⚠️ Please enter new user email and password.";
+                message.textContent = "⚠️ Veuillez saisir l'email et le mot de passe du nouvel utilisateur.";
                 return;
             }
 
             if (!currentPassword) {
-                message.textContent = "⚠️ Please enter your password to add a user.";
+                message.textContent = "⚠️ Veuillez saisir votre mot de passe pour ajouter un utilisateur.";
                 return;
             }
 
             reauthenticateUser(currentPassword, function () {
                 auth.createUserWithEmailAndPassword(newUserEmail, newUserPassword)
                     .then(() => {
-                        successMessage.textContent = "✅ New user added successfully!";
+                        successMessage.textContent = "✅ Nouvel utilisateur ajouté avec succès !";
                         document.getElementById("newUserEmail").value = "";
                         document.getElementById("newUserPassword").value = "";
                     })
@@ -193,19 +193,19 @@
             successMessage.textContent = "";
 
             if (!newPassword) {
-                message.textContent = "⚠️ Please enter a new password.";
+                message.textContent = "⚠️ Veuillez saisir un nouveau mot de passe.";
                 return;
             }
 
             if (!currentPassword) {
-                message.textContent = "⚠️ Please enter your password.";
+                message.textContent = "⚠️ Veuillez saisir votre mot de passe.";
                 return;
             }
 
             reauthenticateUser(currentPassword, function () {
                 auth.currentUser.updatePassword(newPassword)
                     .then(() => {
-                        successMessage.textContent = "✅ Password updated successfully!";
+                        successMessage.textContent = "✅ Mot de passe mis à jour avec succès !";
                     })
                     .catch(error => {
                         message.textContent = "❌ " + error.message;
