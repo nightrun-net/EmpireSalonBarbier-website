@@ -95,15 +95,15 @@
 </head>
 <body>
     <div class="container">
-        <h2>Manage Days Off</h2>
+        <h2>Gérer les jours de congé</h2>
 
         <input type="date" id="dayOffInput">
-        <button class="add-btn" onclick="addDayOff()">Add Day Off</button>
+        <button class="add-btn" onclick="addDayOff()">Ajouter un jour de congé</button>
 
         <table>
             <thead>
                 <tr>
-                    <th>Day Off</th>
+                    <th>Jour de congé</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -112,7 +112,7 @@
             </tbody>
         </table>
 
-        <button class="back" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+        <button class="back" onclick="window.location.href='dashboard.html'">Retour au tableau de bord</button>
     </div>
 
     <script>
@@ -144,7 +144,7 @@
             const dayOffInput = document.getElementById("dayOffInput").value;
             
             if (!dayOffInput) {
-                alert("⚠️ Please select a date.");
+                alert("⚠️ Veuillez sélectionner une date.");
                 return;
             }
 
@@ -152,7 +152,7 @@
 
             db.ref("daysOff").child(formattedDate).set(true)
                 .then(() => {
-                    alert(`✅ Day Off added: ${formattedDate}`);
+                    alert(`✅  Jour de congé ajouté : ${formattedDate}`);
                     document.getElementById("dayOffInput").value = "";
                 })
                 .catch(error => alert("⚠️ Error: " + error.message));
@@ -165,7 +165,7 @@
                 daysOffList.innerHTML = "";
 
                 if (!snapshot.exists()) {
-                    daysOffList.innerHTML = "<tr><td colspan='2'>No Days Off Set</td></tr>";
+                    daysOffList.innerHTML = "<tr><td colspan='2'>Aucun jour de congé défini</td></tr>";
                     return;
                 }
 
@@ -185,9 +185,9 @@
 
         // ✅ Function to delete a day off
         function deleteDayOff(date) {
-            if (confirm(`Are you sure you want to remove ${date} as a day off?`)) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer ? ${date} as a day off?`)) {
                 db.ref("daysOff").child(date).remove()
-                    .then(() => alert(`✅ Removed: ${date}`))
+                    .then(() => alert(`✅ Supprimé: ${date}`))
                     .catch(error => alert("⚠️ Error: " + error.message));
             }
         }
@@ -206,4 +206,3 @@
     </script>
 </body>
 </html>
-
