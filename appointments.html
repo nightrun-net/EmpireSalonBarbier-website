@@ -94,24 +94,48 @@
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+          /* ✅ Mobile Friendly */
+          @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            th, td {
+                font-size: 12px;
+            }
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                font-size: 11px;
+                padding: 5px;
+            }
+            button {
+                font-size: 13px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Customer Appointments</h2>
+        <h2>Rendez-vous clients</h2>
 
-        <input type="text" id="searchBox" placeholder="Search by Name, Date, or Mobile Number" onkeyup="filterAppointments()">
-        <button class="refresh-btn" onclick="fetchAppointments()">Refresh</button>
+        <input type="text" id="searchBox" placeholder="Rechercher par nom, date ou numéro de mobile" onkeyup="filterAppointments()">
+        <button class="refresh-btn" onclick="fetchAppointments()">Actualiser</button>
 
         <table id="appointmentsTable">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Nom</th>
                     <th>Mobile</th>
                     <th>Date</th>
-                    <th>Time</th>
+                    <th>Heure</th>
                     <th>Service</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="appointmentsBody">
@@ -119,7 +143,7 @@
             </tbody>
         </table>
         <br>
-        <button class="back" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+        <button class="back" onclick="window.location.href='dashboard.html'">Retour au tableau de bord</button>
     </div>
 
     <script>
@@ -151,13 +175,13 @@ function blockCustomer(name, mobile) {
         return;
     }
 
-    if (confirm(`Are you sure you want to block ${name}?`)) {
+    if (confirm(`Êtes-vous sûr de vouloir bloquer ${name}?`)) {
         db.ref("blockedCustomers").child(mobile).set({
             name: name,
             mobile: mobile
         })
         .then(() => {
-            alert(`✅ Customer ${name} is now blocked.`);
+            alert(`✅ Le client ${name} est maintenant bloqué.`);
             fetchAppointments(); // Refresh appointments list
         })
         .catch(error => alert("⚠️ Error: " + error.message));
@@ -166,7 +190,7 @@ function blockCustomer(name, mobile) {
 
 // ✅ Function to fetch and display appointments without duplication
 function fetchAppointments() {
-    db.ref("bookings").on("value", snapshot => {
+    db.ref("bookings").once("value", snapshot => {
         const appointmentsBody = document.getElementById("appointmentsBody");
         appointmentsBody.innerHTML = ""; // ✅ Clear table before adding data
 
@@ -175,7 +199,7 @@ function fetchAppointments() {
             return;
         }
 
-        let rows = []; // ✅ Use an array to avoid inserting duplicate rows
+        let appointments = []; // ✅ Store appointments to prevent duplication
 
         snapshot.forEach(childSnapshot => {
             const data = childSnapshot.val();
@@ -186,44 +210,69 @@ function fetchAppointments() {
             const time = data.time || "No Time"; 
             const service = data.service || "No Service"; 
 
-            const row = document.createElement("tr");
-            row.setAttribute("data-id", childSnapshot.key); // ✅ Prevent duplicate insertion
+            // ✅ Convert date into proper format for sorting
+            let dateParts = date.split("-");
+            let appointmentDate = new Date(
+                parseInt(dateParts[2]), // Year
+                parseInt(dateParts[1]) - 1, // Month (0-based index)
+                parseInt(dateParts[0]) // Day
+            );
 
-            // ✅ Check if the customer is already blocked
-            db.ref("blockedCustomers").child(mobile).once("value", blockedSnapshot => {
-                const isBlocked = blockedSnapshot.exists();
-
-                row.innerHTML = `
-                    <td>${username}</td> 
-                    <td>${mobile}</td>
-                    <td>${date}</td>
-                    <td>${time}</td>
-                    <td>${service}</td>
-                    <td>
-                        <button class="delete-btn" onclick="deleteAppointment('${childSnapshot.key}')">Delete</button>
-                        ${isBlocked ? "" : `<button class="block-btn" onclick="blockCustomer('${username}', '${mobile}')">Block</button>`}
-                    </td>
-                `;
-
-                rows.push(row);
-                if (!appointmentsBody.querySelector(`[data-id="${childSnapshot.key}"]`)) {
-                    appointmentsBody.appendChild(row);
-                }
+            appointments.push({
+                id: childSnapshot.key,
+                username: username,
+                mobile: mobile,
+                date: date,
+                time: time,
+                service: service,
+                timestamp: appointmentDate.getTime() // ✅ Convert date to timestamp for sorting
             });
+        });
+
+        // ✅ Sort appointments by date (earliest first)
+        appointments.sort((a, b) => a.timestamp - b.timestamp);
+
+        // ✅ Fetch blocked customers to check if any number is blocked
+        db.ref("blockedCustomers").once("value").then(blockedSnapshot => {
+            let blockedNumbers = new Set(); // ✅ Store blocked numbers for quick lookup
+
+            blockedSnapshot.forEach(blocked => {
+                blockedNumbers.add(blocked.key); // Store blocked mobile numbers
+            });
+
+            let tableHTML = "";
+
+            appointments.forEach(data => {
+                let isBlocked = blockedNumbers.has(data.mobile);
+
+                tableHTML += `
+                    <tr data-id="${data.id}">
+                        <td>${data.username}</td> 
+                        <td>${data.mobile}</td>
+                        <td>${data.date}</td>
+                        <td>${data.time}</td>
+                        <td>${data.service}</td>
+                        <td>
+                            <button class="delete-btn" onclick="deleteAppointment('${data.id}')">Delete</button>
+                            ${isBlocked ? "" : `<button class="block-btn" onclick="blockCustomer('${data.username}', '${data.mobile}')">Block</button>`}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            appointmentsBody.innerHTML = tableHTML; // ✅ Add sorted & filtered data to table
         });
     });
 }
 
-// ✅ Fetch appointments on page load (Fixes duplicates)
+// ✅ Fetch appointments only when the page loads
 document.addEventListener("DOMContentLoaded", fetchAppointments);
-
-
 
         // ✅ Delete an appointment from Firebase
         function deleteAppointment(appointmentId) {
-            if (confirm("Are you sure you want to delete this appointment?")) {
+            if (confirm(" Êtes-vous sûr de vouloir supprimer ce rendez-vous ?")) {
                 db.ref(`bookings/${appointmentId}`).remove()
-                    .then(() => alert("Appointment Deleted!"))
+                    .then(() => alert("Rendez-vous supprimé !"))
                     .catch(error => alert("Error deleting appointment: " + error.message));
             }
         }
