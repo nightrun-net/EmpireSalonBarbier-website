@@ -85,7 +85,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Blocked Customers</h2>
+        <h2> Clients bloqués</h2>
 
         <table>
             <thead>
@@ -100,7 +100,7 @@
             </tbody>
         </table>
 
-        <button class="back" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+        <button class="back" onclick="window.location.href='dashboard.html'">Retour au tableau de bord</button>
     </div>
 
     <script>
@@ -134,7 +134,7 @@
                 blockedCustomersList.innerHTML = "";
 
                 if (!snapshot.exists()) {
-                    blockedCustomersList.innerHTML = "<tr><td colspan='3'>No Blocked Customers</td></tr>";
+                    blockedCustomersList.innerHTML = "<tr><td colspan='3'> Aucun client bloqué</td></tr>";
                     return;
                 }
 
@@ -145,7 +145,7 @@
                     row.innerHTML = `
                         <td>${data.name}</td>
                         <td>${data.mobile}</td>
-                        <td><button class="delete-btn" onclick="unblockCustomer('${data.mobile}')">Unblock</button></td>
+                        <td><button class="delete-btn" onclick="unblockCustomer('${data.mobile}')">Débloquer</button></td>
                     `;
 
                     blockedCustomersList.appendChild(row);
@@ -155,9 +155,9 @@
 
         // ✅ Function to unblock a customer
         function unblockCustomer(mobile) {
-            if (confirm("Are you sure you want to unblock this customer?")) {
+            if (confirm("Êtes-vous sûr de vouloir débloquer ce client ?")) {
                 db.ref("blockedCustomers").child(mobile).remove()
-                    .then(() => alert("✅ Customer Unblocked."))
+                    .then(() => alert("✅  Client débloqué."))
                     .catch(error => alert("⚠️ Error: " + error.message));
             }
         }
