@@ -46,6 +46,12 @@
             margin-bottom: 10px;
             color: #007bff;
         }
+                .scrollable-grid {
+            max-height: 300px; /* ✅ Fixed height */
+            overflow-y: auto; /* ✅ Enables scrolling */
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
 
         .upcoming-label {
             background-color: orange;
@@ -110,7 +116,7 @@
         }
 
         button {
-            width: 100%;
+            width: 50%;
             padding: 12px;
             margin: 10px 0;
             border: none;
@@ -166,44 +172,70 @@
         }
 
         button:hover { opacity: 0.8; }
+
+            /* ✅ Mobile Friendly */
+            @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            th, td {
+                font-size: 12px;
+            }
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                font-size: 11px;
+                padding: 5px;
+            }
+            button {
+                font-size: 13px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <h2>Welcome to Dashboard</h2>
+        <h2>Bienvenue sur le tableau de bord</h2>
         <p id="userEmail"></p>
         <br>
         <br>
-        <p class="appointments-count">Today's Appointments: <span id="todaysAppointments">Loading...</span></p>
+        <p class="appointments-count">Rendez-vous d'aujourd'hui : <span id="todaysAppointments">Loading...</span></p>
         <br>
         <br>
         <!-- ✅ Upcoming Appointment Label -->
-        <div id="upcomingAppointment" class="upcoming-label">No upcoming appointments</div>
+        <div id="upcomingAppointment" class="upcoming-label">Aucun rendez-vous à venir</div>
 
-        <!-- ✅ Today's Appointments Table -->
-        <h3>Today's Appointments</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Service</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="todaysAppointmentsTable">
-                <tr><td colspan="6">Loading...</td></tr>
-            </tbody>
-        </table>
+         <!-- ✅ Scrollable Data Grid -->
+         <div class="scrollable-grid">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Mobile</th>
+                        <th>Service</th>
+                        <th>Heure</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="todaysAppointmentsTable">
+                    <tr><td colspan="6">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
         
-        <button class="update-profile" onclick="window.location.href='update-profile.html'">Update Profile</button>
-        <button class="manage-appointments" onclick="window.location.href='appointments.html'">Customer Appointments</button>
-        <button class="manage-days-off" onclick="window.location.href='days-off.html'">Manage Days Off</button>
-        <button class="blocked-customers" onclick="window.location.href='blocked-customers.html'">Blocked Customers</button>
+        <button class="update-profile" onclick="window.location.href='update-profile.html'"> Mettre à jour le profil</button>
+        <button class="manage-appointments" onclick="window.location.href='appointments.html'"> Rendez-vous clients</button>
+        <button class="manage-days-off" onclick="window.location.href='days-off.html'">Gérer les jours de congé</button>
+        <button class="blocked-customers" onclick="window.location.href='blocked-customers.html'">Clients bloqués</button>
 
-        <button class="logout" onclick="logout()">Logout</button>
+        <button class="logout" onclick="logout()">Déconnexion</button>
     </div>
 
     <script>
@@ -234,89 +266,116 @@
 
         const db = firebase.database();
 
+        function fetchAppointments() {
+    const now = new Date();
+    const todayStr = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
+    const thirtyMinutesLater = new Date(now.getTime() + 30 * 60 * 1000); // ✅ 30 minutes from now
 
-   // ✅ Function to fetch today's appointments and find the next upcoming one
-   function fetchAppointments() {
-            const now = new Date();
-            const todayStr = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
-            const fiveMinutesAgo = new Date(now.getTime() - 5 * 60000);
+    db.ref("bookings").once("value").then(snapshot => {
+        if (!snapshot.exists()) {
+            document.getElementById("todaysAppointments").textContent = "0";
+            document.getElementById("todaysAppointmentsTable").innerHTML = "<tr><td colspan='6'>No appointments today.</td></tr>";
+            document.getElementById("upcomingAppointment").innerHTML = "<p>No upcoming appointments.</p>";
+            return;
+        }
 
-            console.log("🔍 Checking appointments for:", todayStr);
+        let todayCount = 0;
+        let appointments = []; // ✅ Store today's appointments
+        let upcomingAppointments = []; // ✅ Store upcoming appointments
 
-            db.ref("bookings").once("value").then(snapshot => {
-                if (!snapshot.exists()) {
-                    document.getElementById("todaysAppointments").textContent = "0";
-                    document.getElementById("todaysAppointmentsTable").innerHTML = "<tr><td colspan='6'>No appointments today.</td></tr>";
-                    document.getElementById("upcomingAppointment").textContent = "No upcoming appointments";
-                    return;
+        snapshot.forEach(childSnapshot => {
+            let data = childSnapshot.val();
+            let storedDate = data.date?.trim();
+            let storedTime = data.time;
+
+            if (storedDate === todayStr) {
+                let storedDateTime = new Date(
+                    parseInt(storedDate.split("-")[2]), 
+                    parseInt(storedDate.split("-")[1]) - 1, 
+                    parseInt(storedDate.split("-")[0])
+                );
+
+                let [hours, minutes] = storedTime.split(":").map(num => parseInt(num));
+                storedDateTime.setHours(hours, minutes);
+
+                let appointmentData = {
+                    username: data.username,
+                    mobile: data.mobile,
+                    service: data.service,
+                    time: storedTime,
+                    status: storedDateTime < now ? `<span class="done-icon">✅ Done</span>` : "",
+                    timestamp: storedDateTime.getTime() // ✅ Use timestamp for sorting
+                };
+
+                // ✅ Check if appointment is within the next 30 minutes
+                if (storedDateTime >= now && storedDateTime <= thirtyMinutesLater) {
+                    upcomingAppointments.push(appointmentData);
                 }
 
-                let todayCount = 0;
-                let todayTableHTML = "";
-                let upcomingAppointment = null;
+                appointments.push(appointmentData);
+                todayCount++;
+            }
+        });
 
-                snapshot.forEach(childSnapshot => {
-                    let data = childSnapshot.val();
-                    let storedDate = data.date?.trim();
-                    let storedTime = data.time;
-                    let storedTimestamp = new Date(data.timestamp); // Booking creation time
+        // ✅ Sort appointments by time (earliest first)
+        appointments.sort((a, b) => a.timestamp - b.timestamp);
 
-                    let storedDateTime = new Date(
-                        parseInt(storedDate.split("-")[2]), 
-                        parseInt(storedDate.split("-")[1]) - 1, 
-                        parseInt(storedDate.split("-")[0])
-                    );
+        let todayTableHTML = appointments.map(data => `
+            <tr>
+                <td>${data.username}</td>
+                <td>${data.mobile}</td>
+                <td>${data.service}</td>
+                <td>${data.time}</td>
+                <td>${data.status}</td>
+                <td>
+                    <button class="call-btn" onclick="callCustomer('${data.mobile}')">Call</button>
+                </td>
+            </tr>
+        `).join("");
 
-                    let [hours, minutes] = storedTime.split(":").map(num => parseInt(num));
-                    storedDateTime.setHours(hours, minutes);
+        document.getElementById("todaysAppointments").textContent = todayCount;
+        document.getElementById("todaysAppointmentsTable").innerHTML = todayTableHTML || "<tr><td colspan='6'>No appointments today.</td></tr>";
 
-                    let status = "";
-                    if (storedDateTime < now) {
-                        status = `<span class="done-icon">✅ Done</span>`;
-                    } else if (storedTimestamp > fiveMinutesAgo) {
-                        status = `<span class="new-icon">🆕 New</span>`;
-                    }
+        // ✅ Display Upcoming Appointment (30 minutes before)
+        if (upcomingAppointments.length > 0) {
+            let upcomingHTML = upcomingAppointments.map(data => `
+                <p style="color: #ff5733; font-size: 16px; font-weight: bold;">
+                    ⏳ Upcoming: ${data.time} - ${data.username} (${data.service})
+                    <br>📞 <button class="call-btn" onclick="callCustomer('${data.mobile}')">Call</button>
+                </p>
+            `).join("");
 
-                    if (storedDate === todayStr) {
-                        todayCount++;
-                        todayTableHTML += `
-                            <tr>
-                                <td>${data.username}</td>
-                                <td>${data.mobile}</td>
-                                <td>${data.service}</td>
-                                <td>${data.time}</td>
-                                <td>${status}</td>
-                                <td><button class="call-btn" onclick="callCustomer('${data.mobile}')">Call</button></td>
-                            </tr>
-                        `;
-
-                        if (storedDateTime > now && (!upcomingAppointment || storedDateTime < upcomingAppointment.time)) {
-                            upcomingAppointment = data;
-                        }
-                    }
-                });
-
-                document.getElementById("todaysAppointments").textContent = todayCount;
-                document.getElementById("todaysAppointmentsTable").innerHTML = todayTableHTML || "<tr><td colspan='6'>No appointments today.</td></tr>";
-            });
+            document.getElementById("upcomingAppointment").innerHTML = upcomingHTML;
+        } else {
+            document.getElementById("upcomingAppointment").innerHTML = "<p>No upcoming appointments.</p>";
         }
+    });
+}
+
+
 
         function callCustomer(mobile) {
             window.location.href = `tel:${mobile}`;
         }
-        // ✅ Logout function
-        function logout() {
-        auth.signOut().then(() => {
-            window.location.href = "login.html";
-        }).catch(error => {
-            console.error("❌ Logout failed:", error.message);
-        });
-        }
 
         document.addEventListener("DOMContentLoaded", fetchAppointments);
         setInterval(fetchAppointments, 5000);
+
     </script>
+
+<script>
+    function logout() {
+        firebase.auth().signOut().then(() => {
+            sessionStorage.removeItem("ownerLoggedIn"); // Remove session storage
+            window.location.href = "login.html"; // Redirect to login page
+        }).catch(error => {
+            alert("❌ Error logging out: " + error.message);
+        });
+    }
+</script>
 </body>
 </html>
+
+
 
 
