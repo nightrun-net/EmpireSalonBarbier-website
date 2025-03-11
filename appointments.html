@@ -207,15 +207,19 @@ function fetchAppointments() {
             const username = data.username || "No Name"; 
             const mobile = data.mobile || "No Mobile"; 
             const date = data.date || "No Date"; 
-            const time = data.time || "No Time"; 
+            const time = data.time || "00:00"; // Default to avoid errors
             const service = data.service || "No Service"; 
 
-            // ✅ Convert date into proper format for sorting
+            // ✅ Convert date and time into a proper timestamp for sorting
             let dateParts = date.split("-");
-            let appointmentDate = new Date(
+            let timeParts = time.split(":");
+
+            let appointmentDateTime = new Date(
                 parseInt(dateParts[2]), // Year
                 parseInt(dateParts[1]) - 1, // Month (0-based index)
-                parseInt(dateParts[0]) // Day
+                parseInt(dateParts[0]), // Day
+                parseInt(timeParts[0]), // Hours
+                parseInt(timeParts[1]) // Minutes
             );
 
             appointments.push({
@@ -225,11 +229,11 @@ function fetchAppointments() {
                 date: date,
                 time: time,
                 service: service,
-                timestamp: appointmentDate.getTime() // ✅ Convert date to timestamp for sorting
+                timestamp: appointmentDateTime.getTime() // ✅ Convert to full datetime timestamp
             });
         });
 
-        // ✅ Sort appointments by date (earliest first)
+        // ✅ Sort appointments by full datetime (earliest first)
         appointments.sort((a, b) => a.timestamp - b.timestamp);
 
         // ✅ Fetch blocked customers to check if any number is blocked
@@ -268,14 +272,23 @@ function fetchAppointments() {
 // ✅ Fetch appointments only when the page loads
 document.addEventListener("DOMContentLoaded", fetchAppointments);
 
-        // ✅ Delete an appointment from Firebase
-        function deleteAppointment(appointmentId) {
-            if (confirm(" Êtes-vous sûr de vouloir supprimer ce rendez-vous ?")) {
-                db.ref(`bookings/${appointmentId}`).remove()
-                    .then(() => alert("Rendez-vous supprimé !"))
-                    .catch(error => alert("Error deleting appointment: " + error.message));
-            }
-        }
+// ✅ Delete an appointment from Firebase and remove from grid
+function deleteAppointment(appointmentId) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer ce rendez-vous ?")) {
+        db.ref(`bookings/${appointmentId}`).remove()
+            .then(() => {
+                alert("Rendez-vous supprimé !");
+
+                // ✅ Remove the row from the table immediately
+                const row = document.querySelector(`tr[data-id="${appointmentId}"]`);
+                if (row) {
+                    row.remove();
+                }
+            })
+            .catch(error => alert("Error deleting appointment: " + error.message));
+    }
+}
+
 
         // ✅ Search & filter appointments
         function filterAppointments() {
