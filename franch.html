@@ -126,15 +126,6 @@
         label{
             font-size: 18px;
         }
-        /* Smooth Fade Effect */
-        .fade-in {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-        }
         section::before {
             position: absolute;
             top: 0;
@@ -440,9 +431,6 @@ h1{
     color: #d00000; /* Dark red text to indicate closure */
     font-weight: bold;
 }
-
-
-
 /* Highlight Current Day */
 .today {
     background: #f4b400 !important;
@@ -718,8 +706,6 @@ button
             text-decoration: none;
         }
     </style>
-
-    
 </head>
 <body>
 <!-- Home Section -->
@@ -743,9 +729,6 @@ button
         window.location.href = selectedLang; // Redirects to selected page
     }
 </script>
-
-
-
 
     <!-- Gallery Section -->
     <section id="gallery" class="fade-in">
@@ -773,8 +756,6 @@ button
     </div>
     </section>
 
-
-
 <!-- Services Section -->
 <section id="services" class="fade-in">
     <h1>Our Services</h1>
@@ -783,7 +764,7 @@ button
         <div class="service-item">
             <img src="HairCut.jpg" alt="Haircut">
             <div class="service-name">Haircut</div>
-            <div class="service-price">25  frs</div>
+            <div class="service-price">25 frs</div>
         </div>
         <div class="service-item">
             <img src="beard.jpg" alt="Shaving">
@@ -822,7 +803,6 @@ button
         </div>
     </div>
 </section>
-
 
 <!-- Contact Section -->
 <section id="contact" class="fade-in">
@@ -865,7 +845,6 @@ button
 <!-- Booking Section -->
 <section id="booking" class="fade-in">
     <h1>Book Appointment</h1>
-
 <br>
 <br>
     <!-- Calendar Container -->
@@ -943,6 +922,9 @@ button
 
     </div>
 </section>
+
+
+
 
     <!-- Navigation Menu -->
     <nav class="navbar">
@@ -1198,19 +1180,21 @@ function showTimeSlots() {
 
     console.log("🔄 Checking booked times for:", selectedDate);
 
-    // ✅ Get the selected date and determine if it's a Saturday
     let selectedDateObj = new Date(selectedDate.split("-")[2], selectedDate.split("-")[1] - 1, selectedDate.split("-")[0]);
     let isSaturday = selectedDateObj.getDay() === 6; // Saturday = 6
 
-    // ✅ Define default time slots
     let allTimeSlots = [
         "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
         "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
         "16:00", "16:30", "17:00", "17:30", "18:00"
     ];
 
-    // ✅ Remove slots after 16:30 if it's a Saturday
     let availableTimeSlots = isSaturday ? allTimeSlots.filter(time => time !== "17:00" && time !== "17:30" && time !== "18:00") : allTimeSlots;
+
+    // ✅ Get current time
+    let now = new Date();
+    let currentHours = now.getHours();
+    let currentMinutes = now.getMinutes();
 
     // ✅ Fetch booked times from Firebase for the selected date
     firebase.database().ref("bookings")
@@ -1218,7 +1202,7 @@ function showTimeSlots() {
         .equalTo(selectedDate)
         .once("value")
         .then(snapshot => {
-            let bookedTimes = new Set(); // Use a Set for faster lookup
+            let bookedTimes = new Set(); 
 
             if (snapshot.exists()) {
                 snapshot.forEach(childSnapshot => {
@@ -1230,21 +1214,26 @@ function showTimeSlots() {
 
             let availableSlots = 0;
             availableTimeSlots.forEach(time => {
-                if (!bookedTimes.has(time)) { // ✅ Show only available times
-                    availableSlots++;
-                    const slot = document.createElement("div");
-                    slot.classList.add("time-slot");
-                    slot.textContent = time;
+                let [hour, minute] = time.split(":").map(Number);
+                let isPast = selectedDateObj.toDateString() === now.toDateString() && (hour < currentHours || (hour === currentHours && minute <= currentMinutes));
 
+                const slot = document.createElement("div");
+                slot.classList.add("time-slot");
+                slot.textContent = time;
+
+                if (isPast || bookedTimes.has(time)) {
+                    slot.classList.add("inactive"); // Make past times and booked slots inactive
+                } else {
+                    availableSlots++;
                     slot.addEventListener("click", function () {
                         document.querySelectorAll(".time-slot").forEach(s => s.classList.remove("selected"));
                         slot.classList.add("selected");
                         selectedTime = time;
                         showBookingDetails();
                     });
-
-                    timeSlotsContainer.appendChild(slot);
                 }
+
+                timeSlotsContainer.appendChild(slot);
             });
 
             // ✅ If no available slots, show a message
@@ -1261,6 +1250,18 @@ function showTimeSlots() {
             console.error("❌ Error fetching booked times:", error);
         });
 }
+
+// ✅ Add some CSS to style inactive slots (add this to your stylesheet)
+const style = document.createElement('style');
+style.innerHTML = `
+    .time-slot.inactive {
+        color: gray;
+        pointer-events: none;
+        opacity: 0.5;
+        text-decoration: line-through;
+    }
+`;
+document.head.appendChild(style);
 
 
 // Function to show booking details form
@@ -1379,7 +1380,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
-
-
-
-
