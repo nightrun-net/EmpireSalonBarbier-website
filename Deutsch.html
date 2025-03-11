@@ -122,15 +122,6 @@
     cursor: pointer;
     appearance: none; /* Removes default browser styling */
 }
-        /* Smooth Fade Effect */
-        .fade-in {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-        }
         section::before {
             position: absolute;
             top: 0;
@@ -758,7 +749,7 @@ body {
 <section id="services" class="fade-in">
     <h1>Unsere Dienstleistungen</h1>
     <br>
-     <div class="services-container">
+    <div class="services-container">
         <div class="service-item">
             <img src="HairCut.jpg" alt="Haircut">
             <div class="service-name">Haarschnitt</div>
@@ -822,7 +813,7 @@ body {
         <div class="contact-item">
             <span> <i class="fas fa-clock"></i> Öffnungszeiten:<br> 
                 <br>
-                Donnerstag - Freitag: <br> 09:00 to 12:00 - 13:00 to 18:00 <br>
+                Dienstag - Freitag: <br> 09:00 to 12:00 - 13:00 to 18:30 <br>
                 <br>
                 Samstag:  <br> 09:00 to 12:00 - 13:00 to 17:00 <br>
                 <br>
@@ -898,7 +889,7 @@ body {
 
     <!-- Age Checkbox -->
     <label>
-        <input type="checkbox" id="under15">  Unter 12 Jahre alt
+        <input type="checkbox" id="under15">  Unter 15 Jahre alt
     </label>
 
     <!-- Service Type Dropdown -->
@@ -910,7 +901,7 @@ body {
         <option value="Haircut & Beard">Haarschnitt & Bart</option>
         <option value="Haircut & Beard & Eyebrows"> Haarschnitt, Bart & Augenbrauen</option>
         <option value="Haircut & Eyebrows">Haarschnitt und Augenbrauen</option>
-        <option value="Children's haircut up to 12 years old">Kinder unter 12 Jahren</option>
+        <option value="Children's haircut up to 15 years old">Kinder unter 15 Jahren</option>
         <option value="Shampoo">Shampoo</option>
     </select>
 
@@ -1180,19 +1171,21 @@ function showTimeSlots() {
 
     console.log("🔄 Checking booked times for:", selectedDate);
 
-    // ✅ Get the selected date and determine if it's a Saturday
     let selectedDateObj = new Date(selectedDate.split("-")[2], selectedDate.split("-")[1] - 1, selectedDate.split("-")[0]);
     let isSaturday = selectedDateObj.getDay() === 6; // Saturday = 6
 
-    // ✅ Define default time slots
     let allTimeSlots = [
         "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
         "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
         "16:00", "16:30", "17:00", "17:30", "18:00"
     ];
 
-    // ✅ Remove slots after 16:30 if it's a Saturday
     let availableTimeSlots = isSaturday ? allTimeSlots.filter(time => time !== "17:00" && time !== "17:30" && time !== "18:00") : allTimeSlots;
+
+    // ✅ Get current time
+    let now = new Date();
+    let currentHours = now.getHours();
+    let currentMinutes = now.getMinutes();
 
     // ✅ Fetch booked times from Firebase for the selected date
     firebase.database().ref("bookings")
@@ -1200,7 +1193,7 @@ function showTimeSlots() {
         .equalTo(selectedDate)
         .once("value")
         .then(snapshot => {
-            let bookedTimes = new Set(); // Use a Set for faster lookup
+            let bookedTimes = new Set(); 
 
             if (snapshot.exists()) {
                 snapshot.forEach(childSnapshot => {
@@ -1212,26 +1205,31 @@ function showTimeSlots() {
 
             let availableSlots = 0;
             availableTimeSlots.forEach(time => {
-                if (!bookedTimes.has(time)) { // ✅ Show only available times
-                    availableSlots++;
-                    const slot = document.createElement("div");
-                    slot.classList.add("time-slot");
-                    slot.textContent = time;
+                let [hour, minute] = time.split(":").map(Number);
+                let isPast = selectedDateObj.toDateString() === now.toDateString() && (hour < currentHours || (hour === currentHours && minute <= currentMinutes));
 
+                const slot = document.createElement("div");
+                slot.classList.add("time-slot");
+                slot.textContent = time;
+
+                if (isPast || bookedTimes.has(time)) {
+                    slot.classList.add("inactive"); // Make past times and booked slots inactive
+                } else {
+                    availableSlots++;
                     slot.addEventListener("click", function () {
                         document.querySelectorAll(".time-slot").forEach(s => s.classList.remove("selected"));
                         slot.classList.add("selected");
                         selectedTime = time;
                         showBookingDetails();
                     });
-
-                    timeSlotsContainer.appendChild(slot);
                 }
+
+                timeSlotsContainer.appendChild(slot);
             });
 
             // ✅ If no available slots, show a message
             if (availableSlots === 0) {
-                timeSlotsContainer.innerHTML = `<p style="color: red; text-align: center;">⚠️ No available time slots for this date.</p>`;
+                timeSlotsContainer.innerHTML = `<p style="color: red; text-align: center;">⚠️ Geen beschikbare tijd voor deze datum.</p>`;
             }
 
             timeSlotsContainer.style.display = "grid";
@@ -1243,6 +1241,19 @@ function showTimeSlots() {
             console.error("❌ Error fetching booked times:", error);
         });
 }
+
+// ✅ Add some CSS to style inactive slots (add this to your stylesheet)
+const style = document.createElement('style');
+style.innerHTML = `
+    .time-slot.inactive {
+        color: gray;
+        pointer-events: none;
+        opacity: 0.5;
+        text-decoration: line-through;
+    }
+`;
+document.head.appendChild(style);
+
 
 
 // Function to show booking details form
