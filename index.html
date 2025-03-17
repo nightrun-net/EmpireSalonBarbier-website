@@ -958,50 +958,52 @@ img.addEventListener("click", function() {
 </script>
 <script>
 function formatAndValidateMobile() {
-const mobileInput = document.getElementById("userMobile");
-const mobileIcon = document.getElementById("mobileIcon");
-let mobileNumber = mobileInput.value.replace(/\D/g, ""); // Remove all non-numeric characters
+    const mobileInput = document.getElementById("userMobile");
+    const mobileIcon = document.getElementById("mobileIcon");
+    let mobileNumber = mobileInput.value.replace(/\D/g, ""); // Remove all non-numeric characters
 
-let countryFlag = "❌"; // Default to invalid
-let formattedNumber = mobileNumber; // Default no formatting
+    let countryFlag = "❌"; // Default invalid
+    let formattedNumber = mobileNumber; // Default to raw input
 
-// Switzerland 🇨🇭 (+41 XX XXX XX XX or 0XX XXX XX XX)
-if (mobileNumber.startsWith("41") || mobileNumber.startsWith("0")) {
-    if (mobileNumber.length >= 11) {
-        formattedNumber = `+41 ${mobileNumber.substring(2, 4)} ${mobileNumber.substring(4, 7)} ${mobileNumber.substring(7, 9)} ${mobileNumber.substring(9, 11)}`;
-        countryFlag = "🇨🇭";
-    } else if (mobileNumber.length >= 10) {
-        formattedNumber = `0${mobileNumber.substring(1, 3)} ${mobileNumber.substring(3, 6)} ${mobileNumber.substring(6, 8)} ${mobileNumber.substring(8, 10)}`;
-        countryFlag = "🇨🇭";
+    // Normalize "00" as "+"
+    if (mobileNumber.startsWith("0033")) {
+        mobileNumber = "33" + mobileNumber.slice(4);
+    } else if (mobileNumber.startsWith("0041")) {
+        mobileNumber = "41" + mobileNumber.slice(4);
     }
-}
 
-// France 🇫🇷 (+33 6 XX XX XX XX or 07 XX XX XX XX)
-else if (mobileNumber.startsWith("33") || mobileNumber.startsWith("06") || mobileNumber.startsWith("07")) {
-    if (mobileNumber.length >= 11) {
-        formattedNumber = `+33 ${mobileNumber.substring(2, 3)} ${mobileNumber.substring(3, 5)} ${mobileNumber.substring(5, 7)} ${mobileNumber.substring(7, 9)} ${mobileNumber.substring(9, 11)}`;
-        countryFlag = "🇫🇷";
-    } else if (mobileNumber.length >= 10) {
-        formattedNumber = `${mobileNumber.substring(0, 2)} ${mobileNumber.substring(2, 4)} ${mobileNumber.substring(4, 6)} ${mobileNumber.substring(6, 8)} ${mobileNumber.substring(8, 10)}`;
-        countryFlag = "🇫🇷";
+    if (mobileNumber.length < 9) {
+        mobileIcon.innerHTML = "❌";
+        mobileIcon.style.color = "red";
+        return;
     }
-}
 
-// Germany 🇩🇪 (+49 1XX XXX XXXX or 0 1XX XXX XXXX)
-else if (mobileNumber.startsWith("49") || mobileNumber.startsWith("01")) {
-    if (mobileNumber.length >= 12) {
-        formattedNumber = `+49 ${mobileNumber.substring(2, 5)} ${mobileNumber.substring(5, 8)} ${mobileNumber.substring(8, 12)}`;
-        countryFlag = "🇩🇪";
-    } else if (mobileNumber.length >= 11) {
-        formattedNumber = `0${mobileNumber.substring(1, 4)} ${mobileNumber.substring(4, 7)} ${mobileNumber.substring(7, 11)}`;
-        countryFlag = "🇩🇪";
-    }
-}
+    // 🇨🇭 Switzerland (+41)
+    if (/^(41|0)/.test(mobileNumber)) { 
+        if (mobileNumber.startsWith("41") && mobileNumber.length >= 11) {
+            formattedNumber = `+41 ${mobileNumber.slice(2, 4)} ${mobileNumber.slice(4, 7)} ${mobileNumber.slice(7, 9)} ${mobileNumber.slice(9, 11)}`;
+            countryFlag = "🇨🇭";
+        } else if (mobileNumber.startsWith("0") && mobileNumber.length >= 10) {
+            formattedNumber = `0${mobileNumber.slice(1, 3)} ${mobileNumber.slice(3, 6)} ${mobileNumber.slice(6, 8)} ${mobileNumber.slice(8, 10)}`;
+            countryFlag = "🇨🇭";
+        }
+    } 
 
-// Apply formatted number and validation icon
-mobileInput.value = formattedNumber;
-mobileIcon.innerHTML = countryFlag;
-mobileIcon.style.color = countryFlag === "❌" ? "red" : "green"; // Red if invalid, green if valid
+    // 🇫🇷 France (+33 or 0033)
+    else if (/^(33|0033|06|07)/.test(mobileNumber)) { 
+        if (mobileNumber.startsWith("33") && mobileNumber.length >= 11) {
+            formattedNumber = `+33 ${mobileNumber.slice(2, 3)} ${mobileNumber.slice(3, 5)} ${mobileNumber.slice(5, 7)} ${mobileNumber.slice(7, 9)} ${mobileNumber.slice(9, 11)}`;
+            countryFlag = "🇫🇷";
+        } else if (mobileNumber.length >= 10) {
+            formattedNumber = `${mobileNumber.slice(0, 2)} ${mobileNumber.slice(2, 4)} ${mobileNumber.slice(4, 6)} ${mobileNumber.slice(6, 8)} ${mobileNumber.slice(8, 10)}`;
+            countryFlag = "🇫🇷";
+        }
+    } 
+
+    // Apply formatted number and validation icon
+    mobileInput.value = formattedNumber;
+    mobileIcon.innerHTML = countryFlag;
+    mobileIcon.style.color = countryFlag === "❌" ? "red" : "green"; // Red if invalid, green if valid
 }
 </script>
 
