@@ -12,12 +12,12 @@
     <!-- ✅ Inline CSS for Styling -->
     <style>
         body {
-            font-family: 'Times New Roman', Times, serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+          font-family: 'Times New Roman', Times, serif;
+          background-color: #f5f5f5;
+          margin: 0;
+          padding: 20px;
+          display: block; /* Allow natural flow */
+          overflow-y: auto; /* Enable scrolling */
         }
 
         .dashboard-container {
@@ -26,7 +26,9 @@
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 700px;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         h2 {
