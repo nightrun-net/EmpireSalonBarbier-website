@@ -236,6 +236,32 @@
         <button class="blocked-customers" onclick="window.location.href='blocked-customers.html'">Clients bloqués</button>
 
         <button class="logout" onclick="logout()">Déconnexion</button>
+
+               <br>
+               <!-- Password Prompt -->
+  <div id="passwordPrompt">
+    <table>
+      <tr>
+        <td>Enter Password:</td>
+        <td><input type="password" id="passwordInput"></td>
+      </tr>
+    </table>
+   
+    <p id="errorMessage" style="color:red;"></p>
+  </div>
+        <button onclick="submitPassword()" style="
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+">
+  📨 View Feedbacks
+</button>
+<br>
     </div>
 
     <script>
@@ -373,6 +399,23 @@
         });
     }
 </script>
+    <script>
+    const correctPassword = "alind12341"; // change this to your actual password
+
+    function showPasswordPrompt() {
+      document.getElementById('passwordPrompt').style.display = 'block';
+      document.getElementById('errorMessage').textContent = '';
+    }
+
+    function submitPassword() {
+      const enteredPassword = document.getElementById('passwordInput').value;
+      if (enteredPassword === correctPassword) {
+        window.location.href = 'feedbacks.html';
+      } else {
+        document.getElementById('errorMessage').textContent = 'Incorrect password.';
+      }
+    }
+  </script>
 </body>
 </html>
 
