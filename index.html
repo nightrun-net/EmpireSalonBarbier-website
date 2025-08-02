@@ -706,6 +706,20 @@ section + section {
         <option value="index.html" selected>Français</option>
         <option value="Deutsch.html">Deutsch</option>
     </select>
+     <div id="feedback-section" style="margin-bottom: 30px; padding: 5px; background-color: #1e1e1e; border-radius: 10px;">
+        <h2 style="color: white; margin-bottom: 10px;">Envoyer des retours</h2>
+      
+        <input id="feedbackPhone" type="tel" placeholder="Phone (+41, 0041 or +33, 0033)" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px;" />
+      
+        <textarea id="feedbackText" placeholder="Rédigez votre commentaire ici..." rows="4" style="width: 100%; padding: 10px; border-radius: 5px;"></textarea>
+      
+        <button onclick="submitFeedback()" style="margin-top: 1px; background: none; border: none; cursor: pointer;">
+          <img src="https://img.icons8.com/ios-filled/24/4CAF50/sent.png" alt="Send" title="Send Feedback" />
+        </button>
+      </div>
+      <br>
+      <br>
+      <br>
 </section>
 <script>
     function switchLanguage() {
@@ -1359,6 +1373,41 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCalendar(currentMonth, currentYear);
     fetchDaysOff();
 });
+    function submitFeedback() {
+  const feedback = document.getElementById("feedbackText").value.trim();
+  const phone = document.getElementById("feedbackPhone").value.trim();
+
+  const swissRegex = /^\+41\d{9}$/;
+  const frenchRegex = /^\+33\d{9}$/;
+
+  if (phone === "" || !swissRegex.test(phone) && !frenchRegex.test(phone)) {
+    alert("Please enter a valid Swiss (+41) or French (+33) phone number.");
+    return;
+  }
+
+  if (feedback === "") {
+    alert("Please enter some feedback before sending.");
+    return;
+  }
+
+  const feedbackRef = firebase.database().ref("feedbacks");
+  const feedbackData = {
+    phone: phone,
+    message: feedback,
+    timestamp: new Date().toISOString()
+  };
+
+  feedbackRef.push(feedbackData)
+    .then(() => {
+      alert("Feedback sent successfully!");
+      document.getElementById("feedbackText").value = "";
+      document.getElementById("feedbackPhone").value = "";
+    })
+    .catch((error) => {
+      console.error("Error sending feedback:", error);
+      alert("Something went wrong. Try again.");
+    });
+}
 </script>
 
 </body>
