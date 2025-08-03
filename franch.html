@@ -721,23 +721,7 @@ button
         <option value="index.html">Français</option>
         <option value="Deutsch.html">Deutsch</option>
     </select>
-
-    
-    <div id="feedback-section" style="margin-bottom: 20px; padding: 15px; background-color: #1e1e1e; border-radius: 10px;">
-        <h2 style="color: white; margin-bottom: 10px;">Send Feedback</h2>
-      
-        <input id="feedbackPhone" type="tel" placeholder="Phone (+41, 0041 or +33, 0033)" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px;" />
-      
-        <textarea id="feedbackText" placeholder="Write your feedback here..." rows="4" style="width: 100%; padding: 10px; border-radius: 5px;"></textarea>
-      
-        <button onclick="submitFeedback()" style="margin-top: 1px; background: none; border: none; cursor: pointer;">
-          <img src="https://img.icons8.com/ios-filled/24/4CAF50/sent.png" alt="Send" title="Send Feedback" />
-        </button>
-      </div>
-    <br>
-    <br>
-    <br>
-
+     <br>
 </section>
 <script>
     function switchLanguage() {
@@ -936,11 +920,19 @@ button
     </button>
 </div>
 
+        <div id="feedback-section" style="margin-bottom: 30px; padding: 5px; background-color: #1e1e1e; border-radius: 10px;">
+    <h2 style="color: #f4b400; margin-bottom: 10px; font-size: 20px;">Send Feedback</h2>
+  
+    <input id="feedbackPhone" type="tel" placeholder="Phone (+41, 0041 or +33, 0033)" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px;" />
+  
+    <textarea id="feedbackText" placeholder="Write your feedback here..." rows="4" style="width: 100%; padding: 10px; border-radius: 5px;"></textarea>
+  
+    <button onclick="submitFeedback()" style="margin-top: 1px; background: none; border: none; cursor: pointer;">
+      <img src="https://img.icons8.com/ios-filled/24/4CAF50/sent.png" alt="Send" title="Send Feedback" />
+    </button>
+  </div>
     </div>
 </section>
-
-
-
 
     <!-- Navigation Menu -->
     <nav class="navbar">
