@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - Empire Barber</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#0f0f0f;
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.page-wrapper{
+  flex:1;
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* ================= HEADER ================= */
+
+.profile-header{
+  padding:40px 20px 20px;
+  text-align:center;
+  position:relative;
+}
+
+.profile-avatar{
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  background:#1a1a1a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 20px;
+  border:3px solid #c59d5f;
+  font-size:50px;
+  font-weight:700;
+  color:#c59d5f;
+  transition:.3s;
+}
+
+.profile-header h1{
+  font-size:28px;
+  margin-bottom:5px;
+  word-break:break-word;
+}
+
+.profile-header p{
+  opacity:.7;
+  font-size:14px;
+}
+
+/* ================= BACK BUTTON ================= */
+
+.back-btn{
+  position:absolute;
+  top:30px;
+  left:15px;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#c59d5f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  color:#000;
+  font-weight:bold;
+  font-size:18px;
+}
+
+/* ================= PROFILE CARD ================= */
+
+.profile-container{
+  padding:30px 20px;
+}
+
+.profile-card{
+  background:#1a1a1a;
+  border-radius:25px;
+  padding:25px;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
+  margin-bottom:30px;
+  width:100%;
+}
+
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  flex-wrap:wrap;
+}
+
+.info-row:last-child{
+  border-bottom:none;
+}
+
+.label{
+  opacity:.6;
+  font-size:14px;
+}
+
+.value{
+  font-weight:600;
+  font-size:15px;
+  text-align:right;
+  word-break:break-word;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:18px;
+  background:#c59d5f;
+  color:#000;
+  border:none;
+  border-radius:30px;
+  font-weight:600;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.btn-outline{
+  background:#222;
+  color:#fff;
+  border:1px solid #c59d5f;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-content{
+  background:#1a1a1a;
+  padding:25px;
+  border-radius:20px;
+  width:100%;
+  max-width:420px;
+}
+
+.modal-content h2{
+  margin-bottom:20px;
+  text-align:center;
+  font-size:20px;
+}
+
+.input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #333;
+  background:#111;
+  color:#fff;
+  font-size:14px;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  text-align:center;
+  padding:20px;
+  background:#111;
+  font-size:13px;
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+
+/* Small phones */
+@media(max-width:400px){
+
+  .profile-avatar{
+    width:100px;
+    height:100px;
+    font-size:40px;
+  }
+
+  .profile-header h1{
+    font-size:22px;
+  }
+
+  .info-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:5px;
+  }
+
+  .value{
+    text-align:left;
+  }
+
+}
+
+/* Tablets */
+@media(min-width:768px){
+
+  .profile-container{
+    padding:40px 60px;
+  }
+
+  .profile-card{
+    padding:35px;
+  }
+
+  .profile-header h1{
+    font-size:30px;
+  }
+
+}
+
+/* Large desktop */
+@media(min-width:1200px){
+
+  .profile-container{
+    max-width:800px;
+    margin:auto;
+  }
+
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+<div class="profile-header">
+  <div class="back-btn" onclick="goBack()">←</div>
+  <div class="profile-avatar" id="avatarInitial">U</div>
+  <h1 id="displayName">User</h1>
+  <p id="roleText">Premium Member</p>
+</div>
+
+<div class="profile-container">
+
+  <div class="profile-card" id="profileCard">
+
+    <div class="info-row">
+      <div class="label">Phone</div>
+      <div class="value" id="phoneValue">-</div>
+    </div>
+
+    <div class="info-row">
+      <div class="label">Email</div>
+      <div class="value" id="emailValue">-</div>
+    </div>
+
+    <div class="info-row">
+      <div class="label">Total Bookings</div>
+      <div class="value" id="bookingValue">0</div>
+    </div>
+
+    <div class="info-row">
+      <div class="label">Member Since</div>
+      <div class="value" id="memberSince">-</div>
+    </div>
+
+    <button class="btn" onclick="openEdit()">Edit Profile</button>
+    <button class="btn btn-outline" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="profile-card" id="loginCard" style="display:none;text-align:center;">
+    <h2>You are not logged in</h2>
+    <button class="btn" onclick="goToLogin()">Login</button>
+  </div>
+
+</div>
+</div>
+
+<footer>© 2026 Empire Barber</footer>
+
+<!-- EDIT MODAL -->
+<div class="modal" id="editModal">
+  <div class="modal-content">
+    <h2>Edit Profile</h2>
+    <input type="text" id="editName" class="input" placeholder="Display Name">
+    <input type="text" id="editPhone" class="input" placeholder="Phone">
+    <button class="btn" onclick="saveProfile()">Save Changes</button>
+    <button class="btn btn-outline" onclick="closeEdit()">Cancel</button>
+  </div>
+</div>
+
+<script>
+
+const supabaseClient = window.supabase.createClient(
+      "https://bdknfcowoxlxsvnuotqm.supabase.co",
+      "sb_publishable_7nD-g9D7N8tdO_1fp8dDmw_7AEL27vc"
+);
+
+let currentUser = null;
+
+async function loadProfile(){
+
+  const { data:{ session } } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    document.getElementById("profileCard").style.display="none";
+    document.getElementById("loginCard").style.display="block";
+    return;
+  }
+
+  currentUser = session.user;
+
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", currentUser.id)
+    .single();
+
+  if(!profile) return;
+
+  document.getElementById("displayName").textContent = profile.display_name;
+  document.getElementById("avatarInitial").textContent =
+    profile.display_name?.charAt(0).toUpperCase() || "U";
+  document.getElementById("phoneValue").textContent = profile.mobile || "-";
+  document.getElementById("emailValue").textContent = currentUser.email;
+  document.getElementById("memberSince").textContent =
+    new Date(profile.created_at).getFullYear();
+
+  const { count } = await supabaseClient
+    .from("bookings")
+    .select("*",{count:"exact",head:true})
+    .eq("user_id",currentUser.id);
+
+  document.getElementById("bookingValue").textContent = count || 0;
+
+  // Prefill modal
+  document.getElementById("editName").value = profile.display_name || "";
+  document.getElementById("editPhone").value = profile.mobile || "";
+}
+
+function openEdit(){
+  document.getElementById("editModal").style.display="flex";
+}
+
+function closeEdit(){
+  document.getElementById("editModal").style.display="none";
+}
+
+async function saveProfile(){
+
+  const newName = document.getElementById("editName").value.trim();
+  const newPhone = document.getElementById("editPhone").value.trim();
+
+  if(!newName) return alert("Name required");
+
+  const { error } = await supabaseClient
+    .from("profiles")
+    .update({
+      display_name:newName,
+      mobile:newPhone
+    })
+    .eq("id", currentUser.id);
+
+  if(error){
+    alert("Error updating profile");
+    return;
+  }
+
+  closeEdit();
+  loadProfile();
+}
+
+async function logout(){
+  await supabaseClient.auth.signOut();
+  window.location.href="login.html";
+}
+
+function goBack(){
+  window.location.href="ENIndex.html";
+}
+
+function goToLogin(){
+  window.location.href="login.html";
+}
+
+loadProfile();
+
+</script>
+
+</body>
+</html>

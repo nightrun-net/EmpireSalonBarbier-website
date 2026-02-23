@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion - Empire Salon Barber</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+  background:#0f0f0f;color:#fff;
+  display:flex;justify-content:center;align-items:center;height:100vh;
+}
+.container{
+  width:100%;max-width:420px;background:#1a1a1a;
+  padding:40px;border-radius:25px;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
+}
+h2{text-align:center;margin-bottom:30px;color:#c59d5f;}
+.btn{
+  width:100%;padding:14px;background:#c59d5f;color:#000;
+  border:none;border-radius:30px;font-weight:600;
+  cursor:pointer;margin-top:15px;
+}
+.btn:hover{background:#fff;}
+input,select{
+  width:100%;padding:14px;border:none;border-radius:10px;
+  background:#111;color:#fff;margin-bottom:15px;
+}
+.hidden{display:none !important;}
+.modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(5px);z-index:999;
+}
+.modal-content{
+  background:#1a1a1a;padding:30px;border-radius:20px;
+  width:90%;max-width:350px;text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
+  animation:pop .3s ease;
+}
+@keyframes pop{
+  from{transform:scale(.8);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div id="googleLogin">
+  <h2>Connexion</h2>
+  <button class="btn" onclick="loginWithGoogle()">
+    Continuer avec Google
+  </button>
+</div>
+
+<div id="completeProfile" class="hidden">
+  <h2>Complétez votre profil</h2>
+
+  <input type="text" id="display_name" placeholder="Nom affiché" required>
+  <input type="tel" id="mobile" placeholder="+41 79 123 45 67" required>
+  <input type="number" id="age" placeholder="Âge" required>
+
+  <button class="btn" onclick="saveProfile()">Enregistrer</button>
+
+</div>
+
+<div id="customModal" class="modal hidden">
+    <div class="modal-content">
+<h3 id="modalTitle">Erreur</h3>
+<p id="modalMessage">Message</p>
+<button id="modalBtn" class="btn">OK</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+    const supabaseClient = window.supabase.createClient(
+      "https://bdknfcowoxlxsvnuotqm.supabase.co",
+      "sb_publishable_7nD-g9D7N8tdO_1fp8dDmw_7AEL27vc"
+    );
+    
+    let authHandled = false;
+    
+    /* ================= AUTH STATE ================= */
+    supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    
+      if (event !== "SIGNED_IN") return;
+      if (!session) return;
+      if (authHandled) return;
+    
+      authHandled = true;
+    
+      const user = session.user;
+    
+      try {
+    
+        const { data: profile, error } = await supabaseClient
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .maybeSingle();
+    
+        if (error) {
+          console.error("Profile fetch error:", error);
+          showModal("Erreur base de données", error.message);
+          return;
+        }
+    
+        // 🔥 IF PROFILE EXISTS → CHECK ROLE
+        if (profile) {
+    
+          if (profile.role === "owner" || profile.role === "admin") {
+            window.location.href = "barber-dashboard.html";
+          } else {
+            window.location.href = "FrProfile.html";
+          }
+    
+        } else {
+          // No profile → show complete profile form
+          document.getElementById("googleLogin").classList.add("hidden");
+          document.getElementById("completeProfile").classList.remove("hidden");
+        }
+    
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        showModal("Erreur", "Une erreur inattendue s'est produite.");
+      }
+    });
+    
+    
+    /* ================= GOOGLE LOGIN ================= */
+    async function loginWithGoogle(){
+      await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: window.location.origin + "/login.html"
+        }
+      });
+    }
+    
+    
+    /* ================= SAVE PROFILE ================= */
+    async function saveProfile() {
+    
+      const { data: { session } } = await supabaseClient.auth.getSession();
+    
+      if (!session) {
+        showModal("Session expirée", "Veuillez vous reconnecter.");
+        return;
+      }
+    
+      const user = session.user;
+    
+      let display_name = document.getElementById("display_name").value.trim();
+      let mobile = document.getElementById("mobile").value.trim().replace(/\s/g, '');
+      let age = document.getElementById("age").value;
+    
+      if (!display_name || !mobile || !age) {
+        showModal("Informations manquantes", "Veuillez remplir tous les champs.");
+        return;
+      }
+    
+      // Validate Swiss, French, German numbers
+      const phoneRegex = /^(\+41|\+33|\+49)\d{8,12}$/;
+      if (!phoneRegex.test(mobile)) {
+        showModal(
+  "Numéro invalide",
+  "Seuls les numéros suisses (+41), français (+33) ou allemands (+49) sont autorisés."
+);
+        return;
+      }
+    
+      const { error } = await supabaseClient
+        .from("profiles")
+        .insert({
+          id: user.id,
+          display_name,
+          mobile,
+          age: parseInt(age),
+          role: "member"
+        });
+    
+      if (error) {
+    
+        console.log("Insert error:", error);
+    
+        const msg = error.message || "";
+        const details = error.details || "";
+    
+        if (msg.includes("display_name") || details.includes("display_name")) {
+          showModal(
+  "Nom déjà utilisé",
+  "Veuillez choisir un autre nom affiché."
+);
+          return;
+        }
+    
+        if (msg.includes("mobile") || details.includes("mobile")) {
+          showModal(
+  "Numéro déjà enregistré",
+  "Ce numéro de téléphone est déjà utilisé."
+);
+          return;
+        }
+        showModal(
+  "Erreur base de données",
+  "Une erreur s'est produite. Veuillez réessayer."
+);
+        return;
+      }
+    
+      // 🔥 After insert → redirect by role
+      window.location.href = "FrProfile.html";
+    }
+    
+    
+    /* ================= MODAL ================= */
+    const modal = document.getElementById("customModal");
+    const modalBtn = document.getElementById("modalBtn");
+    
+    modalBtn.addEventListener("click", () => {
+      modal.classList.add("hidden");
+    });
+    
+    function showModal(title, message){
+      document.getElementById("modalTitle").innerText =
+      title || "Erreur";
+    
+      document.getElementById("modalMessage").innerText =
+      message || "Une erreur inattendue s'est produite.";
+    
+      modal.classList.remove("hidden");
+    }
+    
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.add("hidden");
+      }
+    });
+    </script>
+</body>
+</html>
