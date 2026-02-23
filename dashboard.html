@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- ✅ Load Firebase v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <!-- ✅ Inline CSS for Styling -->
+    <style>
+        body {
+          font-family: 'Times New Roman', Times, serif;
+          background-color: #f5f5f5;
+          margin: 0;
+          padding: 20px;
+          display: block; /* Allow natural flow */
+          overflow-y: auto; /* Enable scrolling */
+        }
+
+        .dashboard-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            color: #007bff;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .appointments-count {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+                .scrollable-grid {
+            max-height: 300px; /* ✅ Fixed height */
+            overflow-y: auto; /* ✅ Enables scrolling */
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+        .upcoming-label {
+            background-color: orange;
+            color: white;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .call-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .call-btn:hover {
+            background-color: #218838;
+        }
+        .done-icon {
+            color: green;
+            font-weight: bold;
+        }
+
+        .new-icon {
+            color: red;
+            font-weight: bold;
+        }
+
+        .block-btn {
+            background-color: #dc3545;
+        }
+
+        .block-btn:hover {
+            background-color: #c82333;
+        }
+
+        button {
+            width: 50%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .update-profile {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .update-profile:hover {
+            background-color: #218838;
+        }
+
+        .manage-appointments {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .manage-appointments:hover {
+            background-color: #0056b3;
+        }
+
+        .manage-days-off {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .manage-days-off:hover {
+            background-color: #e0a800;
+        }
+        .blocked-customers {
+            background-color: #8e44ad;
+            color: white;
+        }
+
+        .blocked-customers:hover {
+            background-color: #6c3483;
+        }
+
+        .logout {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .logout:hover {
+            background-color: #c82333;
+        }
+
+        button:hover { opacity: 0.8; }
+
+            /* ✅ Mobile Friendly */
+            @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            th, td {
+                font-size: 12px;
+            }
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                font-size: 11px;
+                padding: 5px;
+            }
+            button {
+                font-size: 13px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Bienvenue sur le tableau de bord</h2>
+        <br>
+        <br>
+        <p id="userEmail"></p>
+        <br>
+        <br>
+        <p class="appointments-count">Rendez-vous d'aujourd'hui : <span id="todaysAppointments">Loading...</span></p>
+        <br>
+        <br>
+        <!-- ✅ Upcoming Appointment Label -->
+        <div id="upcomingAppointment" class="upcoming-label">Aucun rendez-vous à venir</div>
+
+         <!-- ✅ Scrollable Data Grid -->
+         <div class="scrollable-grid">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Mobile</th>
+                        <th>Service</th>
+                        <th>Heure</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="todaysAppointmentsTable">
+                    <tr><td colspan="6">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <button class="update-profile" onclick="window.location.href='update-profile.html'"> Mettre à jour le profil</button>
+        <button class="manage-appointments" onclick="window.location.href='appointments.html'"> Rendez-vous clients</button>
+        <button class="manage-days-off" onclick="window.location.href='days-off.html'">Gérer les jours de congé</button>
+        <button class="blocked-customers" onclick="window.location.href='blocked-customers.html'">Clients bloqués</button>
+
+        <button class="logout" onclick="logout()">Déconnexion</button>
+
+        <br>
+               <!-- Password Prompt -->
+  <div id="passwordPrompt">
+    <table>
+      <tr>
+        <td>Entrez le mot de passe:</td>
+        <td><input type="password" id="passwordInput"></td>
+      </tr>
+    </table>
+   
+    <p id="errorMessage" style="color:red;"></p>
+  </div>
+        <button onclick="submitPassword()" style="
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+">
+  📨 Voir les retours
+</button>
+<br>
+    </div>
+
+    <script>
+        // ✅ Initialize Firebase (Use Your Config)
+        firebase.initializeApp({
+            apiKey: "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
+            authDomain: "empiresalonbarber.firebaseapp.com",
+            databaseURL: "https://empiresalonbarber-default-rtdb.europe-west1.firebasedatabase.app/",
+            projectId: "empiresalonbarber",
+            storageBucket: "empiresalonbarber.appspot.com",
+            messagingSenderId: "365303178903",
+            appId: "1:365303178903:web:c6f9eb19766934e443ebd2",
+            measurementId: "G-LMHTQJBCP6"
+        });
+
+
+        const auth = firebase.auth();
+
+ 
+
+
+        const db = firebase.database();
+
+        function fetchAppointments() {
+    const now = new Date();
+    const todayStr = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
+    const thirtyMinutesLater = new Date(now.getTime() + 30 * 60 * 1000); // ✅ 30 minutes from now
+
+    db.ref("bookings").once("value").then(snapshot => {
+        if (!snapshot.exists()) {
+            document.getElementById("todaysAppointments").textContent = "0";
+            document.getElementById("todaysAppointmentsTable").innerHTML = "<tr><td colspan='6'>No appointments today.</td></tr>";
+            document.getElementById("upcomingAppointment").innerHTML = "<p>No upcoming appointments.</p>";
+            return;
+        }
+
+        let todayCount = 0;
+        let appointments = []; // ✅ Store today's appointments
+        let upcomingAppointments = []; // ✅ Store upcoming appointments
+
+        snapshot.forEach(childSnapshot => {
+            let data = childSnapshot.val();
+            let storedDate = data.date?.trim();
+            let storedTime = data.time;
+
+            if (storedDate === todayStr) {
+                let storedDateTime = new Date(
+                    parseInt(storedDate.split("-")[2]), 
+                    parseInt(storedDate.split("-")[1]) - 1, 
+                    parseInt(storedDate.split("-")[0])
+                );
+
+                let [hours, minutes] = storedTime.split(":").map(num => parseInt(num));
+                storedDateTime.setHours(hours, minutes);
+
+                let appointmentData = {
+                    username: data.username,
+                    mobile: data.mobile,
+                    service: data.service,
+                    time: storedTime,
+                    status: storedDateTime < now ? `<span class="done-icon">✅ Done</span>` : "",
+                    timestamp: storedDateTime.getTime() // ✅ Use timestamp for sorting
+                };
+
+                // ✅ Check if appointment is within the next 30 minutes
+                if (storedDateTime >= now && storedDateTime <= thirtyMinutesLater) {
+                    upcomingAppointments.push(appointmentData);
+                }
+
+                appointments.push(appointmentData);
+                todayCount++;
+            }
+        });
+
+        // ✅ Sort appointments by time (earliest first)
+        appointments.sort((a, b) => a.timestamp - b.timestamp);
+
+        let todayTableHTML = appointments.map(data => `
+            <tr>
+                <td>${data.username}</td>
+                <td>${data.mobile}</td>
+                <td>${data.service}</td>
+                <td>${data.time}</td>
+                <td>${data.status}</td>
+                <td>
+                    <button class="call-btn" onclick="callCustomer('${data.mobile}')">Call</button>
+                </td>
+            </tr>
+        `).join("");
+
+        document.getElementById("todaysAppointments").textContent = todayCount;
+        document.getElementById("todaysAppointmentsTable").innerHTML = todayTableHTML || "<tr><td colspan='6'>No appointments today.</td></tr>";
+
+        // ✅ Display Upcoming Appointment (30 minutes before)
+        if (upcomingAppointments.length > 0) {
+            let upcomingHTML = upcomingAppointments.map(data => `
+                <p style="color: #ff5733; font-size: 16px; font-weight: bold;">
+                    ⏳ Upcoming: ${data.time} - ${data.username} (${data.service})
+                    <br>📞 <button class="call-btn" onclick="callCustomer('${data.mobile}')">Call</button>
+                </p>
+            `).join("");
+
+            document.getElementById("upcomingAppointment").innerHTML = upcomingHTML;
+        } else {
+            document.getElementById("upcomingAppointment").innerHTML = "<p>No upcoming appointments.</p>";
+        }
+    });
+}
+
+
+
+        function callCustomer(mobile) {
+            window.location.href = `tel:${mobile}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchAppointments);
+        setInterval(fetchAppointments, 5000);
+
+    </script>
+
+
+
+<script>
+    const correctPassword = "alind12341"; // change this to your actual password
+
+    function showPasswordPrompt() {
+      document.getElementById('passwordPrompt').style.display = 'block';
+      document.getElementById('errorMessage').textContent = '';
+    }
+
+    function submitPassword() {
+      const enteredPassword = document.getElementById('passwordInput').value;
+      if (enteredPassword === correctPassword) {
+        window.location.href = 'feedbacks.html';
+      } else {
+        document.getElementById('errorMessage').textContent = 'Mot de passe incorrect.';
+      }
+    }
+  </script>
+</body>
+</html>
