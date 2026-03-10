@@ -289,7 +289,7 @@
 
         const db = firebase.database();
 
-        function fetchAppointments() {
+     function fetchAppointments() {
     const now = new Date();
     const todayStr = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
     const thirtyMinutesLater = new Date(now.getTime() + 30 * 60 * 1000); // ✅ 30 minutes from now
@@ -308,8 +308,11 @@
 
         snapshot.forEach(childSnapshot => {
             let data = childSnapshot.val();
-            let storedDate = data.date?.trim();
-            let storedTime = data.time;
+            let storedDate = data.date ? data.date.trim() : null;
+let storedTime = data.time ? data.time.trim() : null;
+
+// skip invalid bookings
+if (!storedDate || !storedTime) return;
 
             if (storedDate === todayStr) {
                 let storedDateTime = new Date(
@@ -374,7 +377,6 @@
         }
     });
 }
-
 
 
         function callCustomer(mobile) {
