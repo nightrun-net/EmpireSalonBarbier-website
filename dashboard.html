@@ -367,6 +367,17 @@
     }
         document.addEventListener("DOMContentLoaded", fetchAppointments);
         setInterval(fetchAppointments, 5000);
+    function logout() {
+    firebase.auth().signOut()
+    .then(() => {
+        // Redirect to login page after logout
+        window.location.href = "login.html";
+    })
+    .catch((error) => {
+        console.log("Logout Error:", error);
+        alert("Error logging out");
+    });
+}
     </script>
 </body>
 </html>
