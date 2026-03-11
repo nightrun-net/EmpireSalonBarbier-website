@@ -149,7 +149,8 @@ function fetchAppointments(){
 
         snapshot.forEach(child=>{
             const data = child.val();
-
+    // Skip broken bookings
+    if(!data.date || !data.time) return;
             let d = data.date.split("-"); // DD-MM-YYYY
             let t = data.time.split(":");
 
