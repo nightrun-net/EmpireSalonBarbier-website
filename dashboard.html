@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <!-- ✅ Inline CSS for Styling -->
-    <style> 
+    <style>
         body {
           font-family: 'Times New Roman', Times, serif;
           background-color: #f5f5f5;
@@ -199,6 +199,141 @@
                 padding: 8px;
             }
         }
+
+        .manage-barbers {
+    background-color: #17a2b8;
+    color: white;
+}
+
+/* 🔥 MODAL BACKGROUND */
+.modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px); /* ✨ glass effect */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+    z-index:9999;
+}
+
+/* SHOW */
+.modal.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* 🔥 MODAL BOX (GLASS STYLE) */
+.modal-box{
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 25px;
+    width: 95%;
+    max-width: 420px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    transform: translateY(40px) scale(0.9);
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* ANIMATION */
+.modal.show .modal-box{
+    transform: translateY(0) scale(1);
+}
+
+/* TITLE */
+.modal-box h2{
+    margin-bottom: 15px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #00c6ff;
+}
+
+/* INPUT */
+.modal-box input{
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    background:rgba(255,255,255,0.1);
+    color:white;
+}
+
+/* ADD BUTTON */
+.modal-box button{
+    padding:10px 15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.2s;
+}
+
+/* PRIMARY */
+.modal-box button:hover{
+    transform:scale(1.05);
+}
+
+
+.barber-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:10px 0;
+    padding:10px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.05);
+    transition:0.2s;
+}
+
+.barber-row:hover{
+    background:rgba(255,255,255,0.1);
+}
+
+/* NAME INPUT */
+.barber-row input{
+    flex:1;
+    padding:8px;
+    border-radius:8px;
+    border:none;
+    background:rgba(255,255,255,0.08);
+    color:white;
+}
+
+/* ENABLE / DISABLE */
+.toggle-btn{
+    padding:6px 10px;
+    border:none;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+    font-size:12px;
+}
+
+/* STATES */
+.enable{
+    background: linear-gradient(45deg,#00c853,#64dd17);
+}
+
+.disable{
+    background: linear-gradient(45deg,#ff1744,#d50000);
+}
+
+/* DELETE */
+.barber-row button:last-child{
+    background: linear-gradient(45deg,#ff4d4d,#b30000);
+    color:white;
+    border-radius:8px;
+    padding:6px 10px;
+}
     </style>
 </head>
 <body>
@@ -221,6 +356,7 @@
                         <th>Nom</th>
                         <th>Mobile</th>
                         <th>Service</th>
+                        <th>Barbier</th> <!-- ✅ NEW -->
                         <th>Heure</th>
                         <th>Statut</th>
                         <th>Actions</th>
@@ -231,7 +367,7 @@
                 </tbody>
             </table>
         </div>
-        
+        <button class="manage-barbers" onclick="openBarberModal()">Gérer les barbiers</button>
         <button class="update-profile" onclick="window.location.href='update-profile.html'"> Mettre à jour le profil</button>
         <button class="manage-appointments" onclick="window.location.href='appointments.html'"> Rendez-vous clients</button>
         <button class="manage-days-off" onclick="window.location.href='days-off.html'">Gérer les jours de congé</button>
@@ -239,7 +375,23 @@
 
         <button class="logout" onclick="logout()">Déconnexion</button>
     </div>
+<!-- BARBER MODAL -->
+<div id="barberModal" class="modal">
+    <div class="modal-box">
+        <h2>Manage Barbers</h2>
 
+        <!-- ➕ ADD BARBER -->
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+            <input type="text" id="newBarberName" placeholder="New barber name" style="flex:1; padding:8px;">
+            <button onclick="addBarber()">Add</button>
+        </div>
+
+        <!-- LIST -->
+        <div id="barberList"></div>
+
+        <button onclick="closeBarberModal()">Close</button>
+    </div>
+</div>
     <script>
         // ✅ Initialize Firebase (Use Your Config)
         firebase.initializeApp({
@@ -336,6 +488,7 @@
                 <td>${data.username}</td>
                 <td>${data.mobile}</td>
                 <td>${data.service}</td>
+                <td>${data.barber}</td> <!-- ✅ NEW -->
                 <td>${data.time}</td>
                 <td>${data.status}</td>
                 <td>
@@ -347,27 +500,27 @@
         document.getElementById("todaysAppointments").textContent = todayCount;
         document.getElementById("todaysAppointmentsTable").innerHTML = todayTableHTML || "<tr><td colspan='6'>No appointments today.</td></tr>";
 
-        // ✅ Display Upcoming Appointment (30 minutes before)
-        if (upcomingAppointments.length > 0) {
-            let upcomingHTML = upcomingAppointments.map(data => `
-                <p style="color: #ff5733; font-size: 16px; font-weight: bold;">
-                    ⏳ Upcoming: ${data.time} - ${data.username} (${data.service})
-                    <br>📞 <button class="call-btn" onclick="callCustomer('${data.mobile}')">Call</button>
-                </p>
-            `).join("");
+        // ✅ Afficher les rendez-vous à venir (30 minutes avant)
+if (upcomingAppointments.length > 0) {
+    let upcomingHTML = upcomingAppointments.map(data => `
+        <p style="color: #ff5733; font-size: 16px; font-weight: bold;">
+            ⏳ Prochain : ${data.time} - ${data.username} (${data.service} - ${data.barber})
+            <br>📞 <button class="call-btn" onclick="callCustomer('${data.mobile}')">Appeler</button>
+        </p>
+    `).join("");
 
-            document.getElementById("upcomingAppointment").innerHTML = upcomingHTML;
-        } else {
-            document.getElementById("upcomingAppointment").innerHTML = "<p>No upcoming appointments.</p>";
-        }
-    });
+    document.getElementById("upcomingAppointment").innerHTML = upcomingHTML;
+} else {
+    document.getElementById("upcomingAppointment").innerHTML = "<p>Aucun rendez-vous à venir.</p>";
 }
+    });
+    }
     function callCustomer(mobile) {
         window.location.href = `tel:${mobile}`;
     }
         document.addEventListener("DOMContentLoaded", fetchAppointments);
         setInterval(fetchAppointments, 5000);
-    function logout() {
+        function logout() {
     firebase.auth().signOut()
     .then(() => {
         // Redirect to login page after logout
@@ -376,6 +529,101 @@
     .catch((error) => {
         console.log("Logout Error:", error);
         alert("Error logging out");
+    });
+}
+
+function openBarberModal(){
+    document.getElementById("barberModal").classList.add("show");
+    loadBarbers();
+}
+
+function closeBarberModal(){
+    document.getElementById("barberModal").classList.remove("show");
+}
+
+// 🔥 LOAD BARBERS FROM FIREBASE
+// 🔥 LOAD BARBERS
+function loadBarbers(){
+    const container = document.getElementById("barberList");
+    container.innerHTML = "Loading...";
+
+    db.ref("barbers").on("value", snapshot => {
+
+        if(!snapshot.exists()){
+            container.innerHTML = "No barbers found";
+            return;
+        }
+
+        let html = "";
+
+        snapshot.forEach(child => {
+            const data = child.val();
+            const id = child.key;
+
+            html += `
+                <div class="barber-row">
+                    
+                    <!-- ✏️ NAME (EDITABLE) -->
+                    <input 
+                        value="${data.name}" 
+                        onchange="editBarber('${id}', this.value)"
+                        style="flex:1; padding:5px;"
+                    >
+
+                    <!-- ENABLE / DISABLE -->
+                    <button 
+                        class="toggle-btn ${data.active ? "disable" : "enable"}"
+                        onclick="toggleBarber('${id}', ${data.active})"
+                    >
+                        ${data.active ? "Disable" : "Enable"}
+                    </button>
+
+                    <!-- ❌ DELETE -->
+                    <button 
+                        style="background:red; color:white;"
+                        onclick="deleteBarber('${id}')"
+                    >
+                        X
+                    </button>
+
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    });
+}
+function addBarber(){
+    const name = document.getElementById("newBarberName").value.trim();
+
+    if(!name){
+        alert("Enter barber name");
+        return;
+    }
+
+    db.ref("barbers").push({
+        name: name,
+        active: true
+    }).then(() => {
+        document.getElementById("newBarberName").value = "";
+    });
+}
+
+function editBarber(id, newName){
+    if(!newName.trim()) return;
+
+    db.ref("barbers/" + id).update({
+        name: newName
+    });
+}
+
+// 🔥 TOGGLE ENABLE / DISABLE
+function toggleBarber(id, currentStatus){
+
+    db.ref("barbers/" + id).update({
+        active: !currentStatus
+    }).then(() => {
+        loadBarbers(); // refresh UI
     });
 }
     </script>
