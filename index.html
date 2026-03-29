@@ -1418,6 +1418,7 @@ firebase.database().ref("bookings")
         setTimeout(() => {
             timeSlotsContainer.style.opacity = "1";
         }, 100);
+        document.querySelector(".navbar").classList.add("hide");
     })
     .catch(err => {
         console.error("❌ Error fetching booked times:", err);
