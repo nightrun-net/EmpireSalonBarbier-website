@@ -76,20 +76,20 @@ tr:nth-child(even){background:#f9f9f9;}
 
 <div class="container">
     <br>
-    <button class="back-btn" onclick="goBack()">⬅ Back to Dashboard</button>
+    <button class="back-btn" onclick="goBack()">⬅ Retour au tableau de bord</button>
     <br>    
     <h2>Rendez-vous clients</h2>
-    <h3 id="appointmentCount">Total Appointments: 0</h3>
+    <h3 id="appointmentCount">Total des rendez-vous : 0</h3>
 
     <div class="controls">
         <!-- ✅ Live Search -->
         <input type="text" id="liveSearch"
-            placeholder="Live search name, mobile, date">
+            placeholder="Recherche (nom, téléphone, date)">
 
         <!-- ✅ Calendar Month Picker -->
         <input type="month" id="monthPicker">
 
-        <button class="refresh-btn" onclick="fetchAppointments()">Refresh</button>
+        <button class="refresh-btn" onclick="fetchAppointments()">Actualiser</button>
     </div>
 
     <table>
@@ -99,12 +99,13 @@ tr:nth-child(even){background:#f9f9f9;}
                 <th>Mobile</th>
                 <th>Date</th>
                 <th>Heure</th>
+                <th>Barbier</th> <!-- ✅ NEW -->
                 <th>Service</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody id="appointmentsBody">
-            <tr><td colspan="6">Loading...</td></tr>
+            <tr><td colspan="7">Chargement...</td></tr>
         </tbody>
     </table>
 </div>
@@ -130,7 +131,7 @@ let allAppointments = [];
 // Update Counter
 function updateCounter(num){
     document.getElementById("appointmentCount").innerText =
-        "Total Appointments: " + num;
+        "Total des rendez-vous : " + num;
 }
 
 // Fetch Appointments
@@ -149,8 +150,9 @@ function fetchAppointments(){
 
         snapshot.forEach(child=>{
             const data = child.val();
-    // Skip broken bookings
-    if(!data.date || !data.time) return;
+            // Skip broken bookings
+            if(!data.date || !data.time) return;
+            
             let d = data.date.split("-"); // DD-MM-YYYY
             let t = data.time.split(":");
 
@@ -169,6 +171,7 @@ function fetchAppointments(){
                 date:data.date,
                 time:data.time,
                 service:data.service,
+                barber: data.barber || "N/A", // ✅ ADD THIS
                 year:d[2],
                 month:d[1],
                 timestamp:fullDate.getTime()
@@ -227,6 +230,7 @@ function applyFilters(){
             <td>${app.date}</td>
             <td>${app.time}</td>
             <td>${app.service}</td>
+            <td>${app.barber}</td> <!-- ✅ NEW -->
             <td>
                 <button class="delete-btn"
                     onclick="deleteAppointment('${app.id}')">
@@ -242,7 +246,7 @@ function applyFilters(){
 
 // Delete
 function deleteAppointment(id){
-    if(confirm("Delete this appointment?")){
+    if(confirm("Supprimer ce rendez-vous ?")){
         db.ref("bookings/"+id).remove().then(()=>{
             fetchAppointments();
         });
