@@ -1,73 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empire Salon Barber</title>
-    <link rel="icon" type="image/png"  sizes="512x512"  href="black.png">  <!-- PNG example -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empire Salon Barber</title>
+<link rel="icon" type="image/png"  sizes="512x512"  href="black.png">  <!-- PNG example -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
-    <!-- Google Font (Poppins) -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+<!-- Google Font (Poppins) -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <style>
-        
-        /* General Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif; /* New Font */
-            scroll-behavior: smooth;
-        }
+<style>  
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; /* New Font */
+    scroll-behavior: smooth;
+}
 
-        body {
-            background-color: #222;
-            color: #fff;
-        }
+body {
+    background-color: #222;
+    color: #fff;
+    padding-bottom:120px; /* 🔥 IMPORTANT: space for navbar */
+}
 
-        label{
-            font-family: 'Times New Roman', Times, serif;
-        }
-           /* Navbar */
-           .navbar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #222;
-            display: flex;
-            justify-content: space-around;
-            padding: 25px 0;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-        }
+label{
+    font-family: 'Times New Roman', Times, serif;
+}
+/* Navbar */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #222;
+    display: flex;
+    justify-content: space-around;
+    padding: 25px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    z-index:9999; /* 🔥 keep navbar above everything */
+    transition: transform 0.3s ease;
+}
+/* hidden state */
+.navbar.hide{
+    transform: translateY(100%);
+}
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            font-size: 28px;
-        }
+.navbar a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 28px;
+}
 
-        .navbar a i {
-            font-size: 28px;
-            display: block;
-        }
+.navbar a i {
+    font-size: 28px;
+    display: block;
+}
 
-        .navbar a:hover {
-            color: #f4b400;
-        }
+.navbar a:hover {
+    color: #f4b400;
+}
 
-        /* Section Styling */
-        section {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 24px;
-        }
+/* Section Styling */
+section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+}
 
 /* Home Section */
 #home {
@@ -122,19 +128,19 @@
     cursor: pointer;
     appearance: none; /* Removes default browser styling */
 }
-        section::before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
-        section h1 {
-            position: relative;
-            z-index: 2;
-        }
+section::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+section h1 {
+    position: relative;
+    z-index: 2;
+}
 /* Gallery Section */
 #gallery {
     display: flex;
@@ -193,79 +199,76 @@ h1{
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     padding: 50px 20px;
     background-color: #222;
 }
 
-/* Scrollable Grid */
+/* Title */
+#services h1 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ✅ HORIZONTAL SCROLL (1 ROW ONLY) */
 .services-container {
     display: flex;
-    gap: 10px;
-    overflow-x: auto; /* Enables horizontal scrolling */
-    white-space: nowrap;
+    gap: 15px;
+    overflow-x: auto;
     padding: 10px;
-    max-width: 90%;
+    width: 100%;
     scroll-behavior: smooth;
 }
 
-/* Service Image Box */
-.service-item {
-    position: relative;
-    width: 400px; /* Matches gallery size */
-    height: 400px;
-    flex-shrink: 0; /* Prevents items from resizing */
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Service Images */
-.service-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: transform 0.3s ease-in-out;
-}
-
-/* Labels for Service Name & Price */
-.service-name, .service-price {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    padding: 5px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    font-size: 14px;
-    text-align: center;
-    font-family:'Times New Roman', Times, serif;
-}
-
-/* Positioning the Labels */
-.service-name {
-    top: 10px;
-    font-weight: bold;
-}
-
-.service-price {
-    bottom: 10px;
-}
-
-/* Hover Effect */
-.service-item:hover img {
-    transform: scale(1.1);
-}
-
-/* Custom Scrollbar */
+/* Scrollbar */
 .services-container::-webkit-scrollbar {
     height: 6px;
 }
-
 .services-container::-webkit-scrollbar-thumb {
     background-color: #f4b400;
     border-radius: 10px;
 }
 
+/* Card */
+.service-card {
+    flex: 0 0 200px; /* 🔥 fixed width, no wrap */
+    background: #333;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    height: 150px;
+    width: 150px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* Fix text overflow */
+.service-card h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #fff;
+
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.service-card p {
+    font-size: 14px;
+    color: #f4b400;
+    font-weight: bold;
+}
+
+/* Hover */
+.service-card:hover {
+    background: #f4b400;
+    transform: translateY(-5px);
+}
+
+.service-card:hover h3,
+.service-card:hover p {
+    color: black;
+}
 /* Contact Section */
 #contact {
     display: flex;
@@ -332,6 +335,8 @@ h1{
     padding: 50px 20px;
     background-size: cover;
     transition: padding-bottom 0.3s ease-in-out; /* Smooth transition for spacing */
+    padding-bottom:200px; /* space so form doesn't touch navbar */
+    margin-bottom: 200px;
 }
 
 /* Dark overlay for better readability */
@@ -485,7 +490,28 @@ h1{
     color: black !important;
     font-weight: bold;
 }
+.barber-card{
+    background:#333;
+    padding:15px;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    min-width:120px;
+    text-align:center;
+    transition:0.3s;
+    font-size: 14px;
+}
 
+.barber-card:hover{
+    background:#f4b400;
+    color:black;
+}
+
+.barber-card.selected{
+    background:#f4b400;
+    color:black;
+    font-weight:bold;
+}
 /* Booking Details Form */
 #bookingDetails {
     background: #222; /* Dark background */
@@ -561,6 +587,80 @@ h1{
     background: #ffcc00;
 }
 
+/* MODAL BACKGROUND */
+.modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+    z-index:10000;
+}
+
+/* SHOW MODAL */
+.modal.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* MODAL BOX */
+.modal-box{
+    background:#222;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    width:90%;
+    max-width:320px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    transform:scale(0.8);
+    transition:0.3s;
+}
+
+/* ANIMATION */
+.modal.show .modal-box{
+    transform:scale(1);
+}
+
+/* ICON */
+.modal-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+/* TITLE */
+.modal-box h2{
+    color:#f4b400;
+    margin-bottom:10px;
+}
+
+/* TEXT */
+.modal-box p{
+    color:#ccc;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+/* BUTTON */
+.modal-box button{
+    background:#f4b400;
+    color:black;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.modal-box button:hover{
+    background:#ffcc00;
+}
 /* Mobile Input Styling */
 .mobile-input {
     position: relative;
@@ -580,117 +680,55 @@ h1{
     right: 10px;
     font-size: 22px;
 }
-/* General Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    scroll-behavior: smooth;
+/* Fix iPhone-specific screen spacing */
+@media only screen and (max-width: 414px) {
+/* iPhone 7, 8, SE (1st Gen), X, 11, 12 Mini */
+section {
+    min-height: 120vh;
+    padding-top: 120px; /* Space at the top */
+    padding-bottom: 60px; /* Space at the bottom */
+    }
 }
 
-body {
-    background-color: #1a1a1a;
-    color: #fff;
+@media only screen and (max-width: 375px) {
+/* iPhone 6, 7, 8, SE (2nd Gen), 12 Mini */
+section {
+    padding-top:110px;
+    padding-bottom: 110px;
+    margin-bottom: 70px;
+    }
 }
 
-/* Navbar */
-.navbar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: #222;
-    display: flex;
-    justify-content: space-around;
-    padding: 12px 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+@media only screen and (max-width: 320px) {
+/* iPhone 5, SE */
+section {
+    padding-top: 130px;
+    padding-bottom: 130px;
+    margin-bottom: 80px;
+}
+}
+/* iPhone 7 Plus, 8 Plus, X, XR, 11, 12, 13, 14 */
+@media only screen and (min-width: 414px) and (max-width: 768px) {
+section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    margin-bottom: 50px;
+    }
 }
 
-.navbar a {
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    font-size: 17px;
+/* Large iPhones (iPhone 14 Pro Max, etc.) */
+@media only screen and (min-width: 768px) {
+section {
+    padding-top: 90px;
+    padding-bottom: 90px;
+    margin-bottom: 50px;
+    }
 }
 
-.navbar a i {
-    font-size: 25px;
-    display: block;
+label{
+    font-size: 18px;
 }
-
-.navbar a:hover {
-    color: #f4b400;
-}
-
-        /* Section Styling */
-        section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 24px;
-            min-height: 100vh;
-            padding:100px 80px; /* Ensures the section does not overlap with navbar */
-            padding-bottom: 40px; /* Adds space for bottom navbar */
-        }
-
-        /* Space between sections */
-        section + section {
-            margin-top: 50px; /* Space between sections */
-        }
-
-        /* Fix iPhone-specific screen spacing */
-        @media only screen and (max-width: 414px) {
-            /* iPhone 7, 8, SE (1st Gen), X, 11, 12 Mini */
-            section {
-                min-height: 120vh;
-                padding-top: 120px; /* Space at the top */
-                padding-bottom: 60px; /* Space at the bottom */
-            }
-        }
-
-        @media only screen and (max-width: 375px) {
-            /* iPhone 6, 7, 8, SE (2nd Gen), 12 Mini */
-            section {
-                padding-top:110px;
-                padding-bottom: 110px;
-                margin-bottom: 70px;
-            }
-        }
-
-        @media only screen and (max-width: 320px) {
-            /* iPhone 5, SE */
-            section {
-                padding-top: 130px;
-                padding-bottom: 130px;
-                margin-bottom: 80px;
-            }
-        }
-
-        /* iPhone 7 Plus, 8 Plus, X, XR, 11, 12, 13, 14 */
-        @media only screen and (min-width: 414px) and (max-width: 768px) {
-            section {
-                padding-top: 100px;
-                padding-bottom: 100px;
-                margin-bottom: 50px;
-            }
-        }
-
-        /* Large iPhones (iPhone 14 Pro Max, etc.) */
-        @media only screen and (min-width: 768px) {
-            section {
-                padding-top: 90px;
-                padding-bottom: 90px;
-                margin-bottom: 50px;
-            }
-        }
-
-        label{
-            font-size: 18px;
-        }
-
-    </style>
+</style>
 </head>
 <body>
 <!-- Home Section -->
@@ -724,22 +762,25 @@ body {
     <br>
     <br>
     <div class="gallery-container">
-        <img src="1.jpeg" alt="Barber Image 1"></a>
-        <img src="2.jpeg" alt="Barber Image 2"></a>
-        <img src="3.jpeg" alt="Barber Image 3"></a>
-        <img src="4.jpeg" alt="Barber Image 4"></a>
-        <img src="5.jpeg" alt="Barber Image 5"></a>
-        <img src="6.jpeg" alt="Barber Image 6"></a>
-        <img src="7.jpeg" alt="Barber Image 3"></a>
-        <img src="8.jpeg" alt="Barber Image 4"></a>
-        <img src="9.jpeg" alt="Barber Image 5"></a>
-        <img src="10.jpeg" alt="Barber Image 6"></a>
-        <img src="11.jpeg" alt="Barber Image 3"></a>
-        <img src="12.jpeg" alt="Barber Image 4"></a>
-        <img src="13.jpeg" alt="Barber Image 5"></a>
-        <img src="14.jpeg" alt="Barber Image 6"></a>
-        <img src="15.jpeg" alt="Barber Image 6"></a>
-        <img src="16.jpeg" alt="Barber Image 6"></a>
+        <img src="1.png" alt="Barber Image 1"></a>
+        <img src="2.png" alt="Barber Image 2"></a>
+        <img src="3.png" alt="Barber Image 1"></a>
+        <img src="4.png" alt="Barber Image 2"></a>
+        <img src="5.png" alt="Barber Image 1"></a>
+        <img src="6.png" alt="Barber Image 2"></a>
+        <img src="7.png" alt="Barber Image 1"></a>
+        <img src="8.png" alt="Barber Image 2"></a>
+        <img src="9.png" alt="Barber Image 1"></a>
+        <img src="10.png" alt="Barber Image 2"></a>
+        <img src="11.png" alt="Barber Image 1"></a>
+        <img src="12.png" alt="Barber Image 2"></a>
+        <img src="13.png" alt="Barber Image 1"></a>
+        <img src="14.png" alt="Barber Image 2"></a>
+        <img src="15.png" alt="Barber Image 1"></a>
+        <img src="16.png" alt="Barber Image 2"></a>
+        <img src="17.png" alt="Barber Image 1"></a>
+        <img src="18.png" alt="Barber Image 2"></a>
+        <img src="19.png" alt="Barber Image 1"></a>
     </div>
     </section>
 
@@ -747,60 +788,64 @@ body {
 <section id="services" class="fade-in">
     <h1>Our Services</h1>
     <br>
+
     <div class="services-container">
-        <div class="service-item">
-            <img src="HairCut.jpg" alt="Haircut">
-            <div class="service-name">Haircut</div>
-            <div class="service-price">25 frs</div>
+
+        <div class="service-card">
+            <h3>Haircut</h3>
+            <p>30 frs</p>
         </div>
 
-        <div class="service-item">
-            <img src="beard.jpg" alt="Beard">
-            <div class="service-name">Beard</div>
-            <div class="service-price">20 frs</div>
+        <div class="service-card">
+            <h3>Beard</h3>
+            <p>20 frs</p>
         </div>
 
-        <div class="service-item">
-            <img src="sourcils.jpg" alt="Haircut and Beard">
-            <div class="service-name">Haircut + Beard</div>
-            <div class="service-price">40 frs</div>
+        <div class="service-card">
+            <h3>Haircut + Beard</h3>
+            <p>50 frs</p>
         </div>
 
-        <div class="service-item">
-            <img src="Coupe & Barbe.jpg" alt="Haircut Beard Wax">
-            <div class="service-name">Haircut + Beard + (Nose & Ear Wax)</div>
-            <div class="service-price">50 frs</div>
+        <div class="service-card">
+            <h3>Student / Child Haircut</h3>
+            <p>25 frs</p>
         </div>
 
-        <div class="service-item">
-            <img src="Coupe & Surcils.jpg" alt="Beard Wax">
-            <div class="service-name">Beard + Wax (Nose & Ears)</div>
-            <div class="service-price">30 frs</div>
+        <div class="service-card">
+            <h3>Eyebrow Wax</h3>
+            <p>20 frs</p>
         </div>
 
-        <div class="service-item">
-            <img src="Coupe & Barbe & Sourcils.jpg" alt="Eyebrows Threading">
-            <div class="service-name">Eyebrows + Face Threading</div>
-            <div class="service-price">40 frs</div>
+        <div class="service-card">
+            <h3>Eyebrows + Face Wax</h3>
+            <p>40 frs</p>
         </div>
 
-        <div class="service-item">
-            <img src="Coupe & Barbe & Sourcils.jpg" alt="Full Grooming">
-            <div class="service-name">Haircut + Beard + Eyebrows</div>
-            <div class="service-price">60 frs</div>
+        <div class="service-card">
+            <h3>Haircut + Beard + Eyebrows</h3>
+            <p>60 frs</p>
         </div>
 
-        <div class="service-item">
-            <img src="Shampo.jpg" alt="Shampoo">
-            <div class="service-name">Shampoo</div>
-            <div class="service-price">5 frs</div>
+        <div class="service-card">
+            <h3>Shampoo</h3>
+            <p>5 frs</p>
         </div>
 
-        <div class="service-item">
-            <img src="Kids under 15.jpg" alt="Kids Haircut">
-            <div class="service-name">Children up to 11 years old</div>
-            <div class="service-price">20 frs</div>
+        <div class="service-card">
+            <h3>Ear + Nose Wax</h3>
+            <p>15 frs</p>
         </div>
+
+        <div class="service-card">
+            <h3>Haircut + Ear & Nose Wax</h3>
+            <p>45 frs</p>
+        </div>
+
+        <div class="service-card">
+            <h3>Haircut + Eyebrows</h3>
+            <p>50 frs</p>
+        </div>
+
     </div>
 </section>
 
@@ -846,16 +891,17 @@ body {
 <!-- Booking Section -->
 <section id="booking" class="fade-in">
     <h1>Book an Appointment</h1>
+    <br><br>
 
-<br>
-<br>
-    <!-- Calendar Container -->
     <div class="calendar-container">
+
+        <!-- Calendar -->
         <div class="calendar-header">
             <button class="calendar-btn" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
             <span id="calendarMonth"></span>
             <button class="calendar-btn" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
         </div>
+
         <table class="calendar-table">
             <thead>
                 <tr>
@@ -871,22 +917,34 @@ body {
             <tbody id="calendarBody"></tbody>
         </table>
 
-        <!-- Time Slots Grid -->
-        <h2 id="selectedDateText" style="display: none; color: #f4b400; margin-top: 20px;">
+        <!-- ✅ BARBER SELECTION -->
+        <h2 id="selectBarberText" style="display:none; color:#f4b400; margin-top:20px; font-size: 20px; ">
+            Select Barber
+        </h2>
+
+        <div id="barberContainer" style="display:none; gap:10px; justify-content:center; margin-top:10px;"></div>
+
+        <!-- ✅ SELECTED DATE -->
+        <h2 id="selectedDateText" style="display:none; color:#f4b400; margin-top:20px;">
             Select a time for <span id="selectedDate"></span>
         </h2>
 
-        <div class="time-slots-container" id="timeSlots" style="display: none;"></div>
+        <!-- ✅ TIME SLOTS -->
+        <div class="time-slots-container" id="timeSlots" style="display:none;"></div>
 
-        <!-- Booking Details Form -->
-        <div id="bookingDetails" style="display: none; opacity: 0; transition: opacity 0.5s;">
-            <h2 style="color: #f4b400;">Booking Details</h2>
-            
+        <!-- ✅ BOOKING FORM -->
+        <div id="bookingDetails" style="display:none; opacity:0; transition:0.5s;">
+            <h2 style="color:#f4b400;">Booking Details</h2>
+
             <label>Selected Date:</label>
             <input type="text" id="bookingDate" readonly>
 
             <label>Selected Time:</label>
             <input type="text" id="bookingTime" readonly>
+
+            <!-- ✅ NEW: BARBER FIELD -->
+            <label>Selected Barber:</label>
+            <input type="text" id="bookingBarber" readonly>
 
             <label>Name:</label>
             <input type="text" id="userName" placeholder="Enter your name" required>
@@ -897,32 +955,30 @@ body {
                 <span id="mobileIcon"></span>
             </div>
 
-            <!-- Age Checkbox -->
             <label>
-                <input type="checkbox" id="under15"> Under 11 years old
+                <input type="checkbox" id="under15"> Under 15 years old
             </label>
 
-            <!-- Service Type Dropdown -->
             <label>Service Type:</label>
             <select id="serviceType">
-                <option value="Coupe">Haircut - 25 frs</option>
-                <option value="Barbe">Beard - 20 frs</option>
-                <option value="Coupe + Barbe">Haircut + Beard - 40 frs</option>
-                <option value="Barbe + cire (Nez - Oreilles)">Beard + Wax (Nose - Ears) - 30 frs</option>
-                <option value="Sourcils + Visage au fil">Eyebrows + Threading - 40 frs</option>
-                <option value="Coupe + Barbe + Cire (Nez - Oreilles)">Haircut + Beard + Wax (Nose - Ears) - 50 frs</option>
-                <option value="Coupe + Barbe + sourcils">Haircut + Beard + Eyebrows - 60 frs</option>
-                <option value="Enfant jusqu’à 11 ans">Child up to 11 years old - 20 frs</option>
-                <option value="Shampoo">Shampoo - 5 frs</option>
+                <option value="Haircut">Haircut — 30 frs</option>
+                <option value="Beard">Beard — 20 frs</option>
+                <option value="Haircut + Beard">Haircut + Beard — 50 frs</option>
+                <option value="Student / Child Haircut">Student / Child Haircut — 25 frs</option>
+                <option value="Eyebrow Waxing">Eyebrow Waxing — 20 frs</option>
+                <option value="Eyebrows + Face Waxing">Eyebrows + Face Waxing — 40 frs</option>
+                <option value="Haircut + Beard + Eyebrows">Haircut + Beard + Eyebrows — 60 frs</option>
+                <option value="Haircut + Eyebrows">Haircut + Eyebrows — 50 frs</option>
+                <option value="Haircut + Ear & Nose Waxing">Haircut + Ear & Nose Waxing — 45 frs</option>
             </select>
 
-            <button id="submitBooking" style="margin-top: 20px; padding: 10px 20px; background: #f4b400; color: black; border: none; cursor: pointer; border-radius: 5px; font-size: 16px;">
+            <button id="submitBooking">
                 Submit Booking
             </button>
         </div>
+
     </div>
 </section>
-
     <!-- Navigation Menu -->
     <nav class="navbar">
         <a href="#home"><i class="fas fa-home"></i></a>
@@ -931,7 +987,15 @@ body {
         <a href="#contact"><i class="fas fa-phone-alt"></i></a>
         <a href="#booking"><i class="fas fa-calendar-check"></i></a>
     </nav>
-
+<!-- MODAL -->
+<div id="customModal" class="modal">
+    <div class="modal-box">
+        <div id="modalIcon" class="modal-icon"></div>
+        <h2 id="modalTitle"></h2>
+        <p id="modalMessage"></p>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
 <script>
     // Smooth fade-in effect when scrolling
     document.addEventListener("scroll", function() {
@@ -1041,9 +1105,53 @@ function formatAndValidateMobile() {
       measurementId: "G-LMHTQJBCP6"
     };
 
+    
     // ✅ Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    let selectedBarber = null;
+
+    let shouldReload = false; // global
+
+
+    
+function showModal(type, title, message){
+    const modal = document.getElementById("customModal");
+    const icon = document.getElementById("modalIcon");
+
+    document.getElementById("modalTitle").innerText = title || "Notice";
+    document.getElementById("modalMessage").innerText = message || "";
+
+    icon.innerHTML = "";
+    icon.style.color = "";
+
+    if(type === "success"){
+        icon.innerHTML = "✅";
+        icon.style.color = "#4CAF50";
+
+        shouldReload = true; // 🔥 mark success
+    }
+    else if(type === "error"){
+        icon.innerHTML = "❌";
+        icon.style.color = "#ff4d4d";
+        shouldReload = false;
+    }
+    else if(type === "warning"){
+        icon.innerHTML = "⚠️";
+        icon.style.color = "#f4b400";
+        shouldReload = false;
+    }
+
+    modal.classList.add("show");
+}
+
+function closeModal(){
+    document.getElementById("customModal").classList.remove("show");
+
+    if(shouldReload){
+        location.reload(); // ✅ reload ONLY after success + click OK
+    }
+}
 
 // ✅ Define the month names array (Ensure this is only declared once)
 const monthNames = [
@@ -1143,13 +1251,58 @@ function selectDate(day, month, year, clickedCell) {
 
     // Store the selected date
     selectedDate = `${clickedCell.textContent.trim()}-${month + 1}-${year}`;
-    document.getElementById("selectedDate").textContent = selectedDate;
-    document.getElementById("selectedDateText").style.display = "block";
 
-    // Show available time slots
-    showTimeSlots();
+
+// show barber selection instead of time
+document.getElementById("selectBarberText").style.display = "block";
+document.getElementById("barberContainer").style.display = "flex";
+
+// reset things
+document.getElementById("timeSlots").style.display = "none";
+document.getElementById("bookingDetails").style.display = "none";
+selectedBarber = null;
 }
 
+function loadBarbers() {
+    const container = document.getElementById("barberContainer");
+
+    db.ref("barbers").on("value", snapshot => {
+        container.innerHTML = "";
+
+        if (!snapshot.exists()) {
+            container.innerHTML = "<p style='color:red'>No barbers found</p>";
+            return;
+        }
+
+        snapshot.forEach(child => {
+            const barber = child.val();
+
+            if (!barber.active) return;
+
+            const card = document.createElement("div");
+            card.className = "barber-card";
+            card.textContent = barber.name;
+            card.dataset.barber = barber.name;
+
+            card.addEventListener("click", function () {
+                document.querySelectorAll(".barber-card").forEach(c => c.classList.remove("selected"));
+
+                card.classList.add("selected");
+                selectedBarber = barber.name;
+
+                showTimeSlots();
+            });
+
+            container.appendChild(card);
+        });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderCalendar(currentMonth, currentYear);
+    fetchDaysOff();
+    loadBarbers(); // 🔥 THIS LINE
+});
 // ✅ Function to move to the next month
 function nextMonth() {
     currentMonth++;
@@ -1171,85 +1324,107 @@ function prevMonth() {
 }
 
 function showTimeSlots() {
-    selectedTime = null;
-    document.getElementById("bookingDetails").style.display = "none"; // Hide booking form
 
-    const timeSlotsContainer = document.getElementById("timeSlots");
-    timeSlotsContainer.innerHTML = ""; // Clear previous slots
+// ❗ Prevent running without barber
+if(!selectedBarber){
+    showModal("⚠️ Please select a barber first");
+    return;
+}
 
-    console.log("🔄 Checking booked times for:", selectedDate);
+selectedTime = null;
+document.getElementById("bookingDetails").style.display = "none";
 
-    let selectedDateObj = new Date(selectedDate.split("-")[2], selectedDate.split("-")[1] - 1, selectedDate.split("-")[0]);
-    let isSaturday = selectedDateObj.getDay() === 6; // Saturday = 6
+const timeSlotsContainer = document.getElementById("timeSlots");
+timeSlotsContainer.innerHTML = "";
 
-    let allTimeSlots = [
-        "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-        "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
-        "16:00", "16:30", "17:00", "17:30", "18:00"
-    ];
+console.log("🔄 Checking booked times for:", selectedDate, "👨‍🦱 Barber:", selectedBarber);
 
-    let availableTimeSlots = isSaturday ? allTimeSlots.filter(time => time !== "17:00" && time !== "17:30" && time !== "18:00") : allTimeSlots;
+let [day, month, year] = selectedDate.split("-");
+let selectedDateObj = new Date(year, month - 1, day);
 
-    // ✅ Get current time
-    let now = new Date();
-    let currentHours = now.getHours();
-    let currentMinutes = now.getMinutes();
+let isSaturday = selectedDateObj.getDay() === 6;
 
-    // ✅ Fetch booked times from Firebase for the selected date
-    firebase.database().ref("bookings")
-        .orderByChild("date")
-        .equalTo(selectedDate)
-        .once("value")
-        .then(snapshot => {
-            let bookedTimes = new Set(); 
+let allTimeSlots = [
+    "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+    "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+    "16:00", "16:30", "17:00", "17:30", "18:00"
+];
 
-            if (snapshot.exists()) {
-                snapshot.forEach(childSnapshot => {
-                    bookedTimes.add(childSnapshot.val().time);
+let availableTimeSlots = isSaturday
+    ? allTimeSlots.filter(t => !["17:00","17:30","18:00"].includes(t))
+    : allTimeSlots;
+
+let now = new Date();
+let currentHours = now.getHours();
+let currentMinutes = now.getMinutes();
+
+firebase.database().ref("bookings")
+    .orderByChild("date")
+    .equalTo(selectedDate)
+    .once("value")
+    .then(snapshot => {
+
+        let bookedTimes = new Set();
+
+        if (snapshot.exists()) {
+            snapshot.forEach(child => {
+                let data = child.val();
+
+                // ✅ IMPORTANT: filter by barber
+                if (data.barber === selectedBarber) {
+                    bookedTimes.add(data.time);
+                }
+            });
+        }
+
+        console.log("⛔ Booked times for barber:", Array.from(bookedTimes));
+
+        let availableSlots = 0;
+
+        availableTimeSlots.forEach(time => {
+
+            let [hour, minute] = time.split(":").map(Number);
+
+            let isPast =
+                selectedDateObj.toDateString() === now.toDateString() &&
+                (hour < currentHours || (hour === currentHours && minute <= currentMinutes));
+
+            const slot = document.createElement("div");
+            slot.classList.add("time-slot");
+            slot.textContent = time;
+
+            if (isPast || bookedTimes.has(time)) {
+                slot.classList.add("inactive");
+            } else {
+                availableSlots++;
+
+                slot.addEventListener("click", function () {
+                    document.querySelectorAll(".time-slot").forEach(s => s.classList.remove("selected"));
+                    slot.classList.add("selected");
+
+                    selectedTime = time;
+                    showBookingDetails();
                 });
             }
 
-            console.log("⛔ Booked times:", Array.from(bookedTimes));
-
-            let availableSlots = 0;
-            availableTimeSlots.forEach(time => {
-                let [hour, minute] = time.split(":").map(Number);
-                let isPast = selectedDateObj.toDateString() === now.toDateString() && (hour < currentHours || (hour === currentHours && minute <= currentMinutes));
-
-                const slot = document.createElement("div");
-                slot.classList.add("time-slot");
-                slot.textContent = time;
-
-                if (isPast || bookedTimes.has(time)) {
-                    slot.classList.add("inactive"); // Make past times and booked slots inactive
-                } else {
-                    availableSlots++;
-                    slot.addEventListener("click", function () {
-                        document.querySelectorAll(".time-slot").forEach(s => s.classList.remove("selected"));
-                        slot.classList.add("selected");
-                        selectedTime = time;
-                        showBookingDetails();
-                    });
-                }
-
-                timeSlotsContainer.appendChild(slot);
-            });
-
-            // ✅ If no available slots, show a message
-            if (availableSlots === 0) {
-                timeSlotsContainer.innerHTML = `<p style="color: red; text-align: center;">⚠️ Geen beschikbare tijd voor deze datum.</p>`;
-            }
-
-            timeSlotsContainer.style.display = "grid";
-            setTimeout(() => {
-                timeSlotsContainer.style.opacity = "1";
-            }, 100);
-        })
-        .catch(error => {
-            console.error("❌ Error fetching booked times:", error);
+            timeSlotsContainer.appendChild(slot);
         });
-}
 
+        if (availableSlots === 0) {
+            timeSlotsContainer.innerHTML =
+                `<p style="color:red;text-align:center;">⚠️ No available time for this barber.</p>`;
+        }
+
+        timeSlotsContainer.style.display = "grid";
+        setTimeout(() => {
+            timeSlotsContainer.style.opacity = "1";
+        }, 100);
+        document.querySelector(".navbar").classList.add("hide");
+    })
+    .catch(err => {
+        console.error("❌ Error fetching booked times:", err);
+    });
+}
 // ✅ Add some CSS to style inactive slots (add this to your stylesheet)
 const style = document.createElement('style');
 style.innerHTML = `
@@ -1262,10 +1437,15 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-
+let bookingOpened = false; // 🔥 prevent loop
 
 // Function to show booking details form
 function showBookingDetails() {
+
+    // ❌ stop infinite loop
+    if (bookingOpened) return;
+    bookingOpened = true;
+
     document.getElementById("timeSlots").style.opacity = "0"; // Fade out time slots
     document.getElementById("selectedDateText").style.opacity = "0"; // Fade out the header
     
@@ -1276,106 +1456,110 @@ function showBookingDetails() {
         // Populate form with selected values
         document.getElementById("bookingDate").value = selectedDate;
         document.getElementById("bookingTime").value = selectedTime;
+        document.getElementById("bookingBarber").value = selectedBarber;
 
         document.getElementById("bookingDetails").style.display = "block";
         setTimeout(() => {
             document.getElementById("bookingDetails").style.opacity = "1"; // Fade in form
         }, 100);
+            // 🔥 HIDE NAVBAR
+    document.querySelector(".navbar").classList.add("hide");
     }, 300);
+
 }
-document.getElementById("submitBooking").addEventListener("click", () => {
-    console.log("✅ Submit button clicked!");
 
-    let name = document.getElementById("userName").value.trim();
-    let mobile = document.getElementById("userMobile").value.trim();
-    let service = document.getElementById("serviceType") ? document.getElementById("serviceType").value : "";
-    let ageGroup = document.getElementById("under15") && document.getElementById("under15").checked ? "Under 15" : "Over 15";
+document.getElementById("bookingDetails").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+});
+document.getElementById("submitBooking").addEventListener("click", async () => {
 
-    if (!selectedDate || !selectedTime) {
-        alert("⚠️ Please select a date and time before booking.");
-        return;
-    }
+console.log("✅ Submit button clicked!");
 
-    if (!name || !mobile) {
-        alert("⚠️ Please fill in all required fields before submitting!");
-        return;
-    }
+let name = document.getElementById("userName").value.trim();
+let mobile = document.getElementById("userMobile").value.trim();
+let service = document.getElementById("serviceType").value;
+let ageGroup = document.getElementById("under15").checked ? "Under 15" : "Over 15";
+
+if (!selectedDate || !selectedTime) {
+    showModal("warning", "Select Date & Time", "Please choose a date and time before booking.");
+    return;
+}
+
+if (!name || !mobile) {
+    showModal("warning", "Missing Information", "Name and mobile number are required.");
+    return;
+}
+
+try {
 
     console.log("🔍 Checking if customer is blocked...");
 
-    // ✅ Check if the mobile number is blocked before proceeding
-    firebase.database().ref("blockedCustomers").child(mobile).once("value", snapshot => {
-        if (snapshot.exists()) {
-            alert("⛔ This phone number is blocked. You cannot book an appointment.");
-            return; // Stop booking submission
-        }
+    // ✅ FIXED HERE
+    const blockedSnap = await firebase.database()
+        .ref("blockedCustomers")
+        .child(mobile)
+        .once("value");
 
-        console.log("✅ Customer is not blocked. Proceeding with booking...");
+    if (blockedSnap.exists()) {
+        showModal("error", "Booking Blocked", "This phone number is blocked.");
+        return;
+    }
 
-        const bookingData = {
-            username: name,  
-            mobile: mobile,
-            service: service,
-            ageGroup: ageGroup,
-            date: selectedDate,
-            time: selectedTime,
-            timestamp: new Date().toISOString()
-        };
+    const bookingData = {
+        username: name,
+        mobile: mobile,
+        service: service,
+        ageGroup: ageGroup,
+        date: selectedDate,
+        time: selectedTime,
+        barber: selectedBarber,
+        timestamp: new Date().toISOString()
+    };
 
-        // ✅ Save booking to Firebase only if the customer is not blocked
-        firebase.database().ref("bookings").push(bookingData)
-            .then(() => {
-                console.log("✅ Booking successfully saved in Firebase!");
+    await firebase.database().ref("bookings").push(bookingData);
 
-                alert(
-                    `✅ Booking Confirmed!\n\n` +
-                    `📅 Date: ${selectedDate}\n` +
-                    `⏰ Time: ${selectedTime}\n` +
-                    `👤 Name: ${name}\n` +
-                    `📞 Mobile: ${mobile}\n` +
-                    `💇 Service: ${service}\n\n`
-                );
+    console.log("✅ Booking saved!");
 
-                // ✅ Clear input fields after successful booking
-                document.getElementById("userName").value = "";
-                document.getElementById("userMobile").value = "";
-                document.getElementById("serviceType").value = "";
-                if (document.getElementById("under15")) {
-                    document.getElementById("under15").checked = false;
-                }
+    showModal(
+        "success",
+        "Booking Confirmed",
+        `👨‍🦱 Barber: ${selectedBarber}
+📅 Date: ${selectedDate}
+⏰ Time: ${selectedTime}
+👤 Name: ${name}
+📞 Mobile: ${mobile}
+💇 Service: ${service}`
+    );
 
-                setTimeout(() => location.reload(), 300);
-            })
-            .catch(error => {
-                console.error("❌ Error saving booking:", error);
-                alert("⚠️ Booking could not be saved. Check console for details.");
-            });
-    });
-
-
-    // ✅ Clear form fields after submission
+    // ✅ CLEAR
     document.getElementById("userName").value = "";
     document.getElementById("userMobile").value = "";
-    if (document.getElementById("serviceType")) {
-        document.getElementById("serviceType").value = "";
-    }
-    if (document.getElementById("under15")) {
-        document.getElementById("under15").checked = false;
-    }
-    if (document.getElementById("over15")) {
-        document.getElementById("over15").checked = false;
-    }
+    document.getElementById("serviceType").value = "";
+    document.getElementById("under15").checked = false;
 
-    // ✅ Refresh page after submission
-    setTimeout(() => {
-        location.reload();
-    }, 2000);
+    selectedDate = null;
+    selectedTime = null;
+    selectedBarber = null;
+
+} catch (error) {
+    console.error("❌ Error:", error);
+
+    showModal(
+        "error",
+        "Booking Failed",
+        "Something went wrong. Please try again."
+    );
+}
+
 });
 // Load the calendar on page load
 document.addEventListener("DOMContentLoaded", () => {
     renderCalendar(currentMonth, currentYear);
     fetchDaysOff();
 });
+
+
 </script>
 
 </body>
