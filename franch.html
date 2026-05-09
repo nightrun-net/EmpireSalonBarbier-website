@@ -1229,11 +1229,12 @@ function renderCalendar(month, year) {
                     if (currentDate.getTime() === today.getTime()) {
                         td.classList.add("today");
                     }
+// ✅ SAVE CURRENT DAY BEFORE date++
+const currentDay = date;
 
-                    // ✅ Click event to select a date
-                    td.addEventListener("click", function () {
-                        selectDate(date, month, year, this);
-                    });
+td.addEventListener("click", function () {
+    selectDate(currentDay, month, year, this);
+});
                 }
 
                 date++;
@@ -1246,58 +1247,109 @@ function renderCalendar(month, year) {
 }
 // Function to select a date
 function selectDate(day, month, year, clickedCell) {
-    document.querySelectorAll(".selectable-day").forEach(cell => cell.classList.remove("selected-day"));
-    clickedCell.classList.add("selected-day");
 
-    // Store the selected date
-    selectedDate = `${clickedCell.textContent.trim()}-${month + 1}-${year}`;
+// ✅ REMOVE OLD SELECTED DAY
+document.querySelectorAll(".selectable-day")
+.forEach(cell => cell.classList.remove("selected-day"));
 
+// ✅ ADD NEW SELECTED DAY
+clickedCell.classList.add("selected-day");
 
-// show barber selection instead of time
+// ✅ SAVE DATE CORRECTLY
+selectedDate =
+`${String(day).padStart(2,"0")}-${String(month + 1).padStart(2,"0")}-${year}`;
+
+console.log("📅 Selected Date:", selectedDate);
+
+// ✅ RESET BEFORE LOADING
+selectedBarber = null;
+selectedTime = null;
+
+// ✅ SHOW BARBER SECTION
 document.getElementById("selectBarberText").style.display = "block";
+
 document.getElementById("barberContainer").style.display = "flex";
 
-// reset things
+// ✅ HIDE OLD DATA
 document.getElementById("timeSlots").style.display = "none";
+
+document.getElementById("timeSlots").innerHTML = "";
+
 document.getElementById("bookingDetails").style.display = "none";
-selectedBarber = null;
+
+// ✅ LOAD BARBERS FOR THIS DATE
+loadBarbers();
 }
 
 function loadBarbers() {
-    const container = document.getElementById("barberContainer");
 
-    db.ref("barbers").on("value", snapshot => {
-        container.innerHTML = "";
+const container =
+    document.getElementById("barberContainer");
 
-        if (!snapshot.exists()) {
-            container.innerHTML = "<p style='color:red'>No barbers found</p>";
+// ✅ USE SELECTED DATE DIRECTLY
+let formattedDate = selectedDate;
+
+db.ref("barbers").on("value", snapshot => {
+
+    container.innerHTML = "";
+
+    if (!snapshot.exists()) {
+
+        container.innerHTML =
+        "<p style='color:red'>No barbers found</p>";
+
+        return;
+    }
+
+    snapshot.forEach(child => {
+
+        const barber = child.val();
+
+        // ❌ GLOBAL DISABLE
+        if (!barber.active) return;
+
+        // ❌ DISABLED DATE
+        if (
+            barber.disabledDates &&
+            barber.disabledDates[formattedDate]
+        ) {
             return;
         }
 
-        snapshot.forEach(child => {
-            const barber = child.val();
+        // ✅ CREATE CARD
+        const card = document.createElement("div");
 
-            if (!barber.active) return;
+        card.className = "barber-card";
 
-            const card = document.createElement("div");
-            card.className = "barber-card";
-            card.textContent = barber.name;
-            card.dataset.barber = barber.name;
+        card.textContent = barber.name;
 
-            card.addEventListener("click", function () {
-                document.querySelectorAll(".barber-card").forEach(c => c.classList.remove("selected"));
+        card.dataset.barber = barber.name;
 
-                card.classList.add("selected");
-                selectedBarber = barber.name;
+        card.addEventListener("click", function () {
 
-                showTimeSlots();
-            });
+            document
+            .querySelectorAll(".barber-card")
+            .forEach(c => c.classList.remove("selected"));
 
-            container.appendChild(card);
+            card.classList.add("selected");
+
+            selectedBarber = barber.name;
+
+            showTimeSlots();
         });
-    });
-}
 
+        container.appendChild(card);
+
+    });
+
+    // ✅ IF NO BARBERS AVAILABLE
+    if(container.innerHTML === ""){
+        container.innerHTML =
+        "<p style='color:red'>No barbers found</p>";
+    }
+
+});
+}
 document.addEventListener("DOMContentLoaded", () => {
     renderCalendar(currentMonth, currentYear);
     fetchDaysOff();
