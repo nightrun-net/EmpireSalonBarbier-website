@@ -450,6 +450,19 @@
             "
         ></div>
 
+<!-- ENABLE ALL -->
+<button 
+style="
+    background:green;
+    color:white;
+    width:100%;
+    margin-top:10px;
+"
+onclick="enableAllDates()"
+>
+Enable All Dates
+</button>
+
         <!-- CLOSE -->
         <button 
             style="margin-top:15px;"
@@ -457,6 +470,7 @@
         >
             Close
         </button>
+        
 
     </div>
 
@@ -871,6 +885,36 @@ db.ref(
 .then(() => {
 
     alert("Date enabled");
+});
+}
+
+function enableAllDates(){
+
+if(!selectedBarberId){
+    return;
+}
+
+const confirmDelete =
+confirm("Enable all disabled dates?");
+
+if(!confirmDelete){
+    return;
+}
+
+db.ref(
+    "barbers/" +
+    selectedBarberId +
+    "/disabledDates"
+)
+.remove()
+.then(() => {
+
+    alert("All dates enabled");
+
+    document.getElementById(
+        "disabledDatesList"
+    ).innerHTML =
+    "<p style='color:white;'>No disabled dates</p>";
 });
 }
     </script>
