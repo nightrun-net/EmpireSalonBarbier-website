@@ -392,6 +392,58 @@
         <button onclick="closeBarberModal()">Close</button>
     </div>
 </div>
+
+<!-- DATE MODAL -->
+<div id="dateModal" class="modal">
+
+    <div class="modal-box">
+
+        <h2>Manage Barber Date</h2>
+
+        <!-- SELECT DATE -->
+        <input 
+            type="date" 
+            id="disableDateInput"
+            style="
+                width:100%;
+                padding:10px;
+                margin:15px 0;
+            "
+        >
+
+        <!-- DISABLE BUTTON -->
+        <button 
+            style="
+                background:red;
+                color:white;
+                width:100%;
+            "
+            onclick="saveDisabledDate()"
+        >
+            Disable Date
+        </button>
+
+        <!-- DISABLED DATES LIST -->
+        <div 
+            id="disabledDatesList"
+            style="
+                margin-top:20px;
+                text-align:left;
+            "
+        >
+        </div>
+
+        <!-- CLOSE -->
+        <button 
+            style="margin-top:15px;"
+            onclick="closeDateModal()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
     <script>
         // ✅ Initialize Firebase (Use Your Config)
         firebase.initializeApp({
@@ -536,7 +588,7 @@ function openBarberModal(){
     document.getElementById("barberModal").classList.add("show");
     loadBarbers();
 }
-
+let selectedBarberId = null;
 function closeBarberModal(){
     document.getElementById("barberModal").classList.remove("show");
 }
@@ -570,13 +622,31 @@ function loadBarbers(){
                         style="flex:1; padding:5px;"
                     >
 
-                    <!-- ENABLE / DISABLE -->
-                    <button 
-                        class="toggle-btn ${data.active ? "disable" : "enable"}"
-                        onclick="toggleBarber('${id}', ${data.active})"
-                    >
-                        ${data.active ? "Disable" : "Enable"}
-                    </button>
+<div style="display:flex; gap:5px;">
+
+    <!-- GLOBAL DISABLE -->
+    <button 
+        class="toggle-btn ${data.active ? "disable" : "enable"}"
+        onclick="toggleBarber('${id}', ${data.active})"
+    >
+        ${data.active ? "Disable Global" : "Enable"}
+    </button>
+
+    <!-- DISABLE FOR DATE -->
+    <button 
+        style="
+            background:orange;
+            color:white;
+            border:none;
+            padding:6px 10px;
+            border-radius:8px;
+        "
+onclick="openDateModal('${id}')"
+    >
+        Disable Date
+    </button>
+
+</div>
 
                     <!-- ❌ DELETE -->
                     <button 
@@ -625,6 +695,133 @@ function toggleBarber(id, currentStatus){
     }).then(() => {
         loadBarbers(); // refresh UI
     });
+}
+function openDateModal(id){
+
+selectedBarberId = id;
+
+document
+.getElementById("dateModal")
+.classList.add("show");
+
+loadDisabledDates();
+}
+
+function loadDisabledDates(){
+
+const container =
+    document.getElementById("disabledDatesList");
+
+db.ref(
+    "barbers/" +
+    selectedBarberId +
+    "/disabledDates"
+).on("value", snapshot => {
+
+    if(!snapshot.exists()){
+
+        container.innerHTML =
+        "<p style='color:white;'>No disabled dates</p>";
+
+        return;
+    }
+
+    let html = `
+        <h3 style="color:#00c6ff;">
+            Disabled Dates
+        </h3>
+    `;
+
+    snapshot.forEach(child => {
+
+        const date = child.key;
+
+        html += `
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                background:rgba(255,255,255,0.08);
+                padding:10px;
+                border-radius:10px;
+                margin-top:10px;
+            ">
+
+                <span>${date}</span>
+
+                <button
+                    style="
+                        background:green;
+                        color:white;
+                        border:none;
+                        padding:6px 12px;
+                        border-radius:8px;
+                    "
+                    onclick="enableDisabledDate('${date}')"
+                >
+                    Enable
+                </button>
+
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+});
+}
+
+
+function closeDateModal(){
+
+document
+.getElementById("dateModal")
+.classList.remove("show");
+}
+
+function saveDisabledDate(){
+
+const value =
+    document.getElementById("disableDateInput").value;
+
+if(!value){
+    alert("Select a date");
+    return;
+}
+
+// YYYY-MM-DD → DD-MM-YYYY
+const parts = value.split("-");
+
+const formattedDate =
+    `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+db.ref(
+    "barbers/" +
+    selectedBarberId +
+    "/disabledDates/" +
+    formattedDate
+)
+.set(true)
+.then(() => {
+
+    alert("Date disabled");
+
+    closeDateModal();
+});
+}
+
+function enableDisabledDate(formattedDate){
+
+db.ref(
+    "barbers/" +
+    selectedBarberId +
+    "/disabledDates/" +
+    formattedDate
+)
+.remove()
+.then(() => {
+
+    alert("Date enabled");
+});
 }
     </script>
 </body>
