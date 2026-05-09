@@ -38,7 +38,6 @@ label{
     width: 100%;
     background: #222;
     display: flex;
-    border-radius: 15px ;
     justify-content: space-around;
     padding: 25px 0;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
@@ -53,16 +52,16 @@ label{
 .navbar a {
     color: white;
     text-decoration: none;
-    text-align: center; 
-    font-size: 17px;
+    text-align: center;
+    font-size: 28px;
 }
 
 .navbar a i {
-    font-size: 17px;
+    font-size: 28px;
     display: block;
 }
 
-.navbar a:hover { 
+.navbar a:hover {
     color: #f4b400;
 }
 
@@ -1204,7 +1203,7 @@ function renderCalendar(month, year) {
             } else {
                 let currentDate = new Date(year, month, date);
                 let dayOfWeek = currentDate.getDay(); // Get day index (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-                let formattedDate = `${String(date).padStart(2, "0")}-${String(month + 1).padStart(2, "0")}-${year}`;
+                let formattedDate = `${date}-${month + 1}-${year}`;
                 td.textContent = date;
 
                 // ✅ Disable past dates
@@ -1256,9 +1255,7 @@ document.querySelectorAll(".selectable-day")
 // ✅ ADD NEW SELECTED DAY
 clickedCell.classList.add("selected-day");
 
-// ✅ SAVE DATE CORRECTLY
-selectedDate =
-`${String(day).padStart(2,"0")}-${String(month + 1).padStart(2,"0")}-${year}`;
+selectedDate = `${day}-${month + 1}-${year}`;
 
 console.log("📅 Selected Date:", selectedDate);
 
