@@ -871,13 +871,45 @@ document.getElementById("disableDateFrom").value;
 const to =
 document.getElementById("disableDateTo").value;
 
-if(!from || !to){
+// ✅ MUST select at least FROM
+if(!from){
 
-    alert("Select both dates");
+    alert("Select a date");
 
     return;
 }
 
+// ✅ ONLY ONE DAY
+if(from && !to){
+
+    const d = new Date(from);
+
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+
+    const formattedDate =
+    `${day}-${month}-${year}`;
+
+    db.ref(
+        "barbers/" +
+        selectedBarberId +
+        "/disabledDates/" +
+        formattedDate
+    )
+    .set(true)
+    .then(() => {
+
+        alert("1 date disabled");
+
+        document.getElementById("disableDateFrom").value = "";
+        document.getElementById("disableDateTo").value = "";
+    });
+
+    return;
+}
+
+// ✅ RANGE
 const startDate = new Date(from);
 const endDate = new Date(to);
 
@@ -895,11 +927,8 @@ let current = new Date(startDate);
 while(current <= endDate){
 
     const day = current.getDate();
-
-const month = current.getMonth() + 1;
-
-    const year =
-    current.getFullYear();
+    const month = current.getMonth() + 1;
+    const year = current.getFullYear();
 
     const formattedDate =
     `${day}-${month}-${year}`;
@@ -923,7 +952,6 @@ db.ref(
     document.getElementById("disableDateTo").value = "";
 });
 }
-
 function enableDisabledDate(formattedDate){
 
 db.ref(
