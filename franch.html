@@ -54,11 +54,11 @@ label{
     color: white;
     text-decoration: none;
     text-align: center;
-    font-size: 17px;
+    font-size: 20px;
 }
 
 .navbar a i {
-    font-size: 17px;
+    font-size: 20px;
     display: block;
 }
 
@@ -1205,7 +1205,7 @@ function renderCalendar(month, year) {
             } else {
                 let currentDate = new Date(year, month, date);
                 let dayOfWeek = currentDate.getDay(); // Get day index (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-                let formattedDate = `${String(date).padStart(2, "0")}-${String(month + 1).padStart(2, "0")}-${year}`;
+                let formattedDate = `${date}-${month + 1}-${year}`;
                 td.textContent = date;
 
                 // ✅ Disable past dates
@@ -1257,8 +1257,7 @@ document.querySelectorAll(".selectable-day")
 clickedCell.classList.add("selected-day");
 
 // ✅ SAVE DATE CORRECTLY
-selectedDate =
-`${String(day).padStart(2,"0")}-${String(month + 1).padStart(2,"0")}-${year}`;
+selectedDate = `${day}-${month + 1}-${year}`;
 
 console.log("📅 Selected Date:", selectedDate);
 
