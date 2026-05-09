@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- ✅ Load Firebase v8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -399,10 +399,16 @@
 
     <div class="modal-box">
 
-        <h2>Manage Barber Dates</h2>
+        <h2>
+            <i class="fa-solid fa-calendar-days"></i>
+            Manage Barber Dates
+        </h2>
 
         <!-- FROM DATE -->
-        <label>From</label>
+        <label>
+            <i class="fa-solid fa-calendar-plus"></i>
+            From
+        </label>
 
         <input 
             type="date" 
@@ -415,7 +421,10 @@
         >
 
         <!-- TO DATE -->
-        <label>To</label>
+        <label>
+            <i class="fa-solid fa-calendar-check"></i>
+            To
+        </label>
 
         <input 
             type="date" 
@@ -427,17 +436,70 @@
             "
         >
 
-        <!-- DISABLE BUTTON -->
-        <button 
+        <!-- ACTION BUTTONS -->
+        <div 
             style="
-                background:red;
-                color:white;
-                width:100%;
+                display:flex;
+                gap:10px;
+                margin-top:15px;
             "
-            onclick="saveDisabledDateRange()"
         >
-            Disable Dates
-        </button>
+
+            <!-- DISABLE -->
+            <button 
+                style="
+                    background:red;
+                    color:white;
+                    flex:1;
+                    height:50px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    gap:8px;
+                "
+                onclick="saveDisabledDateRange()"
+                title="Disable Dates"
+            >
+                <i class="fa-solid fa-calendar-xmark"></i>
+            </button>
+
+            <!-- ENABLE ALL -->
+            <button 
+                style="
+                    background:green;
+                    color:white;
+                    flex:1;
+                    height:50px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    gap:8px;
+                "
+                onclick="enableAllDates()"
+                title="Enable All Dates"
+            >
+                <i class="fa-solid fa-rotate-left"></i>
+            </button>
+
+            <!-- CLOSE -->
+            <button 
+                style="
+                    background:#444;
+                    color:white;
+                    flex:1;
+                    height:50px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    gap:8px;
+                "
+                onclick="closeDateModal()"
+                title="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
 
         <!-- DISABLED DATES -->
         <div 
@@ -449,28 +511,6 @@
                 overflow:auto;
             "
         ></div>
-
-<!-- ENABLE ALL -->
-<button 
-style="
-    background:green;
-    color:white;
-    width:100%;
-    margin-top:10px;
-"
-onclick="enableAllDates()"
->
-Enable All Dates
-</button>
-
-        <!-- CLOSE -->
-        <button 
-            style="margin-top:15px;"
-            onclick="closeDateModal()"
-        >
-            Close
-        </button>
-        
 
     </div>
 
@@ -655,30 +695,43 @@ function loadBarbers(){
 
 <div style="display:flex; gap:5px;">
 
-    <!-- GLOBAL DISABLE -->
+    <!-- GLOBAL ENABLE/DISABLE -->
     <button 
         class="toggle-btn ${data.active ? "disable" : "enable"}"
         onclick="toggleBarber('${id}', ${data.active})"
+        title="${data.active ? "Disable Barber" : "Enable Barber"}"
+        style="
+            width:40px;
+            height:40px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        "
     >
-        ${data.active ? "Disable Global" : "Enable"}
+        <i class="fa-solid ${data.active ? "fa-user-slash" : "fa-user-check"}"></i>
     </button>
 
-    <!-- DISABLE FOR DATE -->
+    <!-- DATE MANAGER -->
     <button 
+        onclick="openDateModal('${id}')"
+        title="Manage Dates"
         style="
             background:orange;
             color:white;
             border:none;
-            padding:6px 10px;
-            border-radius:8px;
+            width:40px;
+            height:40px;
+            border-radius:10px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
         "
-onclick="openDateModal('${id}')"
     >
-        Disable Date
+        <i class="fa-solid fa-calendar-xmark"></i>
     </button>
 
 </div>
-
                     <!-- ❌ DELETE -->
                     <button 
                         style="background:red; color:white;"
