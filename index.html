@@ -108,7 +108,7 @@ section {
 .home-label {
     font-size: 20px;
     font-weight: bold;
-    color: #f4b400;; /* Adjust color if needed */
+    color: #020202;; /* Adjust color if needed */
 }
 
 
@@ -147,54 +147,63 @@ section h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     padding: 50px 20px;
-    background-color: #222; /* Dark background to make images pop */
+    background-color: #222;
 }
 
-/* Scrollable Grid */
-.gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-    overflow-x: auto; /* Enables horizontal scrolling */
-    white-space: nowrap;
-    padding: 10px;
-    max-width: 90%;
-    scroll-behavior: smooth;
-    font-family: 'Poppins', sans-serif; /* New Font */
-}
-
-h1{
-    font-family: 'Times New Roman', Times, serif;
+/* Gallery Title */
+#gallery h1 {
     color: #f4b400;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 20px;
 }
 
-/* Images in the grid */
-.gallery-container img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
+/* HORIZONTAL SCROLL */
+.gallery-container {
+    display: flex;
+    gap: 15px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    width: 100%;
+
+    padding: 10px;
+
+    scroll-behavior: smooth;
 }
 
-/* Hover effect */
-.gallery-container img:hover {
-    transform: scale(1.1);
-}
-
-/* Make scrolling smooth on iPhone devices */
+/* Scrollbar */
 .gallery-container::-webkit-scrollbar {
     height: 6px;
 }
 
 .gallery-container::-webkit-scrollbar-thumb {
-    background-color: #f4b400;
+    background: #f4b400;
     border-radius: 10px;
 }
 
+/* Images */
+.gallery-container img {
+
+    flex: 0 0 auto;
+
+    width: 220px;
+    height: 300px;
+
+    object-fit: cover;
+
+    border-radius: 15px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+/* Hover */
+.gallery-container img:hover {
+    transform: scale(1.05);
+}
 /* Services Section */
 #services {
     display: flex;
@@ -738,7 +747,7 @@ label{
     <div class="home-container">
         <img src="FullLogo_Transparent.png" alt="Empire Salon Logo" class="logo">
         <br>
-        <label class="home-label">Bienvenue chez Empire Salon Barbier</label>
+        <label class="home-label">Bienvenue chez Empire Salon Barber</label>
     </div>
     <br>
     <br>    
@@ -757,34 +766,38 @@ label{
     }
 </script>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="fade-in">
-        <h1>Notre Galerie</h1>
-    <br>
-    <br>
-    <br>
+<!-- Gallery Section -->
+<section id="gallery" class="fade-in">
+
+    <h1>Notre Galerie</h1>
+
+    <br><br>
+
     <div class="gallery-container">
-        <img src="1.png" alt="Barber Image 1"></a>
-        <img src="2.png" alt="Barber Image 2"></a>
-        <img src="3.png" alt="Barber Image 1"></a>
-        <img src="4.png" alt="Barber Image 2"></a>
-        <img src="5.png" alt="Barber Image 1"></a>
-        <img src="6.png" alt="Barber Image 2"></a>
-        <img src="7.png" alt="Barber Image 1"></a>
-        <img src="8.png" alt="Barber Image 2"></a>
-        <img src="9.png" alt="Barber Image 1"></a>
-        <img src="10.png" alt="Barber Image 2"></a>
-        <img src="11.png" alt="Barber Image 1"></a>
-        <img src="12.png" alt="Barber Image 2"></a>
-        <img src="13.png" alt="Barber Image 1"></a>
-        <img src="14.png" alt="Barber Image 2"></a>
-        <img src="15.png" alt="Barber Image 1"></a>
-        <img src="16.png" alt="Barber Image 2"></a>
-        <img src="17.png" alt="Barber Image 1"></a>
-        <img src="18.png" alt="Barber Image 2"></a>
-        <img src="19.png" alt="Barber Image 1"></a>
+
+        <img src="1.png" alt="Gallery Image 1">
+        <img src="2.png" alt="Gallery Image 2">
+        <img src="3.png" alt="Gallery Image 3">
+        <img src="4.png" alt="Gallery Image 4">
+        <img src="5.png" alt="Gallery Image 5">
+        <img src="6.png" alt="Gallery Image 6">
+        <img src="7.png" alt="Gallery Image 7">
+        <img src="8.png" alt="Gallery Image 8">
+        <img src="9.png" alt="Gallery Image 9">
+        <img src="10.png" alt="Gallery Image 10">
+        <img src="11.png" alt="Gallery Image 11">
+        <img src="12.png" alt="Gallery Image 12">
+        <img src="13.png" alt="Gallery Image 13">
+        <img src="14.png" alt="Gallery Image 14">
+        <img src="15.png" alt="Gallery Image 15">
+        <img src="16.png" alt="Gallery Image 16">
+        <img src="17.png" alt="Gallery Image 17">
+        <img src="18.png" alt="Gallery Image 18">
+        <img src="19.png" alt="Gallery Image 19">
+
     </div>
-    </section>
+
+</section>
 
 <!-- Services Section -->
 <section id="services" class="fade-in">
@@ -872,9 +885,9 @@ label{
 
         <!-- Business Hours -->
         <div class="contact-item">
-            <span><i class="fas fa-clock"></i> Heures d’ouverture:<br>
-                Mardi - Vendredi:<br> 09:00 À 12:00 - 13:00 À 18:30 <br><br>
-                Samedi:<br> 09:00 À 12:00 - 13:00 À 17:00 <br><br>
+            <span><i class="fas fa-clock"></i> Heures d’ouverture:<br><br>
+                TMardi - Vendredi:<br> 09:00 to 12:00 - 13:00 to 18:30 <br><br>
+                Samedi:<br> 09:00  12:00 - 13:00 to 17:00 <br><br>
                 Dimanche & Lundi:<br> Fermé
             </span>
         </div>
@@ -1029,13 +1042,47 @@ label{
     }
 
     document.querySelectorAll(".gallery-container img").forEach(img => {
+
 img.addEventListener("click", function() {
+
     const fullscreenImg = document.createElement("div");
-    fullscreenImg.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;";
-    fullscreenImg.innerHTML = `<img src="${img.src}" style="max-width:90%;max-height:90%;border-radius:10px;">`;
-    fullscreenImg.addEventListener("click", () => fullscreenImg.remove());
+
+    fullscreenImg.style.cssText = `
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.9);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:99999;
+        padding:20px;
+    `;
+
+    fullscreenImg.innerHTML = `
+        <img src="${img.src}"
+        style="
+            max-width:95%;
+            max-height:95%;
+            border-radius:12px;
+            object-fit:contain;
+        ">
+    `;
+
+    // prevent background scroll
+    document.body.style.overflow = "hidden";
+
+    fullscreenImg.addEventListener("click", () => {
+        fullscreenImg.remove();
+        document.body.style.overflow = "auto";
+    });
+
     document.body.appendChild(fullscreenImg);
+
 });
+
 });
 </script>
 <script>
@@ -1336,7 +1383,10 @@ db.ref("barbers").on("value", snapshot => {
 
             selectedBarber = barber.name;
 
+            document.querySelector(".navbar").classList.add("hide");
+
             showTimeSlots();
+            
         });
 
         container.appendChild(card);
@@ -1489,14 +1539,11 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-let bookingOpened = false; // 🔥 prevent loop
+
 
 // Function to show booking details form
 function showBookingDetails() {
 
-    // ❌ stop infinite loop
-    if (bookingOpened) return;
-    bookingOpened = true;
 
     document.getElementById("timeSlots").style.opacity = "0"; // Fade out time slots
     document.getElementById("selectedDateText").style.opacity = "0"; // Fade out the header
@@ -1515,7 +1562,7 @@ function showBookingDetails() {
             document.getElementById("bookingDetails").style.opacity = "1"; // Fade in form
         }, 100);
             // 🔥 HIDE NAVBAR
-    document.querySelector(".navbar").classList.add("hide");
+
     }, 300);
 
 }
