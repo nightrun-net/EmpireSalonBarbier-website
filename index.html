@@ -907,13 +907,13 @@ label{
         <table class="calendar-table">
             <thead>
                 <tr>
-                    <th>Dim</th>
                     <th>Lun</th>
                     <th>Mar</th>
                     <th>Mer</th>
                     <th>Jeu</th>
                     <th>Ven</th>
                     <th>Sam</th>
+                    <th>Dim</th>
                 </tr>
             </thead>
             <tbody id="calendarBody"></tbody>
@@ -1179,7 +1179,8 @@ let selectedTime = null;
 function renderCalendar(month, year) {
     const calendarBody = document.getElementById("calendarBody");
     const monthYearText = document.getElementById("calendarMonth");
-    const firstDay = new Date(year, month, 1).getDay();
+    let firstDay = new Date(year, month, 1).getDay();
+    firstDay = firstDay === 0 ? 6 : firstDay - 1;
     const totalDays = new Date(year, month + 1, 0).getDate();
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalize time for accurate comparison
