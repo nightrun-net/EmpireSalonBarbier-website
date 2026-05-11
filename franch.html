@@ -907,13 +907,13 @@ label{
         <table class="calendar-table">
             <thead>
                 <tr>
-                    <th>Sun</th>
                     <th>Mon</th>
                     <th>Tue</th>
                     <th>Wed</th>
                     <th>Thu</th>
                     <th>Fri</th>
                     <th>Sat</th>
+                    <th>Sun</th>
                 </tr>
             </thead>
             <tbody id="calendarBody"></tbody>
@@ -1180,7 +1180,10 @@ let selectedTime = null;
 function renderCalendar(month, year) {
     const calendarBody = document.getElementById("calendarBody");
     const monthYearText = document.getElementById("calendarMonth");
-    const firstDay = new Date(year, month, 1).getDay();
+    let firstDay = new Date(year, month, 1).getDay();
+
+// ✅ Convert Sunday-first to Monday-first
+firstDay = firstDay === 0 ? 6 : firstDay - 1;
     const totalDays = new Date(year, month + 1, 0).getDate();
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalize time for accurate comparison
