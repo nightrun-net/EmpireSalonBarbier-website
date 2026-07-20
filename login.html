@@ -1,101 +1,256 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner Login</title>
 
-    <!-- ✅ Inline CSS for Styling -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            margin: auto;
-        }
+    <title>Zendura – Anmeldung</title>
 
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
-        button {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            opacity: 0.8;
-        }
-    </style>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
 </head>
+
 <body>
-    <div class="container">
-        <h2>Owner Login</h2>
-        <input type="email" id="email" placeholder="Enter Email" required>
-        <input type="password" id="password" placeholder="Enter Password" required>
-        <button onclick="login()">Login</button>
-    </div>
 
-    <!-- ✅ Load Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <main class="login-page">
 
-    <script>
-        // ✅ Initialize Firebase (Use Your Config)
-        firebase.initializeApp({
-            apiKey: "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
-            authDomain: "empiresalonbarber.firebaseapp.com",
-            projectId: "empiresalonbarber",
-            storageBucket: "empiresalonbarber.appspot.com",
-            messagingSenderId: "365303178903",
-            appId: "1:365303178903:web:c6f9eb19766934e443ebd2",
-            measurementId: "G-LMHTQJBCP6"
-        });
+        <section class="login-visual">
 
-        function login() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+            <a
+                class="visual-brand"
+                aria-label="Zendura"
+            >
+                <img
+                    src="logo.png"
+                    alt="Zendura Logo"
+                >
 
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    alert("✅ Login successful!");
-                    sessionStorage.setItem("ownerLoggedIn", "true"); // ✅ Store login session
-                    window.location.href = "dashboard.html"; // ✅ Redirect to dashboard
-                })
-                .catch(error => {
-                    alert("❌ Login failed: " + error.message);
-                });
-        }
+                <span>Zendura</span>
+            </a>
 
-        // ✅ Check login status when loading login page
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                window.location.href = "dashboard.html"; // ✅ Redirect if already logged in
-            }
-        });
-    </script>
+
+            <div class="login-copy">
+
+                <span class="eyebrow">
+                    Premium Home Care Management
+                </span>
+
+                <h1>
+                    Ruhe beginnt mit klarer Organisation.
+                </h1>
+
+                <p>
+                    Verwalten Sie Kundenanfragen, Termine, Teams
+                    und tägliche Abläufe in einer ruhigen,
+                    modernen Desktop-Umgebung.
+                </p>
+
+
+                <div class="visual-points">
+
+                    <div class="visual-point">
+
+                        <strong>24/7</strong>
+
+                        <span>
+                            Übersicht über neue Anfragen
+                        </span>
+
+                    </div>
+
+
+                    <div class="visual-point">
+
+                        <strong>100%</strong>
+
+                        <span>
+                            Klare, fokussierte Arbeitsabläufe
+                        </span>
+
+                    </div>
+
+
+                    <div class="visual-point">
+
+                        <strong>1 Ort</strong>
+
+                        <span>
+                            Für alle Zendura-Prozesse
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="visual-footer">
+                © 2026 Zendura Home Care
+            </div>
+
+        </section>
+
+
+        <section class="login-panel">
+
+            <form
+                class="login-card"
+                id="loginForm"
+                novalidate
+            >
+
+
+
+                <h2>
+                    Willkommen zurück
+                </h2>
+
+                <p>
+                    Melden Sie sich an, um Ihr
+                    Zendura-Dashboard zu öffnen.
+                </p>
+
+
+                <div
+                    class="login-error"
+                    id="loginError"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+                <div class="form-group">
+
+                    <label for="email">
+                        E-Mail-Adresse
+                    </label>
+
+                    <div class="input-shell">
+
+                        <i
+                            class="fa-regular fa-envelope input-icon"
+                            aria-hidden="true"
+                        ></i>
+
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value=""
+                            placeholder="admin@zendura.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Passwort
+                    </label>
+
+                    <div class="input-shell">
+
+                        <i
+                            class="fa-solid fa-lock input-icon"
+                            aria-hidden="true"
+                        ></i>
+
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Passwort"
+                            autocomplete="current-password"
+                            required
+                            minlength="6"
+                        >
+
+                        <button
+                            class="toggle-password"
+                            id="togglePassword"
+                            type="button"
+                            aria-label="Passwort anzeigen"
+                            aria-pressed="false"
+                        >
+                            <i
+                                class="fa-regular fa-eye"
+                                id="passwordEyeIcon"
+                                aria-hidden="true"
+                            ></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row-inline">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                            checked
+                        >
+
+                        <span>
+                            Angemeldet bleiben
+                        </span>
+
+                    </label>
+
+                    <span>
+                        Desktop-Zugang
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="primary-btn"
+                    id="loginButton"
+                    type="submit"
+                >
+                    <span>Anmelden</span>
+
+                    <i
+                        class="fa-solid fa-arrow-right"
+                        aria-hidden="true"
+                    ></i>
+                </button>
+
+
+                
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="login.js"></script>
+
 </body>
+
 </html>
