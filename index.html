@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#111111">
 
 <title>Empire Salon Barber</title>
@@ -17,7 +17,6 @@
 <style>
 :root{
     --bg:#101010;
-    --bg2:#171717;
     --card:#1d1d1d;
     --card2:#242424;
     --gold:#f4b400;
@@ -34,6 +33,13 @@
     box-sizing:border-box;
     font-family:'Poppins',sans-serif;
     scroll-behavior:smooth;
+
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+
+    -webkit-touch-callout:none;
 }
 
 html{
@@ -278,6 +284,14 @@ section h1::after{
     font-size:18px;
 }
 
+
+input,
+textarea,
+select{
+    -webkit-user-select:text;
+    user-select:text;
+}
+
 .service-card h3{
     font-family:Georgia,'Times New Roman',serif;
     font-size:17px;
@@ -372,8 +386,8 @@ section h1::after{
 }
 
 .calendar-container{
-    width:min(620px,100%);
-    padding:28px;
+    width:min(650px,100%);
+    padding:30px;
     border-radius:30px;
     background:
         linear-gradient(145deg,rgba(255,255,255,.025),transparent),
@@ -386,21 +400,23 @@ section h1::after{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+    margin-bottom:24px;
 }
 
 #calendarMonth{
-    font-size:21px;
-    font-weight:600;
+    font-size:26px;
+    font-weight:700;
+    color:#fff;
 }
 
 .calendar-btn{
-    width:44px;
-    height:44px;
+    width:48px;
+    height:48px;
     border:1px solid var(--border);
     border-radius:14px;
     background:var(--card2);
     color:var(--gold);
+    font-size:18px;
     transition:.3s ease;
 }
 
@@ -412,28 +428,31 @@ section h1::after{
 .calendar-table{
     width:100%;
     border-collapse:separate;
-    border-spacing:6px;
+    border-spacing:7px;
     table-layout:fixed;
 }
 
 .calendar-table th{
-    height:42px;
-    padding:6px 2px;
+    height:50px;
+    padding:8px 2px;
     color:var(--gold);
-    background:transparent;
-    font-size:13px;
-    font-weight:600;
+    background:rgba(244,180,0,.06);
+    border-radius:12px;
+    font-size:18px;
+    font-weight:700;
+    font-family:Georgia,'Times New Roman',serif;
 }
 
 .calendar-table td{
-    height:48px;
-    padding:5px;
+    height:58px;
+    padding:6px;
     text-align:center;
-    border-radius:13px;
+    border-radius:14px;
     background:#292929;
     border:1px solid transparent;
-    color:#eee;
-    font-size:14px;
+    color:#fff;
+    font-size:19px;
+    font-weight:600;
     cursor:pointer;
     transition:.25s ease;
 }
@@ -448,7 +467,7 @@ section h1::after{
 .selected-day{
     background:var(--gold)!important;
     color:#111!important;
-    font-weight:700;
+    font-weight:800!important;
 }
 
 .inactive-day{
@@ -471,7 +490,7 @@ section h1::after{
 
 #selectBarberText,
 #selectedDateText{
-    font-size:19px!important;
+    font-size:21px!important;
     color:var(--gold)!important;
     margin-top:30px!important;
     margin-bottom:12px;
@@ -486,13 +505,14 @@ section h1::after{
 .barber-card{
     flex:1;
     min-width:130px;
-    padding:14px 18px;
+    padding:15px 18px;
     border-radius:14px;
     background:#292929;
     border:1px solid var(--border);
     color:#fff;
     text-align:center;
-    font-size:14px;
+    font-size:16px;
+    font-weight:500;
     transition:.3s ease;
 }
 
@@ -505,7 +525,7 @@ section h1::after{
 
 .time-slots-container{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(90px,1fr));
     gap:10px;
     width:100%;
     margin-top:15px;
@@ -515,12 +535,13 @@ section h1::after{
 }
 
 .time-slot{
-    padding:13px 8px;
+    padding:14px 8px;
     border-radius:13px;
     background:#292929;
     border:1px solid var(--border);
     color:#fff;
-    font-size:14px;
+    font-size:16px;
+    font-weight:600;
     text-align:center;
     transition:.25s ease;
 }
@@ -552,7 +573,7 @@ section h1::after{
 
 #bookingDetails h2{
     color:var(--gold);
-    font-size:22px;
+    font-size:23px;
     text-align:center;
     margin-bottom:22px;
 }
@@ -560,7 +581,7 @@ section h1::after{
 #bookingDetails label{
     display:block;
     margin:15px 0 7px;
-    font-size:13px;
+    font-size:15px;
     font-weight:500;
     color:#bbb;
 }
@@ -568,14 +589,14 @@ section h1::after{
 #bookingDetails input,
 #bookingDetails select{
     width:100%;
-    min-height:52px;
+    min-height:54px;
     padding:12px 14px;
     border-radius:13px;
     border:1px solid #363636;
     outline:none;
     background:#252525;
     color:#fff;
-    font-size:14px;
+    font-size:16px;
     transition:.25s ease;
 }
 
@@ -609,13 +630,13 @@ section h1::after{
 
 #submitBooking{
     width:100%;
-    min-height:55px;
+    min-height:56px;
     margin-top:24px;
     border:none;
     border-radius:15px;
     background:linear-gradient(135deg,var(--gold),var(--gold2));
     color:#111;
-    font-size:15px;
+    font-size:16px;
     font-weight:700;
     box-shadow:0 12px 30px rgba(244,180,0,.16);
     transition:.3s ease;
@@ -737,6 +758,7 @@ section h1::after{
 }
 
 @media(max-width:600px){
+
     section{
         min-height:auto;
         padding:85px 18px;
@@ -763,8 +785,12 @@ section h1::after{
     }
 
     .calendar-container{
-        padding:18px 12px;
+        padding:18px 10px;
         border-radius:22px;
+    }
+
+    #calendarMonth{
+        font-size:22px;
     }
 
     .calendar-table{
@@ -772,17 +798,41 @@ section h1::after{
     }
 
     .calendar-table th{
-        font-size:11px;
+        height:44px;
+        font-size:15px;
+        padding:5px 1px;
+        border-radius:9px;
     }
 
     .calendar-table td{
-        height:43px;
-        font-size:12px;
+        height:48px;
+        font-size:17px;
+        font-weight:700;
         border-radius:10px;
     }
 
     #bookingDetails{
         padding:20px 15px;
+    }
+}
+
+@media(max-width:370px){
+
+    .calendar-table th{
+        font-size:13px;
+    }
+
+    .calendar-table td{
+        font-size:16px;
+    }
+
+    .calendar-btn{
+        width:42px;
+        height:42px;
+    }
+
+    #calendarMonth{
+        font-size:20px;
     }
 }
 </style>
@@ -797,6 +847,7 @@ section h1::after{
     </video>
 
     <div class="home-container">
+
         <img src="FullLogo_Transparent.png" alt="Empire Salon Logo" class="logo">
 
         <label class="home-label">
@@ -804,6 +855,7 @@ section h1::after{
         </label>
 
         <div class="language-selector">
+
             <label for="language">Choisissez la langue:</label>
 
             <select id="language" onchange="switchLanguage()">
@@ -811,7 +863,9 @@ section h1::after{
                 <option value="index.html" selected>Français</option>
                 <option value="Deutsch.html">Deutsch</option>
             </select>
+
         </div>
+
     </div>
 
 </section>
@@ -821,6 +875,7 @@ section h1::after{
     <h1>Notre Galerie</h1>
 
     <div class="gallery-container">
+
         <img src="1.png" alt="Gallery Image 1">
         <img src="2.png" alt="Gallery Image 2">
         <img src="3.png" alt="Gallery Image 3">
@@ -840,6 +895,7 @@ section h1::after{
         <img src="17.png" alt="Gallery Image 17">
         <img src="18.png" alt="Gallery Image 18">
         <img src="19.png" alt="Gallery Image 19">
+
     </div>
 
 </section>
@@ -929,30 +985,38 @@ section h1::after{
                 <i class="fas fa-phone-alt"></i>
                 Numéro de téléphone:
                 <br>
-                <a href="tel:+41762460205">+41 76 246 0205</a>
+                <a href="tel:+41762460205">
+                    +41 76 246 0205
+                </a>
             </span>
         </div>
 
         <div class="contact-item">
+
             <span>
                 <i class="fas fa-clock"></i>
+
                 Heures d’ouverture:
+
                 <br><br>
 
                 Mardi - Vendredi:
                 <br>
                 09:00 à 12:00 — 13:00 à 18:30
+
                 <br><br>
 
                 Samedi:
                 <br>
                 09:00 à 12:00 — 13:00 à 17:00
+
                 <br><br>
 
                 Dimanche & Lundi:
                 <br>
                 Fermé
             </span>
+
         </div>
 
         <div class="social-links">
@@ -1018,6 +1082,7 @@ section h1::after{
         <table class="calendar-table">
 
             <thead>
+
                 <tr>
                     <th>Lun</th>
                     <th>Mar</th>
@@ -1027,6 +1092,7 @@ section h1::after{
                     <th>Sam</th>
                     <th>Dim</th>
                 </tr>
+
             </thead>
 
             <tbody id="calendarBody"></tbody>
@@ -1076,6 +1142,7 @@ section h1::after{
             <input type="text" id="bookingBarber" readonly>
 
             <label>Nom:</label>
+
             <input
                 type="text"
                 id="userName"
@@ -1086,13 +1153,16 @@ section h1::after{
             <label>Numéro de téléphone:</label>
 
             <div class="mobile-input">
+
                 <input
                     type="tel"
                     id="userMobile"
                     placeholder="Entrez votre numéro"
                     oninput="formatAndValidateMobile()"
                 >
+
                 <span id="mobileIcon"></span>
+
             </div>
 
             <label>Type de service:</label>
@@ -1148,11 +1218,27 @@ section h1::after{
 </section>
 
 <nav class="navbar">
-    <a href="#home"><i class="fas fa-home"></i></a>
-    <a href="#gallery"><i class="fas fa-images"></i></a>
-    <a href="#services"><i class="fas fa-cut"></i></a>
-    <a href="#contact"><i class="fas fa-phone-alt"></i></a>
-    <a href="#booking"><i class="fas fa-calendar-check"></i></a>
+
+    <a href="#home">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <a href="#gallery">
+        <i class="fas fa-images"></i>
+    </a>
+
+    <a href="#services">
+        <i class="fas fa-cut"></i>
+    </a>
+
+    <a href="#contact">
+        <i class="fas fa-phone-alt"></i>
+    </a>
+
+    <a href="#booking">
+        <i class="fas fa-calendar-check"></i>
+    </a>
+
 </nav>
 
 <div id="customModal" class="modal">
@@ -1178,15 +1264,24 @@ function switchLanguage() {
 }
 
 document.addEventListener("scroll", function () {
+
     document.querySelectorAll(".fade-in").forEach(section => {
-        if (section.getBoundingClientRect().top < window.innerHeight - 100) {
+
+        if (
+            section.getBoundingClientRect().top <
+            window.innerHeight - 100
+        ) {
             section.classList.add("visible");
         }
+
     });
+
 });
 
 document.querySelectorAll(".gallery-container img").forEach(img => {
+
     img.addEventListener("click", function () {
+
         const fullscreenImg = document.createElement("div");
 
         fullscreenImg.style.cssText = `
@@ -1219,71 +1314,113 @@ document.querySelectorAll(".gallery-container img").forEach(img => {
         document.body.style.overflow = "hidden";
 
         fullscreenImg.addEventListener("click", () => {
+
             fullscreenImg.remove();
+
             document.body.style.overflow = "auto";
+
         });
 
         document.body.appendChild(fullscreenImg);
+
     });
+
 });
 
 function formatAndValidateMobile() {
-    const mobileInput = document.getElementById("userMobile");
-    const mobileIcon = document.getElementById("mobileIcon");
 
-    let mobileNumber = mobileInput.value.replace(/\D/g, "");
+    const mobileInput =
+        document.getElementById("userMobile");
+
+    const mobileIcon =
+        document.getElementById("mobileIcon");
+
+    let mobileNumber =
+        mobileInput.value.replace(/\D/g, "");
+
     let countryFlag = "❌";
+
     let formattedNumber = mobileNumber;
 
     if (mobileNumber.startsWith("0033")) {
-        mobileNumber = "33" + mobileNumber.slice(4);
-    } else if (mobileNumber.startsWith("0041")) {
-        mobileNumber = "41" + mobileNumber.slice(4);
+
+        mobileNumber =
+            "33" + mobileNumber.slice(4);
+
+    }
+
+    else if (mobileNumber.startsWith("0041")) {
+
+        mobileNumber =
+            "41" + mobileNumber.slice(4);
+
     }
 
     if (mobileNumber.length < 9) {
+
         mobileIcon.innerHTML = "❌";
         mobileIcon.style.color = "red";
+
         return;
     }
 
     if (/^(41|0)/.test(mobileNumber)) {
 
-        if (mobileNumber.startsWith("41") && mobileNumber.length >= 11) {
+        if (
+            mobileNumber.startsWith("41") &&
+            mobileNumber.length >= 11
+        ) {
+
             formattedNumber =
                 `+41 ${mobileNumber.slice(2,4)} ${mobileNumber.slice(4,7)} ${mobileNumber.slice(7,9)} ${mobileNumber.slice(9,11)}`;
 
             countryFlag = "🇨🇭";
         }
 
-        else if (mobileNumber.startsWith("0") && mobileNumber.length >= 10) {
+        else if (
+            mobileNumber.startsWith("0") &&
+            mobileNumber.length >= 10
+        ) {
+
             formattedNumber =
                 `0${mobileNumber.slice(1,3)} ${mobileNumber.slice(3,6)} ${mobileNumber.slice(6,8)} ${mobileNumber.slice(8,10)}`;
 
             countryFlag = "🇨🇭";
         }
 
-    } else if (/^(33|0033|06|07)/.test(mobileNumber)) {
+    }
 
-        if (mobileNumber.startsWith("33") && mobileNumber.length >= 11) {
+    else if (/^(33|0033|06|07)/.test(mobileNumber)) {
+
+        if (
+            mobileNumber.startsWith("33") &&
+            mobileNumber.length >= 11
+        ) {
 
             formattedNumber =
                 `+33 ${mobileNumber.slice(2,3)} ${mobileNumber.slice(3,5)} ${mobileNumber.slice(5,7)} ${mobileNumber.slice(7,9)} ${mobileNumber.slice(9,11)}`;
 
             countryFlag = "🇫🇷";
+        }
 
-        } else if (mobileNumber.length >= 10) {
+        else if (mobileNumber.length >= 10) {
 
             formattedNumber =
                 `${mobileNumber.slice(0,2)} ${mobileNumber.slice(2,4)} ${mobileNumber.slice(4,6)} ${mobileNumber.slice(6,8)} ${mobileNumber.slice(8,10)}`;
 
             countryFlag = "🇫🇷";
         }
+
     }
 
     mobileInput.value = formattedNumber;
+
     mobileIcon.innerHTML = countryFlag;
-    mobileIcon.style.color = countryFlag === "❌" ? "red" : "green";
+
+    mobileIcon.style.color =
+        countryFlag === "❌"
+            ? "red"
+            : "green";
 }
 </script>
 
@@ -1323,15 +1460,25 @@ const monthNames = [
 
 let selectedBarber = null;
 let shouldReload = false;
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
+
+let currentMonth =
+    new Date().getMonth();
+
+let currentYear =
+    new Date().getFullYear();
+
 let daysOff = {};
+
 let selectedDate = null;
 let selectedTime = null;
 
 function showModal(type, title, message) {
-    const modal = document.getElementById("customModal");
-    const icon = document.getElementById("modalIcon");
+
+    const modal =
+        document.getElementById("customModal");
+
+    const icon =
+        document.getElementById("modalIcon");
 
     document.getElementById("modalTitle").innerText =
         title || "Notification";
@@ -1343,28 +1490,37 @@ function showModal(type, title, message) {
     icon.style.color = "";
 
     if (type === "success") {
+
         icon.innerHTML = "✅";
         icon.style.color = "#4CAF50";
         shouldReload = true;
+
     }
 
     else if (type === "error") {
+
         icon.innerHTML = "❌";
         icon.style.color = "#ff4d4d";
         shouldReload = false;
+
     }
 
     else if (type === "warning") {
+
         icon.innerHTML = "⚠️";
         icon.style.color = "#f4b400";
         shouldReload = false;
+
     }
 
     modal.classList.add("show");
 }
 
 function closeModal() {
-    document.getElementById("customModal").classList.remove("show");
+
+    document
+        .getElementById("customModal")
+        .classList.remove("show");
 
     if (shouldReload) {
         location.reload();
@@ -1372,10 +1528,19 @@ function closeModal() {
 }
 
 function fetchDaysOff() {
+
     db.ref("daysOff").on("value", snapshot => {
-        daysOff = snapshot.val() || {};
-        renderCalendar(currentMonth, currentYear);
+
+        daysOff =
+            snapshot.val() || {};
+
+        renderCalendar(
+            currentMonth,
+            currentYear
+        );
+
     });
+
 }
 
 function renderCalendar(month, year) {
@@ -1390,10 +1555,16 @@ function renderCalendar(month, year) {
         new Date(year, month, 1).getDay();
 
     firstDay =
-        firstDay === 0 ? 6 : firstDay - 1;
+        firstDay === 0
+            ? 6
+            : firstDay - 1;
 
     const totalDays =
-        new Date(year, month + 1, 0).getDate();
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
 
     const today = new Date();
 
@@ -1416,14 +1587,19 @@ function renderCalendar(month, year) {
             let td =
                 document.createElement("td");
 
-            if (row === 0 && col < firstDay) {
+            if (
+                row === 0 &&
+                col < firstDay
+            ) {
 
                 td.classList.add("empty");
                 td.textContent = "";
 
             }
 
-            else if (date > totalDays) {
+            else if (
+                date > totalDays
+            ) {
 
                 td.classList.add("empty");
                 td.textContent = "";
@@ -1433,7 +1609,11 @@ function renderCalendar(month, year) {
             else {
 
                 let currentDate =
-                    new Date(year, month, date);
+                    new Date(
+                        year,
+                        month,
+                        date
+                    );
 
                 let dayOfWeek =
                     currentDate.getDay();
@@ -1445,11 +1625,16 @@ function renderCalendar(month, year) {
 
                 if (currentDate < today) {
 
-                    td.classList.add("inactive-day");
+                    td.classList.add(
+                        "inactive-day"
+                    );
 
                 }
 
-                else if (dayOfWeek === 0 || dayOfWeek === 1) {
+                else if (
+                    dayOfWeek === 0 ||
+                    dayOfWeek === 1
+                ) {
 
                     td.classList.add(
                         "inactive-day",
@@ -1458,22 +1643,34 @@ function renderCalendar(month, year) {
 
                 }
 
-                else if (daysOff[formattedDate]) {
+                else if (
+                    daysOff[formattedDate]
+                ) {
 
-                    td.classList.add("inactive-day");
-                    td.style.color = "white";
+                    td.classList.add(
+                        "inactive-day"
+                    );
+
+                    td.style.color =
+                        "white";
 
                 }
 
                 else {
 
-                    td.classList.add("selectable-day");
+                    td.classList.add(
+                        "selectable-day"
+                    );
 
                     if (
                         currentDate.getTime() ===
                         today.getTime()
                     ) {
-                        td.classList.add("today");
+
+                        td.classList.add(
+                            "today"
+                        );
+
                     }
 
                     const currentDay = date;
@@ -1481,35 +1678,52 @@ function renderCalendar(month, year) {
                     td.addEventListener(
                         "click",
                         function () {
+
                             selectDate(
                                 currentDay,
                                 month,
                                 year,
                                 this
                             );
+
                         }
                     );
+
                 }
 
                 date++;
             }
 
             tr.appendChild(td);
+
         }
 
         calendarBody.appendChild(tr);
+
     }
+
 }
 
-function selectDate(day, month, year, clickedCell) {
+function selectDate(
+    day,
+    month,
+    year,
+    clickedCell
+) {
 
     document
-        .querySelectorAll(".selectable-day")
+        .querySelectorAll(
+            ".selectable-day"
+        )
         .forEach(cell =>
-            cell.classList.remove("selected-day")
+            cell.classList.remove(
+                "selected-day"
+            )
         );
 
-    clickedCell.classList.add("selected-day");
+    clickedCell.classList.add(
+        "selected-day"
+    );
 
     selectedDate =
         `${day}-${month + 1}-${year}`;
@@ -1543,74 +1757,111 @@ function selectDate(day, month, year, clickedCell) {
 function loadBarbers() {
 
     const container =
-        document.getElementById("barberContainer");
+        document.getElementById(
+            "barberContainer"
+        );
 
-    let formattedDate = selectedDate;
+    let formattedDate =
+        selectedDate;
 
-    db.ref("barbers").on("value", snapshot => {
+    db.ref("barbers").on(
+        "value",
+        snapshot => {
 
-        container.innerHTML = "";
+            container.innerHTML = "";
 
-        if (!snapshot.exists()) {
+            if (!snapshot.exists()) {
 
-            container.innerHTML =
-                "<p style='color:#ff6b6b'>Aucun coiffeur trouvé</p>";
+                container.innerHTML =
+                    "<p style='color:#ff6b6b'>Aucun coiffeur trouvé</p>";
 
-            return;
-        }
-
-        snapshot.forEach(child => {
-
-            const barber = child.val();
-
-            if (!barber.active) return;
-
-            if (
-                barber.disabledDates &&
-                barber.disabledDates[formattedDate]
-            ) {
                 return;
             }
 
-            const card =
-                document.createElement("div");
+            snapshot.forEach(child => {
 
-            card.className = "barber-card";
-            card.textContent = barber.name;
-            card.dataset.barber = barber.name;
+                const barber =
+                    child.val();
 
-            card.addEventListener(
-                "click",
-                function () {
+                if (!barber.active) {
+                    return;
+                }
 
-                    document
-                        .querySelectorAll(".barber-card")
-                        .forEach(c =>
-                            c.classList.remove("selected")
+                if (
+                    barber.disabledDates &&
+                    barber.disabledDates[
+                        formattedDate
+                    ]
+                ) {
+                    return;
+                }
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "barber-card";
+
+                card.textContent =
+                    barber.name;
+
+                card.dataset.barber =
+                    barber.name;
+
+                card.addEventListener(
+                    "click",
+                    function () {
+
+                        document
+                            .querySelectorAll(
+                                ".barber-card"
+                            )
+                            .forEach(c =>
+                                c.classList.remove(
+                                    "selected"
+                                )
+                            );
+
+                        card.classList.add(
+                            "selected"
                         );
 
-                    card.classList.add("selected");
+                        selectedBarber =
+                            barber.name;
 
-                    selectedBarber =
-                        barber.name;
+                        document
+                            .querySelector(
+                                ".navbar"
+                            )
+                            .classList.add(
+                                "hide"
+                            );
 
-                    document
-                        .querySelector(".navbar")
-                        .classList.add("hide");
+                        showTimeSlots();
 
-                    showTimeSlots();
-                }
-            );
+                    }
+                );
 
-            container.appendChild(card);
-        });
+                container.appendChild(
+                    card
+                );
 
-        if (container.innerHTML === "") {
+            });
 
-            container.innerHTML =
-                "<p style='color:#ff6b6b'>Aucun coiffeur disponible</p>";
+            if (
+                container.innerHTML === ""
+            ) {
+
+                container.innerHTML =
+                    "<p style='color:#ff6b6b'>Aucun coiffeur disponible</p>";
+
+            }
+
         }
-    });
+    );
+
 }
 
 function nextMonth() {
@@ -1618,8 +1869,10 @@ function nextMonth() {
     currentMonth++;
 
     if (currentMonth > 11) {
+
         currentMonth = 0;
         currentYear++;
+
     }
 
     renderCalendar(
@@ -1633,8 +1886,10 @@ function prevMonth() {
     currentMonth--;
 
     if (currentMonth < 0) {
+
         currentMonth = 11;
         currentYear--;
+
     }
 
     renderCalendar(
@@ -1663,16 +1918,25 @@ function showTimeSlots() {
     ).style.display = "none";
 
     const timeSlotsContainer =
-        document.getElementById("timeSlots");
+        document.getElementById(
+            "timeSlots"
+        );
 
-    timeSlotsContainer.innerHTML = "";
-    timeSlotsContainer.style.opacity = "0";
+    timeSlotsContainer.innerHTML =
+        "";
+
+    timeSlotsContainer.style.opacity =
+        "0";
 
     let [day, month, year] =
         selectedDate.split("-");
 
     let selectedDateObj =
-        new Date(year, month - 1, day);
+        new Date(
+            year,
+            month - 1,
+            day
+        );
 
     let isSaturday =
         selectedDateObj.getDay() === 6;
@@ -1700,14 +1964,16 @@ function showTimeSlots() {
     let availableTimeSlots =
         isSaturday
             ? allTimeSlots.filter(
-                t => ![
-                    "17:30",
-                    "18:00"
-                ].includes(t)
+                time =>
+                    ![
+                        "17:30",
+                        "18:00"
+                    ].includes(time)
             )
             : allTimeSlots;
 
-    let now = new Date();
+    let now =
+        new Date();
 
     let currentHours =
         now.getHours();
@@ -1715,11 +1981,13 @@ function showTimeSlots() {
     let currentMinutes =
         now.getMinutes();
 
-    firebase.database()
+    firebase
+        .database()
         .ref("bookings")
         .orderByChild("date")
         .equalTo(selectedDate)
         .once("value")
+
         .then(snapshot => {
 
             let bookedTimes =
@@ -1727,82 +1995,117 @@ function showTimeSlots() {
 
             if (snapshot.exists()) {
 
-                snapshot.forEach(child => {
+                snapshot.forEach(
+                    child => {
 
-                    let data =
-                        child.val();
+                        let data =
+                            child.val();
 
-                    if (
-                        data.barber ===
-                        selectedBarber
-                    ) {
-                        bookedTimes.add(
-                            data.time
-                        );
+                        if (
+                            data.barber ===
+                            selectedBarber
+                        ) {
+
+                            bookedTimes.add(
+                                data.time
+                            );
+
+                        }
+
                     }
-                });
+                );
+
             }
 
             let availableSlots = 0;
 
-            availableTimeSlots.forEach(time => {
+            availableTimeSlots.forEach(
+                time => {
 
-                let [hour, minute] =
-                    time.split(":").map(Number);
+                    let [hour, minute] =
+                        time
+                            .split(":")
+                            .map(Number);
 
-                let isPast =
-                    selectedDateObj.toDateString() ===
-                    now.toDateString() &&
-                    (
-                        hour < currentHours ||
+                    let isPast =
+                        selectedDateObj.toDateString() ===
+                        now.toDateString() &&
                         (
-                            hour === currentHours &&
-                            minute <= currentMinutes
-                        )
+                            hour <
+                            currentHours ||
+                            (
+                                hour ===
+                                currentHours &&
+                                minute <=
+                                currentMinutes
+                            )
+                        );
+
+                    const slot =
+                        document.createElement(
+                            "div"
+                        );
+
+                    slot.classList.add(
+                        "time-slot"
                     );
 
-                const slot =
-                    document.createElement("div");
+                    slot.textContent =
+                        time;
 
-                slot.classList.add("time-slot");
-                slot.textContent = time;
+                    if (
+                        isPast ||
+                        bookedTimes.has(time)
+                    ) {
 
-                if (
-                    isPast ||
-                    bookedTimes.has(time)
-                ) {
+                        slot.classList.add(
+                            "inactive"
+                        );
 
-                    slot.classList.add("inactive");
+                    }
 
-                }
+                    else {
 
-                else {
+                        availableSlots++;
 
-                    availableSlots++;
+                        slot.addEventListener(
+                            "click",
+                            function () {
 
-                    slot.addEventListener(
-                        "click",
-                        function () {
+                                document
+                                    .querySelectorAll(
+                                        ".time-slot"
+                                    )
+                                    .forEach(s =>
+                                        s.classList.remove(
+                                            "selected"
+                                        )
+                                    );
 
-                            document
-                                .querySelectorAll(".time-slot")
-                                .forEach(s =>
-                                    s.classList.remove("selected")
+                                slot.classList.add(
+                                    "selected"
                                 );
 
-                            slot.classList.add("selected");
+                                selectedTime =
+                                    time;
 
-                            selectedTime = time;
+                                showBookingDetails();
 
-                            showBookingDetails();
-                        }
+                            }
+                        );
+
+                    }
+
+                    timeSlotsContainer.appendChild(
+                        slot
                     );
+
                 }
+            );
 
-                timeSlotsContainer.appendChild(slot);
-            });
-
-            if (availableSlots === 0) {
+            if (
+                availableSlots === 0
+            ) {
 
                 timeSlotsContainer.innerHTML = `
                     <p style="
@@ -1814,21 +2117,30 @@ function showTimeSlots() {
                         Aucun horaire disponible pour ce coiffeur
                     </p>
                 `;
+
             }
 
-            timeSlotsContainer.style.display = "grid";
+            timeSlotsContainer.style.display =
+                "grid";
 
             setTimeout(() => {
-                timeSlotsContainer.style.opacity = "1";
+
+                timeSlotsContainer.style.opacity =
+                    "1";
+
             },100);
+
         })
 
         .catch(err => {
+
             console.error(
                 "Error fetching booked times:",
                 err
             );
+
         });
+
 }
 
 function showBookingDetails() {
@@ -1883,140 +2195,172 @@ function showBookingDetails() {
         },100);
 
     },300);
+
 }
 
 document
-.getElementById("submitBooking")
-.addEventListener("click", async () => {
+    .getElementById(
+        "submitBooking"
+    )
+    .addEventListener(
+        "click",
+        async () => {
 
-    let name =
-        document.getElementById(
-            "userName"
-        ).value.trim();
+            let name =
+                document.getElementById(
+                    "userName"
+                ).value.trim();
 
-    let mobile =
-        document.getElementById(
-            "userMobile"
-        ).value.trim();
+            let mobile =
+                document.getElementById(
+                    "userMobile"
+                ).value.trim();
 
-    let service =
-        document.getElementById(
-            "serviceType"
-        ).value;
+            let service =
+                document.getElementById(
+                    "serviceType"
+                ).value;
 
-    if (!selectedDate || !selectedTime) {
+            if (
+                !selectedDate ||
+                !selectedTime
+            ) {
 
-        showModal(
-            "warning",
-            "Choisir date et heure",
-            "Veuillez choisir une date et une heure"
-        );
+                showModal(
+                    "warning",
+                    "Choisir date et heure",
+                    "Veuillez choisir une date et une heure"
+                );
 
-        return;
-    }
+                return;
+            }
 
-    if (!name || !mobile) {
+            if (
+                !name ||
+                !mobile
+            ) {
 
-        showModal(
-            "warning",
-            "Informations manquantes",
-            "Le nom et le numéro sont requis"
-        );
+                showModal(
+                    "warning",
+                    "Informations manquantes",
+                    "Le nom et le numéro sont requis"
+                );
 
-        return;
-    }
+                return;
+            }
 
-    try {
+            try {
 
-        const blockedSnap =
-            await firebase.database()
-                .ref("blockedCustomers")
-                .child(mobile)
-                .once("value");
+                const blockedSnap =
+                    await firebase
+                        .database()
+                        .ref(
+                            "blockedCustomers"
+                        )
+                        .child(mobile)
+                        .once("value");
 
-        if (blockedSnap.exists()) {
+                if (
+                    blockedSnap.exists()
+                ) {
 
-            showModal(
-                "error",
-                "Réservation bloquée",
-                "Ce numéro est bloqué"
-            );
+                    showModal(
+                        "error",
+                        "Réservation bloquée",
+                        "Ce numéro est bloqué"
+                    );
 
-            return;
-        }
+                    return;
+                }
 
-        const bookingData = {
-            username:name,
-            mobile:mobile,
-            service:service,
-            date:selectedDate,
-            time:selectedTime,
-            barber:selectedBarber,
-            timestamp:new Date().toISOString()
-        };
+                const bookingData = {
+                    username:name,
+                    mobile:mobile,
+                    service:service,
+                    date:selectedDate,
+                    time:selectedTime,
+                    barber:selectedBarber,
+                    timestamp:new Date().toISOString()
+                };
 
-        await firebase.database()
-            .ref("bookings")
-            .push(bookingData);
+                await firebase
+                    .database()
+                    .ref("bookings")
+                    .push(
+                        bookingData
+                    );
 
-        showModal(
-            "success",
-            "Rendez-vous confirmé",
-            `👨‍🦱 Coiffeur: ${selectedBarber}
+                showModal(
+                    "success",
+                    "Rendez-vous confirmé",
+                    `👨‍🦱 Coiffeur: ${selectedBarber}
 📅 Date: ${selectedDate}
 ⏰ Heure: ${selectedTime}
 👤 Nom: ${name}
 📞 Mobile: ${mobile}
 💇 Service: ${service}`
-        );
+                );
 
-        document.getElementById(
-            "userName"
-        ).value = "";
+                document.getElementById(
+                    "userName"
+                ).value = "";
 
-        document.getElementById(
-            "userMobile"
-        ).value = "";
+                document.getElementById(
+                    "userMobile"
+                ).value = "";
 
-        document.getElementById(
-            "serviceType"
-        ).selectedIndex = 0;
+                document.getElementById(
+                    "serviceType"
+                ).selectedIndex = 0;
 
-        selectedDate = null;
-        selectedTime = null;
-        selectedBarber = null;
+                selectedDate = null;
+                selectedTime = null;
+                selectedBarber = null;
 
-    }
+            }
 
-    catch (error) {
+            catch (error) {
 
-        console.error(
-            "Booking error:",
-            error
-        );
+                console.error(
+                    "Booking error:",
+                    error
+                );
 
-        showModal(
-            "error",
-            "Échec du rendez-vous",
-            "Une erreur est survenue"
-        );
-    }
-});
+                showModal(
+                    "error",
+                    "Échec du rendez-vous",
+                    "Une erreur est survenue"
+                );
+
+            }
+
+        }
+    );
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
 
-        document.querySelectorAll(
-            ".fade-in"
-        ).forEach(section => {
-            if (
-                section.getBoundingClientRect().top <
-                window.innerHeight
-            ) {
-                section.classList.add("visible");
-            }
-        });
+        document
+            .querySelectorAll(
+                ".fade-in"
+            )
+            .forEach(section => {
+
+                if (
+                    section
+                        .getBoundingClientRect()
+                        .top <
+                    window.innerHeight
+                ) {
+
+                    section.classList.add(
+                        "visible"
+                    );
+
+                }
+
+            });
 
         renderCalendar(
             currentMonth,
@@ -2024,9 +2368,32 @@ document.addEventListener(
         );
 
         fetchDaysOff();
+
     }
 );
 </script>
+
+<script>
+    document.addEventListener("keydown",function(e){
+        if((e.ctrlKey || e.metaKey) && ["+","-","=","0"].includes(e.key)){
+            e.preventDefault();
+        }
+    });
+    
+    document.addEventListener("wheel",function(e){
+        if(e.ctrlKey || e.metaKey){
+            e.preventDefault();
+        }
+    },{passive:false});
+    
+    document.addEventListener("gesturestart",function(e){
+        e.preventDefault();
+    });
+    
+    document.addEventListener("dblclick",function(e){
+        e.preventDefault();
+    });
+    </script>
 
 </body>
 </html>
