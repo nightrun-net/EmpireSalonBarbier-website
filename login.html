@@ -1,101 +1,861 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner Login</title>
+<meta charset="UTF-8">
 
-    <!-- ✅ Inline CSS for Styling -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            margin: auto;
-        }
+<meta name="theme-color" content="#101010">
 
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+<title>Connexion Propriétaire | Empire Salon Barber</title>
 
-        button {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            transition: 0.3s;
-        }
+<link
+    rel="icon"
+    type="image/png"
+    sizes="512x512"
+    href="black.png"
+>
 
-        button:hover {
-            opacity: 0.8;
-        }
-    </style>
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
+    crossorigin="anonymous"
+></script>
+
+<style>
+:root{
+    --bg:#0d0d0d;
+    --card:rgba(25,25,25,.85);
+    --gold:#f4b400;
+    --gold-light:#ffd45c;
+    --white:#fff;
+    --muted:#9b9b9b;
+    --border:rgba(255,255,255,.09);
+    --danger:#ff5c5c;
+    --success:#55c878;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html,
+body{
+    min-height:100%;
+}
+
+body{
+    min-height:100vh;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(244,180,0,.12),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(244,180,0,.07),
+            transparent 30%
+        ),
+        #0d0d0d;
+
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.015),
+            transparent
+        );
+
+    pointer-events:none;
+}
+
+.login-wrapper{
+    position:relative;
+    width:100%;
+    max-width:460px;
+    z-index:2;
+}
+
+.login-card{
+    width:100%;
+    padding:42px 38px 36px;
+    border:1px solid var(--border);
+    border-radius:30px;
+    background:var(--card);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 35px 100px rgba(0,0,0,.5);
+
+    animation:cardIn .6s ease;
+}
+
+@keyframes cardIn{
+    from{
+        opacity:0;
+        transform:translateY(30px) scale(.97);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.logo-wrap{
+    width:100%;
+    text-align:center;
+    margin-bottom:22px;
+}
+
+.logo{
+    width:min(240px,75%);
+    height:auto;
+
+    filter:
+        drop-shadow(
+            0 12px 28px
+            rgba(0,0,0,.45)
+        );
+}
+
+.title{
+    text-align:center;
+    font-size:30px;
+    font-weight:700;
+    line-height:1.2;
+    margin-bottom:8px;
+}
+
+.title span{
+    color:var(--gold);
+}
+
+.subtitle{
+    color:var(--muted);
+    text-align:center;
+    font-size:14px;
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+.field{
+    margin-bottom:17px;
+}
+
+.field label{
+    display:block;
+    color:#d5d5d5;
+    font-size:13px;
+    font-weight:500;
+    margin:0 0 8px 3px;
+}
+
+.input-box{
+    position:relative;
+    width:100%;
+}
+
+.input-box .left-icon{
+    position:absolute;
+    left:16px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#777;
+    font-size:15px;
+    pointer-events:none;
+    transition:.25s ease;
+}
+
+.input-box input{
+    width:100%;
+    height:58px;
+    padding:0 48px 0 46px;
+    outline:none;
+    border:1px solid #343434;
+    border-radius:16px;
+    background:#202020;
+    color:#fff;
+    font-size:15px;
+    transition:.25s ease;
+}
+
+.input-box input::placeholder{
+    color:#666;
+}
+
+.input-box input:focus{
+    border-color:var(--gold);
+    background:#222;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(244,180,0,.08);
+}
+
+.input-box:focus-within .left-icon{
+    color:var(--gold);
+}
+
+.password-toggle{
+    position:absolute;
+    right:7px;
+    top:50%;
+
+    width:42px;
+    height:42px;
+
+    transform:translateY(-50%);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:none;
+    border-radius:12px;
+    background:transparent;
+    color:#777;
+    cursor:pointer;
+    font-size:15px;
+    transition:.25s ease;
+}
+
+.password-toggle:hover{
+    background:#2d2d2d;
+    color:var(--gold);
+}
+
+.message{
+    display:none;
+    width:100%;
+    margin:5px 0 18px;
+    padding:13px 15px;
+    border-radius:13px;
+    font-size:13px;
+    line-height:1.5;
+    text-align:left;
+    animation:messageIn .25s ease;
+}
+
+@keyframes messageIn{
+    from{
+        opacity:0;
+        transform:translateY(-5px);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.message.error{
+    display:block;
+    color:#ffb3b3;
+    background:rgba(255,92,92,.08);
+    border:1px solid rgba(255,92,92,.25);
+}
+
+.message.success{
+    display:block;
+    color:#b9f3c9;
+    background:rgba(85,200,120,.08);
+    border:1px solid rgba(85,200,120,.25);
+}
+
+.login-btn{
+    width:100%;
+    min-height:58px;
+    margin-top:4px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+
+    border:none;
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold),
+            var(--gold-light)
+        );
+
+    color:#111;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+
+    box-shadow:
+        0 14px 32px
+        rgba(244,180,0,.16);
+
+    transition:.3s ease;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 18px 38px
+        rgba(244,180,0,.23);
+}
+
+.login-btn:active{
+    transform:scale(.99);
+}
+
+.login-btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.spinner{
+    width:19px;
+    height:19px;
+
+    border:
+        2px solid
+        rgba(0,0,0,.25);
+
+    border-top-color:#111;
+    border-radius:50%;
+
+    animation:spin .7s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.security-note{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    color:#666;
+    font-size:11px;
+    margin-top:20px;
+}
+
+.security-note svg{
+    color:var(--gold);
+}
+
+.footer{
+    margin-top:22px;
+    text-align:center;
+    color:#555;
+    font-size:11px;
+}
+
+@media(max-width:600px){
+
+    body{
+        padding:16px;
+        align-items:center;
+    }
+
+    .login-card{
+        padding:34px 20px 28px;
+        border-radius:24px;
+    }
+
+    .logo{
+        width:min(210px,72%);
+    }
+
+    .title{
+        font-size:27px;
+    }
+
+    .subtitle{
+        font-size:13px;
+        margin-bottom:25px;
+    }
+
+    .input-box input{
+        height:56px;
+        font-size:16px;
+    }
+
+    .login-btn{
+        min-height:56px;
+    }
+}
+
+@media(max-width:360px){
+
+    body{
+        padding:12px;
+    }
+
+    .login-card{
+        padding:28px 16px 24px;
+    }
+
+    .title{
+        font-size:24px;
+    }
+
+    .logo{
+        width:190px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <h2>Owner Login</h2>
-        <input type="email" id="email" placeholder="Enter Email" required>
-        <input type="password" id="password" placeholder="Enter Password" required>
-        <button onclick="login()">Login</button>
+
+<div class="login-wrapper">
+
+    <div class="login-card">
+
+        <div class="logo-wrap">
+
+            <img
+                src="FullLogo_Transparent.png"
+                alt="Empire Salon Barber"
+                class="logo"
+            >
+
+        </div>
+
+        <h1 class="title">
+            Connexion <span>Propriétaire</span>
+        </h1>
+
+        <p class="subtitle">
+            Connectez-vous pour gérer les rendez-vous,
+            les coiffeurs et votre salon.
+        </p>
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+        <div class="field">
+
+            <label for="email">
+                Adresse e-mail
+            </label>
+
+            <div class="input-box">
+
+                <span class="left-icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Entrez votre adresse e-mail"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+        <div class="field">
+
+            <label for="password">
+                Mot de passe
+            </label>
+
+            <div class="input-box">
+
+                <span class="left-icon">
+                    <i class="fas fa-lock"></i>
+                </span>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Entrez votre mot de passe"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="password-toggle"
+                    id="passwordToggle"
+                    aria-label="Afficher le mot de passe"
+                >
+                    <i class="fas fa-eye"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+        <button
+            id="loginBtn"
+            class="login-btn"
+            type="button"
+        >
+
+            <span id="loginText">
+                Se connecter
+            </span>
+
+            <i
+                id="loginIcon"
+                class="fas fa-arrow-right"
+            ></i>
+
+        </button>
+
+        <div class="security-note">
+
+            <i class="fas fa-shield-alt"></i>
+
+            <span>
+                Accès propriétaire sécurisé
+            </span>
+
+        </div>
+
     </div>
 
-    <!-- ✅ Load Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <div class="footer">
+        Empire Salon Barber
+    </div>
 
-    <script>
-        // ✅ Initialize Firebase (Use Your Config)
-        firebase.initializeApp({
-            apiKey: "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
-            authDomain: "empiresalonbarber.firebaseapp.com",
-            projectId: "empiresalonbarber",
-            storageBucket: "empiresalonbarber.appspot.com",
-            messagingSenderId: "365303178903",
-            appId: "1:365303178903:web:c6f9eb19766934e443ebd2",
-            measurementId: "G-LMHTQJBCP6"
-        });
+</div>
 
-        function login() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    alert("✅ Login successful!");
-                    sessionStorage.setItem("ownerLoggedIn", "true"); // ✅ Store login session
-                    window.location.href = "dashboard.html"; // ✅ Redirect to dashboard
-                })
-                .catch(error => {
-                    alert("❌ Login failed: " + error.message);
-                });
+<script>
+firebase.initializeApp({
+    apiKey:
+        "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
+
+    authDomain:
+        "empiresalonbarber.firebaseapp.com",
+
+    projectId:
+        "empiresalonbarber",
+
+    storageBucket:
+        "empiresalonbarber.appspot.com",
+
+    messagingSenderId:
+        "365303178903",
+
+    appId:
+        "1:365303178903:web:c6f9eb19766934e443ebd2",
+
+    measurementId:
+        "G-LMHTQJBCP6"
+});
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const loginText =
+    document.getElementById("loginText");
+
+const loginIcon =
+    document.getElementById("loginIcon");
+
+const messageBox =
+    document.getElementById("message");
+
+const passwordToggle =
+    document.getElementById("passwordToggle");
+
+function showMessage(type,text){
+
+    messageBox.className =
+        `message ${type}`;
+
+    messageBox.innerHTML =
+        type === "error"
+        ? `<i class="fas fa-circle-exclamation"></i> ${text}`
+        : `<i class="fas fa-circle-check"></i> ${text}`;
+}
+
+function hideMessage(){
+
+    messageBox.className =
+        "message";
+
+    messageBox.innerHTML =
+        "";
+}
+
+function setLoading(loading){
+
+    loginBtn.disabled =
+        loading;
+
+    if(loading){
+
+        loginText.textContent =
+            "Connexion...";
+
+        loginIcon.className =
+            "spinner";
+
+    }
+
+    else{
+
+        loginText.textContent =
+            "Se connecter";
+
+        loginIcon.className =
+            "fas fa-arrow-right";
+    }
+}
+
+passwordToggle.addEventListener(
+    "click",
+    () => {
+
+        const isPassword =
+            passwordInput.type
+            ===
+            "password";
+
+        passwordInput.type =
+            isPassword
+            ?
+            "text"
+            :
+            "password";
+
+        passwordToggle.innerHTML =
+            isPassword
+            ?
+            '<i class="fas fa-eye-slash"></i>'
+            :
+            '<i class="fas fa-eye"></i>';
+
+        passwordToggle.setAttribute(
+            "aria-label",
+            isPassword
+            ?
+            "Masquer le mot de passe"
+            :
+            "Afficher le mot de passe"
+        );
+    }
+);
+
+async function login(){
+
+    hideMessage();
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    if(!email){
+
+        showMessage(
+            "error",
+            "Veuillez saisir votre adresse e-mail."
+        );
+
+        emailInput.focus();
+
+        return;
+    }
+
+    if(!password){
+
+        showMessage(
+            "error",
+            "Veuillez saisir votre mot de passe."
+        );
+
+        passwordInput.focus();
+
+        return;
+    }
+
+    setLoading(true);
+
+    try{
+
+        await firebase
+            .auth()
+            .signInWithEmailAndPassword(
+                email,
+                password
+            );
+
+        sessionStorage.setItem(
+            "ownerLoggedIn",
+            "true"
+        );
+
+        showMessage(
+            "success",
+            "Connexion réussie. Ouverture du tableau de bord..."
+        );
+
+        setTimeout(
+            () => {
+
+                window.location.href =
+                    "dashboard.html";
+
+            },
+            500
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Erreur de connexion:",
+            error
+        );
+
+        let message =
+            "Échec de la connexion. Vérifiez votre adresse e-mail et votre mot de passe.";
+
+        if(
+            error.code ===
+            "auth/invalid-email"
+        ){
+
+            message =
+                "Veuillez saisir une adresse e-mail valide.";
+
         }
 
-        // ✅ Check login status when loading login page
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                window.location.href = "dashboard.html"; // ✅ Redirect if already logged in
+        else if(
+            error.code ===
+            "auth/user-not-found"
+        ){
+
+            message =
+                "Aucun compte propriétaire n'a été trouvé avec cette adresse e-mail.";
+
+        }
+
+        else if(
+            error.code ===
+            "auth/wrong-password"
+        ){
+
+            message =
+                "Le mot de passe saisi est incorrect.";
+
+        }
+
+        else if(
+            error.code ===
+            "auth/too-many-requests"
+        ){
+
+            message =
+                "Trop de tentatives de connexion. Veuillez réessayer plus tard.";
+
+        }
+
+        showMessage(
+            "error",
+            message
+        );
+
+        setLoading(false);
+    }
+}
+
+loginBtn.addEventListener(
+    "click",
+    login
+);
+
+[emailInput,passwordInput]
+.forEach(input => {
+
+    input.addEventListener(
+        "keydown",
+        event => {
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+                login();
             }
-        });
-    </script>
+
+        }
+    );
+
+});
+
+firebase
+.auth()
+.onAuthStateChanged(
+    user => {
+
+        if(user){
+
+            sessionStorage.setItem(
+                "ownerLoggedIn",
+                "true"
+            );
+
+            window.location.href =
+                "dashboard.html";
+        }
+
+    }
+);
+</script>
+
 </body>
 </html>
+
