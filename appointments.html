@@ -55,7 +55,6 @@ body{
 
 .header h2{
     margin:0;
-
     font-size:27px;
 }
 
@@ -69,7 +68,6 @@ body{
     color:#111;
 
     cursor:pointer;
-
     font-weight:bold;
 }
 
@@ -81,7 +79,6 @@ body{
     margin:0 0 20px;
 
     color:#555;
-
     font-size:17px;
 }
 
@@ -149,7 +146,6 @@ button:hover{
 .delete-month-btn{
     background:#dc3545;
     color:#fff;
-
     font-weight:bold;
 }
 
@@ -168,16 +164,18 @@ button:hover{
     width:100%;
 
     /*
-        Approximately:
-        header = 50px
-        15 rows × 48px = 720px
-
-        Scroll appears only when content
-        is taller than this.
+        15 rows visible before
+        vertical scrolling starts.
     */
     max-height:770px;
 
     overflow:auto;
+
+    /*
+        Prevent page bounce while
+        scrolling inside the table.
+    */
+    overscroll-behavior:contain;
 
     scrollbar-width:thin;
     scrollbar-color:#007bff #eee;
@@ -278,6 +276,8 @@ tbody tr:last-child td{
     width:100%;
 
     margin-top:5px;
+    margin-bottom:15px;
+
     padding:11px 13px;
 
     display:none;
@@ -304,7 +304,6 @@ tbody tr:last-child td{
 
     .container{
         padding:16px;
-
         border-radius:12px;
     }
 
@@ -315,7 +314,6 @@ tbody tr:last-child td{
 
     .header h2{
         font-size:23px;
-
         text-align:center;
     }
 
@@ -333,10 +331,6 @@ tbody tr:last-child td{
     .refresh-btn,
     .delete-month-btn{
         width:100%;
-    }
-
-    .table-scroll{
-        max-height:770px;
     }
 
     th,
@@ -362,7 +356,6 @@ tbody tr:last-child td{
     th,
     td{
         padding:8px;
-
         font-size:11px;
     }
 }
@@ -431,7 +424,10 @@ tbody tr:last-child td{
 
     <div class="table-container">
 
-        <div class="table-scroll">
+        <div
+            class="table-scroll"
+            id="tableScroll"
+        >
 
             <table>
 
@@ -526,40 +522,37 @@ function fetchAppointments(){
 
     body.innerHTML = `
         <tr>
+
             <td
                 colspan="8"
                 class="empty-row"
             >
                 Chargement...
             </td>
+
         </tr>
     `;
 
-    db.ref(
-        "bookings"
-    )
-    .once(
-        "value"
-    )
+    db.ref("bookings")
+    .once("value")
     .then(snapshot => {
 
-        if(
-            !snapshot.exists()
-        ){
+        if(!snapshot.exists()){
 
-            allAppointments =
-                [];
+            allAppointments = [];
 
             updateCounter(0);
 
             body.innerHTML = `
                 <tr>
+
                     <td
                         colspan="8"
                         class="empty-row"
                     >
                         Aucun rendez-vous.
                     </td>
+
                 </tr>
             `;
 
@@ -569,99 +562,97 @@ function fetchAppointments(){
         const appointments =
             [];
 
-        snapshot.forEach(
-            child => {
+        snapshot.forEach(child => {
 
-                const data =
-                    child.val() || {};
+            const data =
+                child.val() || {};
 
-                if(
-                    !data.date ||
-                    !data.time
-                ){
-                    return;
-                }
-
-                const d =
-                    String(
-                        data.date
-                    )
-                    .split("-");
-
-                const t =
-                    String(
-                        data.time
-                    )
-                    .split(":");
-
-                if(
-                    d.length !== 3 ||
-                    t.length !== 2
-                ){
-                    return;
-                }
-
-                const day =
-                    Number(d[0]);
-
-                const month =
-                    Number(d[1]);
-
-                const year =
-                    Number(d[2]);
-
-                const hour =
-                    Number(t[0]);
-
-                const minute =
-                    Number(t[1]);
-
-                const fullDate =
-                    new Date(
-                        year,
-                        month - 1,
-                        day,
-                        hour,
-                        minute
-                    );
-
-                appointments.push({
-
-                    id:
-                        child.key,
-
-                    username:
-                        data.username || "-",
-
-                    mobile:
-                        data.mobile || "-",
-
-                    date:
-                        data.date,
-
-                    time:
-                        data.time,
-
-                    service:
-                        data.service || "-",
-
-                    barber:
-                        data.barber || "N/A",
-
-                    year:
-                        String(year),
-
-                    month:
-                        String(month)
-                        .padStart(2,"0"),
-
-                    timestamp:
-                        fullDate.getTime()
-
-                });
-
+            if(
+                !data.date ||
+                !data.time
+            ){
+                return;
             }
-        );
+
+            const d =
+                String(
+                    data.date
+                )
+                .split("-");
+
+            const t =
+                String(
+                    data.time
+                )
+                .split(":");
+
+            if(
+                d.length !== 3 ||
+                t.length !== 2
+            ){
+                return;
+            }
+
+            const day =
+                Number(d[0]);
+
+            const month =
+                Number(d[1]);
+
+            const year =
+                Number(d[2]);
+
+            const hour =
+                Number(t[0]);
+
+            const minute =
+                Number(t[1]);
+
+            const fullDate =
+                new Date(
+                    year,
+                    month - 1,
+                    day,
+                    hour,
+                    minute
+                );
+
+            appointments.push({
+
+                id:
+                    child.key,
+
+                username:
+                    data.username || "-",
+
+                mobile:
+                    data.mobile || "-",
+
+                date:
+                    data.date,
+
+                time:
+                    data.time,
+
+                barber:
+                    data.barber || "N/A",
+
+                service:
+                    data.service || "-",
+
+                year:
+                    String(year),
+
+                month:
+                    String(month)
+                    .padStart(2,"0"),
+
+                timestamp:
+                    fullDate.getTime()
+
+            });
+
+        });
 
         appointments.sort(
             (a,b) =>
@@ -684,12 +675,14 @@ function fetchAppointments(){
 
         body.innerHTML = `
             <tr>
+
                 <td
                     colspan="8"
                     class="empty-row"
                 >
                     Erreur lors du chargement.
                 </td>
+
             </tr>
         `;
 
@@ -732,60 +725,56 @@ function applyFilters(){
                     app.year === year &&
                     app.month === month
             );
-
     }
 
     if(search){
 
         filtered =
-            filtered.filter(
-                app => {
+            filtered.filter(app => {
 
-                    return (
+                return (
 
-                        String(
-                            app.username
-                        )
-                        .toLowerCase()
-                        .includes(search)
+                    String(
+                        app.username
+                    )
+                    .toLowerCase()
+                    .includes(search)
 
-                        ||
+                    ||
 
-                        String(
-                            app.mobile
-                        )
-                        .toLowerCase()
-                        .includes(search)
+                    String(
+                        app.mobile
+                    )
+                    .toLowerCase()
+                    .includes(search)
 
-                        ||
+                    ||
 
-                        String(
-                            app.date
-                        )
-                        .toLowerCase()
-                        .includes(search)
+                    String(
+                        app.date
+                    )
+                    .toLowerCase()
+                    .includes(search)
 
-                        ||
+                    ||
 
-                        String(
-                            app.barber
-                        )
-                        .toLowerCase()
-                        .includes(search)
+                    String(
+                        app.barber
+                    )
+                    .toLowerCase()
+                    .includes(search)
 
-                        ||
+                    ||
 
-                        String(
-                            app.service
-                        )
-                        .toLowerCase()
-                        .includes(search)
+                    String(
+                        app.service
+                    )
+                    .toLowerCase()
+                    .includes(search)
 
-                    );
+                );
 
-                }
-            );
-
+            });
     }
 
     updateCounter(
@@ -808,18 +797,18 @@ function renderAppointments(
             "appointmentsBody"
         );
 
-    if(
-        !appointments.length
-    ){
+    if(!appointments.length){
 
         body.innerHTML = `
             <tr>
+
                 <td
                     colspan="8"
                     class="empty-row"
                 >
                     Aucun rendez-vous trouvé.
                 </td>
+
             </tr>
         `;
 
@@ -882,9 +871,11 @@ function renderAppointments(
 function updateMonthDeleteInfo(){
 
     const selectedMonth =
-        document.getElementById(
+        document
+        .getElementById(
             "monthPicker"
-        ).value;
+        )
+        .value;
 
     const box =
         document.getElementById(
@@ -897,8 +888,7 @@ function updateMonthDeleteInfo(){
             "show"
         );
 
-        box.innerHTML =
-            "";
+        box.innerHTML = "";
 
         return;
     }
@@ -911,14 +901,22 @@ function updateMonthDeleteInfo(){
         .split("-");
 
     const count =
-        allAppointments.filter(
+        allAppointments
+        .filter(
             app =>
                 app.year === year &&
                 app.month === month
-        ).length;
+        )
+        .length;
 
-    box.innerHTML =
-        `Le mois sélectionné contient <strong>${count}</strong> rendez-vous. Le bouton « Supprimer le mois » supprimera définitivement ces rendez-vous de Firebase.`;
+    box.innerHTML = `
+        Le mois sélectionné contient
+        <strong>${count}</strong>
+        rendez-vous.
+        Le bouton « Supprimer le mois »
+        supprimera définitivement
+        ces rendez-vous de Firebase.
+    `;
 
     box.classList.add(
         "show"
@@ -947,7 +945,9 @@ function deleteAppointment(id){
     })
     .catch(error => {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Erreur lors de la suppression."
@@ -982,7 +982,8 @@ function deleteSelectedMonth(){
         .split("-");
 
     const appointmentsToDelete =
-        allAppointments.filter(
+        allAppointments
+        .filter(
             app =>
                 app.year === year &&
                 app.month === month
@@ -1096,6 +1097,200 @@ function escapeHTML(value){
         "&#039;"
     );
 }
+
+/*
+    ==================================
+    ONE-DIRECTION TABLE SCROLL
+    ==================================
+
+    Vertical gesture:
+    only scroll up / down.
+
+    Horizontal gesture:
+    only scroll left / right.
+*/
+
+const tableScroll =
+    document.getElementById(
+        "tableScroll"
+    );
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+let touchStartScrollLeft = 0;
+let touchStartScrollTop = 0;
+
+let lockedAxis = null;
+
+tableScroll.addEventListener(
+    "touchstart",
+    event => {
+
+        if(
+            event.touches.length !== 1
+        ){
+            return;
+        }
+
+        const touch =
+            event.touches[0];
+
+        touchStartX =
+            touch.clientX;
+
+        touchStartY =
+            touch.clientY;
+
+        touchStartScrollLeft =
+            tableScroll.scrollLeft;
+
+        touchStartScrollTop =
+            tableScroll.scrollTop;
+
+        lockedAxis =
+            null;
+
+    },
+    {
+        passive:true
+    }
+);
+
+tableScroll.addEventListener(
+    "touchmove",
+    event => {
+
+        if(
+            event.touches.length !== 1
+        ){
+            return;
+        }
+
+        const touch =
+            event.touches[0];
+
+        const moveX =
+            touch.clientX -
+            touchStartX;
+
+        const moveY =
+            touch.clientY -
+            touchStartY;
+
+        /*
+            Wait until the finger has
+            moved enough before choosing
+            vertical or horizontal.
+        */
+        if(!lockedAxis){
+
+            if(
+                Math.abs(moveX) < 6 &&
+                Math.abs(moveY) < 6
+            ){
+                return;
+            }
+
+            lockedAxis =
+                Math.abs(moveY) >
+                Math.abs(moveX)
+                ? "vertical"
+                : "horizontal";
+        }
+
+        if(
+            lockedAxis ===
+            "vertical"
+        ){
+
+            /*
+                Keep horizontal position
+                exactly where it started.
+            */
+            tableScroll.scrollLeft =
+                touchStartScrollLeft;
+
+        }
+
+        else if(
+            lockedAxis ===
+            "horizontal"
+        ){
+
+            /*
+                Keep vertical position
+                exactly where it started.
+            */
+            tableScroll.scrollTop =
+                touchStartScrollTop;
+
+        }
+
+    },
+    {
+        passive:true
+    }
+);
+
+tableScroll.addEventListener(
+    "touchend",
+    () => {
+
+        lockedAxis =
+            null;
+
+    }
+);
+
+tableScroll.addEventListener(
+    "touchcancel",
+    () => {
+
+        lockedAxis =
+            null;
+
+    }
+);
+
+/*
+    Trackpad / mouse wheel
+    direction lock.
+*/
+
+tableScroll.addEventListener(
+    "wheel",
+    event => {
+
+        const horizontal =
+            Math.abs(event.deltaX) >
+            Math.abs(event.deltaY);
+
+        if(horizontal){
+
+            event.preventDefault();
+
+            tableScroll.scrollLeft +=
+                event.deltaX !== 0
+                ? event.deltaX
+                : event.deltaY;
+
+        }
+
+        else{
+
+            event.preventDefault();
+
+            tableScroll.scrollTop +=
+                event.deltaY;
+
+        }
+
+    },
+    {
+        passive:false
+    }
+);
 
 document
 .getElementById(
