@@ -1,1001 +1,3965 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- ✅ Load Firebase v8 -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <!-- ✅ Inline CSS for Styling -->
-    <style>
-        body {
-          font-family: 'Times New Roman', Times, serif;
-          background-color: #f5f5f5;
-          margin: 0;
-          padding: 20px;
-          display: block; /* Allow natural flow */
-          overflow-y: auto; /* Enable scrolling */
-        }
+<meta charset="UTF-8">
 
-        .dashboard-container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-        h2 {
-            color: #007bff;
-            font-family: 'Times New Roman', Times, serif;
-        }
+<meta name="theme-color" content="#0d0d0d">
 
-        p {
-            font-size: 18px;
-            color: #333;
-            font-family: 'Times New Roman', Times, serif;
-        }
+<title>Tableau de bord | Empire Salon Barber</title>
 
-        .appointments-count {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #007bff;
-        }
-                .scrollable-grid {
-            max-height: 300px; /* ✅ Fixed height */
-            overflow-y: auto; /* ✅ Enables scrolling */
-            border: 1px solid #ddd;
-            margin-top: 10px;
-        }
+<link
+    rel="icon"
+    type="image/png"
+    href="black.png"
+>
 
-        .upcoming-label {
-            background-color: orange;
-            color: white;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-        }
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+>
 
-        th, td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .call-btn {
-            background-color: #28a745;
-            color: white;
-            padding: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            width: 100%;
-        }
-
-        .call-btn:hover {
-            background-color: #218838;
-        }
-        .done-icon {
-            color: green;
-            font-weight: bold;
-        }
-
-        .new-icon {
-            color: red;
-            font-weight: bold;
-        }
-
-        .block-btn {
-            background-color: #dc3545;
-        }
-
-        .block-btn:hover {
-            background-color: #c82333;
-        }
-
-        button {
-            width: 50%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-
-        .update-profile {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .update-profile:hover {
-            background-color: #218838;
-        }
-
-        .manage-appointments {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .manage-appointments:hover {
-            background-color: #0056b3;
-        }
-
-        .manage-days-off {
-            background-color: #ffc107;
-            color: black;
-        }
-
-        .manage-days-off:hover {
-            background-color: #e0a800;
-        }
-        .blocked-customers {
-            background-color: #8e44ad;
-            color: white;
-        }
-
-        .blocked-customers:hover {
-            background-color: #6c3483;
-        }
-
-        .logout {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .logout:hover {
-            background-color: #c82333;
-        }
-
-        button:hover { opacity: 0.8; }
-
-            /* ✅ Mobile Friendly */
-            @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            th, td {
-                font-size: 12px;
-            }
-            button {
-                font-size: 14px;
-                padding: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            th, td {
-                font-size: 11px;
-                padding: 5px;
-            }
-            button {
-                font-size: 13px;
-                padding: 8px;
-            }
-        }
-
-        .manage-barbers {
-    background-color: #17a2b8;
-    color: white;
+<style>
+:root{
+    --bg:#0d0d0d;
+    --surface:#171717;
+    --surface2:#202020;
+    --surface3:#292929;
+    --gold:#f4b400;
+    --gold2:#ffd45c;
+    --white:#fff;
+    --text:#e7e7e7;
+    --muted:#929292;
+    --border:rgba(255,255,255,.08);
+    --red:#ff5656;
+    --green:#42c875;
+    --blue:#4da3ff;
+    --purple:#a875ff;
+    --orange:#ff9f43;
+    --shadow:0 25px 70px rgba(0,0,0,.35);
 }
 
-/* 🔥 MODAL BACKGROUND */
-.modal{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px); /* ✨ glass effect */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    background:var(--bg);
+}
+
+body{
+    min-height:100vh;
+
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 0 0,
+            rgba(244,180,0,.09),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 100% 100%,
+            rgba(244,180,0,.045),
+            transparent 30%
+        ),
+        var(--bg);
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.page{
+    width:min(1400px,100%);
+    margin:auto;
+    padding:28px;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+    margin-bottom:28px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.brand-logo{
+    width:56px;
+    height:56px;
+
+    object-fit:contain;
+
+    padding:6px;
+
+    border-radius:17px;
+    border:1px solid var(--border);
+
+    background:var(--surface);
+}
+
+.brand-text h1{
+    font-size:24px;
+    line-height:1.2;
+}
+
+.brand-text p{
+    margin-top:4px;
+
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+.owner-box{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+    padding:10px 14px;
+
+    border:1px solid var(--border);
+    border-radius:17px;
+
+    background:
+        rgba(23,23,23,.82);
+}
+
+.owner-icon{
+    width:42px;
+    height:42px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
+    border-radius:13px;
+
+    background:
+        rgba(244,180,0,.1);
+
+    color:var(--gold);
+}
+
+.owner-info{
+    text-align:right;
+}
+
+.owner-info small{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:10px;
+}
+
+.owner-info span{
+    font-size:12px;
+    font-weight:500;
+}
+
+.hero{
+    position:relative;
+    overflow:hidden;
+
+    padding:30px;
+    margin-bottom:24px;
+
+    border-radius:28px;
+    border:1px solid var(--border);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(244,180,0,.12),
+            transparent 55%
+        ),
+        var(--surface);
+
+    box-shadow:var(--shadow);
+}
+
+.hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    right:-60px;
+    top:-75px;
+
+    border-radius:50%;
+
+    background:
+        rgba(244,180,0,.08);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero-badge{
+    display:inline-flex;
+    align-items:center;
+
+    gap:7px;
+    margin-bottom:13px;
+    padding:7px 11px;
+
+    border-radius:999px;
+
+    background:
+        rgba(244,180,0,.1);
+
+    color:var(--gold);
+
+    font-size:11px;
+    font-weight:600;
+}
+
+.hero h2{
+    margin-bottom:9px;
+
+    font-size:
+        clamp(25px,4vw,38px);
+
+    line-height:1.2;
+}
+
+.hero p{
+    max-width:720px;
+
+    color:var(--muted);
+
+    font-size:14px;
+    line-height:1.7;
+}
+
+.stats-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:16px;
+    margin-bottom:16px;
+}
+
+.stat-card{
+    min-height:130px;
+
+    display:flex;
+    align-items:center;
+
+    gap:17px;
+    padding:20px;
+
+    border:1px solid var(--border);
+    border-radius:22px;
+
+    background:var(--surface);
+
+    transition:.25s ease;
+}
+
+.stat-card:hover{
+    transform:translateY(-3px);
+
+    border-color:
+        rgba(244,180,0,.25);
+}
+
+.stat-icon{
+    flex:0 0 50px;
+
+    width:50px;
+    height:50px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    font-size:19px;
+}
+
+.stat-icon.gold{
+    color:var(--gold);
+
+    background:
+        rgba(244,180,0,.1);
+}
+
+.stat-icon.green{
+    color:var(--green);
+
+    background:
+        rgba(66,200,117,.1);
+}
+
+.stat-icon.blue{
+    color:var(--blue);
+
+    background:
+        rgba(77,163,255,.1);
+}
+
+.stat-info span{
+    display:block;
+
+    margin-bottom:6px;
+
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+.stat-info strong{
+    display:block;
+
+    font-size:28px;
+    line-height:1.1;
+}
+
+.stat-info small{
+    display:block;
+
+    margin-top:6px;
+
+    color:#666;
+
+    font-size:10px;
+}
+
+.capacity-section{
+    margin-bottom:24px;
+}
+
+.capacity-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+    margin-bottom:12px;
+}
+
+.capacity-head h3{
+    font-size:15px;
+}
+
+.capacity-head span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.barber-stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(240px,1fr)
+        );
+
+    gap:14px;
+}
+
+.barber-stat-card{
+    min-height:112px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+    padding:18px;
+
+    border:1px solid var(--border);
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(244,180,0,.05),
+            transparent
+        ),
+        var(--surface);
+
+    transition:.25s ease;
+}
+
+.barber-stat-card:hover{
+    transform:translateY(-3px);
+
+    border-color:
+        rgba(244,180,0,.25);
+}
+
+.barber-stat-left{
+    min-width:0;
+
+    display:flex;
+    align-items:center;
+
+    gap:13px;
+}
+
+.barber-avatar{
+    flex:0 0 46px;
+
+    width:46px;
+    height:46px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:
+        rgba(244,180,0,.1);
+
+    color:var(--gold);
+
+    font-size:18px;
+}
+
+.barber-stat-info{
+    min-width:0;
+}
+
+.barber-stat-info strong{
+    display:block;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+
+    font-size:14px;
+}
+
+.barber-stat-info span{
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--muted);
+
+    font-size:10px;
+}
+
+.barber-status{
+    display:inline-flex!important;
+
+    width:max-content;
+
+    margin-top:6px!important;
+    padding:4px 7px;
+
+    border-radius:999px;
+
+    font-size:9px!important;
+    font-weight:600;
+}
+
+.barber-status.active{
+    background:
+        rgba(66,200,117,.1);
+
+    color:var(--green);
+}
+
+.barber-status.inactive{
+    background:
+        rgba(255,86,86,.1);
+
+    color:var(--red);
+}
+
+.barber-count{
+    flex:0 0 auto;
+
+    min-width:64px;
+    height:54px;
+
+    padding:0 11px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    background:var(--gold);
+
+    color:#111;
+
+    line-height:1.05;
+}
+
+.barber-count strong{
+    font-size:20px;
+}
+
+.barber-count small{
+    margin-top:4px;
+
+    font-size:9px;
+    font-weight:700;
+}
+
+.upcoming{
+    display:flex;
+    align-items:center;
+
+    gap:15px;
+    margin-bottom:24px;
+    padding:20px;
+
+    border:1px solid
+        rgba(244,180,0,.18);
+
+    border-radius:20px;
+
+    background:
+        rgba(244,180,0,.06);
+}
+
+.upcoming > i{
+    flex:0 0 auto;
+
+    color:var(--gold);
+
+    font-size:22px;
+}
+
+.upcoming-content{
+    width:100%;
+}
+
+.upcoming-title{
+    margin-bottom:4px;
+
+    color:var(--gold);
+
+    font-size:12px;
+    font-weight:600;
+}
+
+#upcomingAppointment{
+    color:#ddd;
+
+    font-size:14px;
+}
+
+.upcoming-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:14px;
+    margin-top:8px;
+}
+
+.upcoming-details{
+    line-height:1.6;
+}
+
+.small-call-btn{
+    flex:0 0 auto;
+
+    width:38px;
+    height:38px;
+
+    border:none;
+    border-radius:11px;
+
+    background:var(--green);
+    color:#fff;
+}
+
+.section-card{
+    padding:24px;
+    margin-bottom:24px;
+
+    border:1px solid var(--border);
+    border-radius:26px;
+
+    background:var(--surface);
+
+    box-shadow:
+        0 18px 45px
+        rgba(0,0,0,.18);
+}
+
+.section-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:16px;
+    margin-bottom:20px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.section-title-icon{
+    width:40px;
+    height:40px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    color:var(--gold);
+
+    background:
+        rgba(244,180,0,.09);
+}
+
+.section-title h3{
+    font-size:18px;
+}
+
+.section-title p{
+    margin-top:2px;
+
+    color:var(--muted);
+
+    font-size:11px;
+}
+
+.firebase-badge{
+    display:inline-flex;
+    align-items:center;
+
+    gap:7px;
+    padding:7px 10px;
+
+    border-radius:999px;
+
+    background:
+        rgba(66,200,117,.08);
+
+    color:var(--green);
+
+    font-size:10px;
+    font-weight:600;
+}
+
+.firebase-dot{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    box-shadow:
+        0 0 10px
+        rgba(66,200,117,.8);
+}
+
+.table-outer{
+    width:100%;
+
+    overflow:hidden;
+
+    border:1px solid var(--border);
+    border-radius:17px;
+
+    background:#151515;
+}
+
+.table-scroll{
+    width:100%;
+
+    /*
+        Header ~52px
+        10 rows x ~58px
+        = around 632px
+    */
+    max-height:632px;
+
+    overflow:auto;
+
+    scrollbar-width:thin;
+
+    scrollbar-color:
+        var(--gold)
+        var(--surface2);
+}
+
+.table-scroll::-webkit-scrollbar{
+    width:7px;
+    height:7px;
+}
+
+.table-scroll::-webkit-scrollbar-track{
+    background:#1c1c1c;
+}
+
+.table-scroll::-webkit-scrollbar-thumb{
+    background:var(--gold);
+    border-radius:20px;
+}
+
+table{
+    width:100%;
+    min-width:900px;
+
+    border-collapse:separate;
+    border-spacing:0;
+}
+
+thead{
+    background:#222;
+}
+
+th{
+    position:sticky;
+
+    top:0;
+    z-index:4;
+
+    height:52px;
+
+    padding:0 13px;
+
+    background:#222;
+
+    color:#aaa;
+
+    font-size:11px;
+    font-weight:600;
+
+    text-transform:uppercase;
+    letter-spacing:.3px;
+
+    text-align:left;
+    white-space:nowrap;
+}
+
+tbody tr{
+    height:58px;
+
+    transition:.2s ease;
+}
+
+td{
+    height:58px;
+
+    padding:8px 13px;
+
+    border-top:
+        1px solid var(--border);
+
+    color:#ddd;
+
+    font-size:13px;
+
+    white-space:nowrap;
+}
+
+tbody tr:hover{
+    background:
+        rgba(255,255,255,.025);
+}
+
+.status-done,
+.status-new,
+.status-unknown{
+    display:inline-flex;
+    align-items:center;
+
+    gap:5px;
+    padding:6px 9px;
+
+    border-radius:999px;
+
+    font-size:11px;
+    font-weight:600;
+}
+
+.status-done{
+    color:#78df99;
+
+    background:
+        rgba(66,200,117,.1);
+}
+
+.status-new{
+    color:#ffe28a;
+
+    background:
+        rgba(244,180,0,.1);
+}
+
+.status-unknown{
+    color:#bbb;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+.call-btn{
+    width:38px;
+    height:38px;
+
+    border:none;
+    border-radius:11px;
+
+    background:
+        rgba(66,200,117,.12);
+
+    color:var(--green);
+
+    transition:.2s ease;
+}
+
+.call-btn:hover{
+    background:var(--green);
+    color:#fff;
+}
+
+.actions-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:14px;
+}
+
+.action-card{
+    min-height:125px;
+
+    padding:18px;
+
+    border:1px solid var(--border);
+    border-radius:20px;
+
+    background:var(--surface);
+
+    color:#fff;
+
+    text-align:left;
+
+    transition:.25s ease;
+}
+
+.action-card:hover{
+    transform:translateY(-4px);
+
+    border-color:
+        rgba(244,180,0,.3);
+
+    background:var(--surface2);
+}
+
+.action-icon{
+    width:44px;
+    height:44px;
+
+    margin-bottom:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:13px;
+
+    font-size:18px;
+}
+
+.action-card h4{
+    margin-bottom:4px;
+
+    font-size:14px;
+}
+
+.action-card p{
+    color:var(--muted);
+
+    font-size:10px;
+    line-height:1.5;
+}
+
+.action-icon.gold{
+    color:var(--gold);
+
+    background:
+        rgba(244,180,0,.1);
+}
+
+.action-icon.blue{
+    color:var(--blue);
+
+    background:
+        rgba(77,163,255,.1);
+}
+
+.action-icon.green{
+    color:var(--green);
+
+    background:
+        rgba(66,200,117,.1);
+}
+
+.action-icon.orange{
+    color:var(--orange);
+
+    background:
+        rgba(255,159,67,.1);
+}
+
+.action-icon.purple{
+    color:var(--purple);
+
+    background:
+        rgba(168,117,255,.1);
+}
+
+.action-icon.red{
+    color:var(--red);
+
+    background:
+        rgba(255,86,86,.1);
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+
+    padding:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        rgba(0,0,0,.78);
+
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+
     opacity:0;
+    visibility:hidden;
     pointer-events:none;
-    transition:0.3s;
+
+    transition:.25s ease;
+
     z-index:9999;
 }
 
-/* SHOW */
 .modal.show{
     opacity:1;
+    visibility:visible;
     pointer-events:auto;
 }
 
-/* 🔥 MODAL BOX (GLASS STYLE) */
 .modal-box{
-    background:#4b4b4c;
+    width:min(520px,100%);
+    max-height:90vh;
 
-    border-radius: 20px;
-    padding: 25px;
-    width: 95%;
-    max-width: 420px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    transform: translateY(40px) scale(0.9);
-    transition: 0.3s;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: white;
+    overflow-y:auto;
+
+    padding:25px;
+
+    border:1px solid var(--border);
+    border-radius:25px;
+
+    background:#171717;
+
+    box-shadow:
+        0 30px 90px
+        rgba(0,0,0,.6);
+
+    transform:
+        translateY(25px)
+        scale(.96);
+
+    transition:.25s ease;
 }
 
-/* ANIMATION */
 .modal.show .modal-box{
-    transform: translateY(0) scale(1);
+    transform:none;
 }
 
-/* TITLE */
-.modal-box h2{
-    margin-bottom: 15px;
-    font-size: 22px;
-    font-weight: 600;
-    color: #00c6ff;
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+    margin-bottom:22px;
 }
 
-/* INPUT */
-.modal-box input{
-    padding:10px;
-    border-radius:10px;
+.modal-title{
+    display:flex;
+    align-items:center;
+
+    gap:11px;
+}
+
+.modal-title span{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:13px;
+
+    color:var(--gold);
+
+    background:
+        rgba(244,180,0,.1);
+}
+
+.modal-title h2{
+    font-size:19px;
+}
+
+.modal-title p{
+    margin-top:2px;
+
+    color:var(--muted);
+
+    font-size:10px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+
     border:none;
+    border-radius:12px;
+
+    background:#262626;
+
+    color:#aaa;
+}
+
+.add-barber{
+    display:flex;
+
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.form-input{
+    width:100%;
+    min-height:50px;
+
+    padding:0 14px;
+
+    border:1px solid #353535;
+    border-radius:13px;
+
     outline:none;
-    background:rgba(255,255,255,0.1);
-    color:white;
+
+    background:#222;
+
+    color:#fff;
+
+    font-size:13px;
 }
 
-/* ADD BUTTON */
-.modal-box button{
-    padding:10px 15px;
+.form-input:focus{
+    border-color:var(--gold);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(244,180,0,.07);
+}
+
+.primary-btn{
+    flex:0 0 auto;
+
+    min-width:94px;
+    min-height:50px;
+
+    padding:0 16px;
+
     border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-    transition:0.2s;
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold),
+            var(--gold2)
+        );
+
+    color:#111;
+
+    font-size:12px;
+    font-weight:700;
 }
 
-/* PRIMARY */
-.modal-box button:hover{
-    transform:scale(1.05);
-}
+.barber-list{
+    display:grid;
 
+    gap:10px;
+}
 
 .barber-row{
     display:flex;
     align-items:center;
-    gap:10px;
-    margin:10px 0;
-    padding:10px;
-    border-radius:12px;
-    background:rgba(255,255,255,0.05);
-    transition:0.2s;
+
+    gap:9px;
+    padding:11px;
+
+    border:1px solid var(--border);
+    border-radius:15px;
+
+    background:#202020;
 }
 
-.barber-row:hover{
-    background:rgba(255,255,255,0.1);
-}
-
-/* NAME INPUT */
 .barber-row input{
     flex:1;
-    padding:8px;
-    border-radius:8px;
-    border:none;
-    background:rgba(255,255,255,0.08);
-    color:white;
-}
+    min-width:0;
 
-/* ENABLE / DISABLE */
-.toggle-btn{
-    padding:6px 10px;
-    border:none;
-    border-radius:8px;
-    color:white;
-    cursor:pointer;
+    height:42px;
+
+    padding:0 11px;
+
+    border:1px solid #333;
+    border-radius:10px;
+
+    outline:none;
+
+    background:#292929;
+
+    color:#fff;
+
     font-size:12px;
 }
 
-/* STATES */
+.barber-actions{
+    display:flex;
+    gap:6px;
+}
+
+.mini-btn{
+    width:40px;
+    height:40px;
+
+    padding:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:none;
+    border-radius:10px;
+}
+
 .enable{
-    background: linear-gradient(45deg,#00c853,#64dd17);
+    background:
+        rgba(66,200,117,.15);
+
+    color:var(--green);
 }
 
-.disable{
-    background: linear-gradient(45deg,#ff1744,#d50000);
+.disable,
+.delete-btn{
+    background:
+        rgba(255,86,86,.13);
+
+    color:var(--red);
 }
 
-/* DELETE */
-.barber-row button:last-child{
-    background: linear-gradient(45deg,#ff4d4d,#b30000);
-    color:white;
-    border-radius:8px;
-    padding:6px 10px;
+.date-btn{
+    background:
+        rgba(255,159,67,.13);
+
+    color:var(--orange);
 }
-    </style>
+
+.date-fields{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.date-field label{
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#aaa;
+
+    font-size:11px;
+}
+
+.date-actions{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:9px;
+}
+
+.date-action{
+    height:48px;
+
+    border:none;
+    border-radius:13px;
+
+    font-size:16px;
+}
+
+.disable-dates{
+    background:
+        rgba(255,86,86,.16);
+
+    color:var(--red);
+}
+
+.enable-dates{
+    background:
+        rgba(66,200,117,.15);
+
+    color:var(--green);
+}
+
+.close-dates{
+    background:#292929;
+
+    color:#aaa;
+}
+
+.disabled-list{
+    max-height:250px;
+
+    margin-top:22px;
+
+    overflow-y:auto;
+}
+
+.disabled-list-title{
+    margin-bottom:10px;
+
+    color:var(--gold);
+
+    font-size:12px;
+}
+
+.disabled-date-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+    margin-top:8px;
+    padding:10px 12px;
+
+    border-radius:12px;
+
+    background:#202020;
+}
+
+.disabled-date-row span{
+    font-size:12px;
+}
+
+.enable-date-btn{
+    padding:7px 10px;
+
+    border:none;
+    border-radius:9px;
+
+    background:
+        rgba(66,200,117,.13);
+
+    color:var(--green);
+
+    font-size:10px;
+    font-weight:600;
+}
+
+.empty-state{
+    padding:30px 15px!important;
+
+    color:#777!important;
+
+    text-align:center!important;
+}
+
+.toast{
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    max-width:340px;
+
+    padding:14px 17px;
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    border:1px solid var(--border);
+    border-radius:14px;
+
+    background:#202020;
+
+    color:#fff;
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.4);
+
+    opacity:0;
+
+    transform:
+        translateY(15px);
+
+    pointer-events:none;
+
+    z-index:20000;
+
+    transition:.25s ease;
+
+    font-size:12px;
+}
+
+.toast.show{
+    opacity:1;
+    transform:none;
+}
+
+.toast.success i{
+    color:var(--green);
+}
+
+.toast.error i{
+    color:var(--red);
+}
+
+@media(max-width:900px){
+
+    .stats-grid{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .actions-grid{
+        grid-template-columns:
+            1fr 1fr;
+    }
+}
+
+@media(max-width:650px){
+
+    .page{
+        padding:16px;
+    }
+
+    .topbar{
+        align-items:flex-start;
+    }
+
+    .brand-logo{
+        width:48px;
+        height:48px;
+    }
+
+    .brand-text h1{
+        font-size:18px;
+    }
+
+    .brand-text p{
+        font-size:10px;
+    }
+
+    .owner-box{
+        padding:8px;
+    }
+
+    .owner-info{
+        display:none;
+    }
+
+    .owner-icon{
+        width:40px;
+        height:40px;
+    }
+
+    .hero{
+        padding:23px 20px;
+
+        border-radius:22px;
+    }
+
+    .hero h2{
+        font-size:25px;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+
+        gap:10px;
+    }
+
+    .stat-card{
+        min-height:auto;
+
+        padding:16px;
+
+        border-radius:18px;
+    }
+
+    .barber-stats{
+        grid-template-columns:1fr;
+
+        gap:10px;
+    }
+
+    .capacity-head{
+        align-items:flex-start;
+        flex-direction:column;
+
+        gap:3px;
+    }
+
+    .section-card{
+        padding:17px;
+
+        border-radius:21px;
+    }
+
+    .section-header{
+        align-items:flex-start;
+    }
+
+    .firebase-badge{
+        display:none;
+    }
+
+    .actions-grid{
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:10px;
+    }
+
+    .action-card{
+        min-height:135px;
+
+        padding:15px;
+
+        border-radius:17px;
+    }
+
+    .upcoming{
+        align-items:flex-start;
+
+        padding:16px;
+    }
+
+    .table-scroll{
+        max-height:632px;
+    }
+
+    .modal{
+        align-items:flex-end;
+
+        padding:12px;
+    }
+
+    .modal-box{
+        width:100%;
+        max-height:92svh;
+
+        padding:20px 15px;
+
+        border-radius:
+            25px 25px 16px 16px;
+    }
+
+    .barber-row{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .barber-actions{
+        width:100%;
+    }
+
+    .barber-actions .mini-btn{
+        flex:1;
+    }
+
+    .date-fields{
+        grid-template-columns:1fr;
+    }
+
+    .toast{
+        left:16px;
+        right:16px;
+        bottom:16px;
+
+        max-width:none;
+    }
+}
+
+@media(max-width:390px){
+
+    .actions-grid{
+        grid-template-columns:1fr;
+    }
+
+    .action-card{
+        min-height:auto;
+    }
+
+    .add-barber{
+        flex-direction:column;
+    }
+
+    .primary-btn{
+        width:100%;
+    }
+}
+</style>
 </head>
-<body>
-    <div class="dashboard-container">
-        <h2>Bienvenue sur le tableau de bord</h2>
-        <p id="userEmail"></p>
-        <br>
-        <br>
-        <p class="appointments-count">Rendez-vous d'aujourd'hui : <span id="todaysAppointments">Loading...</span></p>
-        <br>
-        <br>
-        <!-- ✅ Upcoming Appointment Label -->
-        <div id="upcomingAppointment" class="upcoming-label">Aucun rendez-vous à venir</div>
 
-         <!-- ✅ Scrollable Data Grid -->
-         <div class="scrollable-grid">
+<body>
+
+<div class="page">
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <img
+            src="black.png"
+            class="brand-logo"
+            alt="Empire Salon"
+        >
+
+        <div class="brand-text">
+            <h1>Empire Salon</h1>
+            <p>Tableau de bord propriétaire</p>
+        </div>
+
+    </div>
+
+    <div class="owner-box">
+
+        <div class="owner-icon">
+            <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <div class="owner-info">
+            <small>Connecté en tant que</small>
+            <span id="userEmail">...</span>
+        </div>
+
+    </div>
+
+</header>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            <i class="fa-solid fa-database"></i>
+            Données Firebase
+        </div>
+
+        <h2>Bienvenue sur votre tableau de bord</h2>
+
+        <p>
+            Les compteurs ci-dessous utilisent uniquement
+            les réservations réellement enregistrées dans Firebase.
+            Un horaire passé sans réservation n'est pas compté.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-icon gold">
+            <i class="fa-solid fa-calendar-day"></i>
+        </div>
+
+        <div class="stat-info">
+
+            <span>
+                Réservations réelles aujourd'hui
+            </span>
+
+            <strong id="todaysAppointments">
+                0
+            </strong>
+
+            <small id="totalCapacityText">
+                Firebase
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon green">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <div class="stat-info">
+
+            <span>
+                Rendez-vous terminés
+            </span>
+
+            <strong id="completedAppointments">
+                0
+            </strong>
+
+            <small>
+                D'après l'heure du rendez-vous
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon blue">
+            <i class="fa-solid fa-clock"></i>
+        </div>
+
+        <div class="stat-info">
+
+            <span>
+                Rendez-vous à venir
+            </span>
+
+            <strong id="remainingAppointments">
+                0
+            </strong>
+
+            <small>
+                Réservations Firebase futures
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+<section class="capacity-section">
+
+    <div class="capacity-head">
+
+        <h3>
+            Réservations par barbier
+        </h3>
+
+        <span id="capacityDescription">
+            Chargement...
+        </span>
+
+    </div>
+
+    <div
+        id="barberStats"
+        class="barber-stats"
+    ></div>
+
+</section>
+
+<div class="upcoming">
+
+    <i class="fa-regular fa-clock"></i>
+
+    <div class="upcoming-content">
+
+        <div class="upcoming-title">
+            PROCHAIN RENDEZ-VOUS
+        </div>
+
+        <div id="upcomingAppointment">
+            Aucun rendez-vous à venir.
+        </div>
+
+    </div>
+
+</div>
+
+<section class="section-card">
+
+    <div class="section-header">
+
+        <div class="section-title">
+
+            <div class="section-title-icon">
+                <i class="fa-solid fa-list"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Rendez-vous d'aujourd'hui
+                </h3>
+
+                <p>
+                    10 réservations visibles.
+                    Faites défiler pour voir les suivantes.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="firebase-badge">
+
+            <span class="firebase-dot"></span>
+
+            Firebase réel
+
+        </div>
+
+    </div>
+
+    <div class="table-outer">
+
+        <div class="table-scroll">
+
             <table>
+
                 <thead>
+
                     <tr>
+                        <th>#</th>
                         <th>Nom</th>
                         <th>Mobile</th>
                         <th>Service</th>
-                        <th>Barbier</th> <!-- ✅ NEW -->
+                        <th>Barbier</th>
                         <th>Heure</th>
                         <th>Statut</th>
-                        <th>Actions</th>
+                        <th>Action</th>
                     </tr>
+
                 </thead>
+
                 <tbody id="todaysAppointmentsTable">
-                    <tr><td colspan="6">Loading...</td></tr>
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="empty-state"
+                        >
+                            Chargement depuis Firebase...
+                        </td>
+
+                    </tr>
+
                 </tbody>
+
             </table>
-        </div>
-        <button class="manage-barbers" onclick="openBarberModal()">Gérer les barbiers</button>
-        <button class="update-profile" onclick="window.location.href='update-profile.html'"> Mettre à jour le profil</button>
-        <button class="manage-appointments" onclick="window.location.href='appointments.html'"> Rendez-vous clients</button>
-        <button class="manage-days-off" onclick="window.location.href='days-off.html'">Gérer les jours de congé</button>
-        <button class="blocked-customers" onclick="window.location.href='blocked-customers.html'">Clients bloqués</button>
 
-        <button class="logout" onclick="logout()">Déconnexion</button>
-    </div>
-<!-- BARBER MODAL -->
-<div id="barberModal" class="modal">
-    <div class="modal-box">
-        <h2>Manage Barbers</h2>
-
-        <!-- ➕ ADD BARBER -->
-        <div style="display:flex; gap:10px; margin-bottom:10px;">
-            <input type="text" id="newBarberName" placeholder="New barber name" style="flex:1; padding:8px;">
-            <button onclick="addBarber()">Add</button>
         </div>
 
-        <!-- LIST -->
-        <div id="barberList"></div>
-
-        <button onclick="closeBarberModal()">Close</button>
     </div>
-</div>
 
+</section>
 
-<!-- DATE MODAL -->
-<div id="dateModal" class="modal">
+<section class="section-card">
 
-    <div class="modal-box">
+    <div class="section-header">
 
-        <h2>
-            <i class="fa-solid fa-calendar-days"></i>
-            Manage Barber Dates
-        </h2>
+        <div class="section-title">
 
-        <!-- FROM DATE -->
-        <label>
-            <i class="fa-solid fa-calendar-plus"></i>
-            From
-        </label>
+            <div class="section-title-icon">
+                <i class="fa-solid fa-grid-2"></i>
+            </div>
 
-        <input 
-            type="date" 
-            id="disableDateFrom"
-            style="
-                width:100%;
-                padding:10px;
-                margin:10px 0;
-            "
+            <div>
+                <h3>Gestion du salon</h3>
+                <p>Accès rapide aux outils administratifs</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="actions-grid">
+
+        <button
+            class="action-card"
+            onclick="openBarberModal()"
         >
 
-        <!-- TO DATE -->
-        <label>
-            <i class="fa-solid fa-calendar-check"></i>
-            To
-        </label>
+            <div class="action-icon gold">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
 
-        <input 
-            type="date" 
-            id="disableDateTo"
-            style="
-                width:100%;
-                padding:10px;
-                margin:10px 0;
-            "
+            <h4>
+                Gérer les barbiers
+            </h4>
+
+            <p>
+                Ajouter, modifier et gérer les disponibilités.
+            </p>
+
+        </button>
+
+        <button
+            class="action-card"
+            onclick="window.location.href='appointments.html'"
         >
 
-        <!-- ACTION BUTTONS -->
-        <div 
-            style="
-                display:flex;
-                gap:10px;
-                margin-top:15px;
-            "
+            <div class="action-icon blue">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <h4>
+                Rendez-vous clients
+            </h4>
+
+            <p>
+                Consulter et gérer tous les rendez-vous.
+            </p>
+
+        </button>
+
+        <button
+            class="action-card"
+            onclick="window.location.href='days-off.html'"
         >
 
-            <!-- DISABLE -->
-            <button 
-                style="
-                    background:red;
-                    color:white;
-                    flex:1;
-                    height:50px;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    gap:8px;
-                "
-                onclick="saveDisabledDateRange()"
-                title="Disable Dates"
-            >
+            <div class="action-icon orange">
                 <i class="fa-solid fa-calendar-xmark"></i>
-            </button>
+            </div>
 
-            <!-- ENABLE ALL -->
-            <button 
-                style="
-                    background:green;
-                    color:white;
-                    flex:1;
-                    height:50px;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    gap:8px;
-                "
-                onclick="enableAllDates()"
-                title="Enable All Dates"
-            >
-                <i class="fa-solid fa-rotate-left"></i>
-            </button>
+            <h4>
+                Jours de congé
+            </h4>
 
-            <!-- CLOSE -->
-            <button 
-                style="
-                    background:#444;
-                    color:white;
-                    flex:1;
-                    height:50px;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    gap:8px;
-                "
-                onclick="closeDateModal()"
-                title="Close"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <p>
+                Fermer les réservations pour certaines dates.
+            </p>
 
-        </div>
+        </button>
 
-        <!-- DISABLED DATES -->
-        <div 
-            id="disabledDatesList"
-            style="
-                margin-top:20px;
-                text-align:left;
-                max-height:250px;
-                overflow:auto;
-            "
-        ></div>
+        <button
+            class="action-card"
+            onclick="window.location.href='update-profile.html'"
+        >
+
+            <div class="action-icon green">
+                <i class="fa-solid fa-user-pen"></i>
+            </div>
+
+            <h4>
+                Mettre à jour le profil
+            </h4>
+
+            <p>
+                Modifier les informations du propriétaire.
+            </p>
+
+        </button>
+
+        <button
+            class="action-card"
+            onclick="window.location.href='blocked-customers.html'"
+        >
+
+            <div class="action-icon purple">
+                <i class="fa-solid fa-user-slash"></i>
+            </div>
+
+            <h4>
+                Clients bloqués
+            </h4>
+
+            <p>
+                Consulter et gérer les numéros bloqués.
+            </p>
+
+        </button>
+
+        <button
+            class="action-card"
+            onclick="logout()"
+        >
+
+            <div class="action-icon red">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+
+            <h4>
+                Déconnexion
+            </h4>
+
+            <p>
+                Fermer votre session propriétaire.
+            </p>
+
+        </button>
 
     </div>
 
+</section>
+
 </div>
-    <script>
-        // ✅ Initialize Firebase (Use Your Config)
-        firebase.initializeApp({
-            apiKey: "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
-            authDomain: "empiresalonbarber.firebaseapp.com",
-            databaseURL: "https://empiresalonbarber-default-rtdb.europe-west1.firebasedatabase.app/",
-            projectId: "empiresalonbarber",
-            storageBucket: "empiresalonbarber.appspot.com",
-            messagingSenderId: "365303178903",
-            appId: "1:365303178903:web:c6f9eb19766934e443ebd2",
-            measurementId: "G-LMHTQJBCP6"
-        });
 
-        const auth = firebase.auth();
-        const db = firebase.database();
-        auth.onAuthStateChanged(function(user) {
+<div
+    id="barberModal"
+    class="modal"
+>
 
-        if (!user) {
-            window.location.href = "login.html";
-            return;
-        }        
+<div class="modal-box">
 
-        const allowedEmail = "hphp96921@gmail.com";
+    <div class="modal-header">
 
-        if (user.email !== allowedEmail) {
-            alert("Access denied");
-            auth.signOut();
-            window.location.href = "login.html";
-            return;
-        }        
+        <div class="modal-title">
 
-        document.getElementById("userEmail").textContent = user.email;
+            <span>
+                <i class="fa-solid fa-user-tie"></i>
+            </span>
 
-        });
-        function fetchAppointments() {
-        const now = new Date();
-        const todayStr = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
-        const thirtyMinutesLater = new Date(now.getTime() + 30 * 60 * 1000); // ✅ 30 minutes from now
+            <div>
+                <h2>Gérer les barbiers</h2>
+                <p>Ajouter et modifier votre équipe</p>
+            </div>
 
-        db.ref("bookings").once("value").then(snapshot => {
-        if (!snapshot.exists()) {
-            document.getElementById("todaysAppointments").textContent = "0";
-            document.getElementById("todaysAppointmentsTable").innerHTML = "<tr><td colspan='6'>No appointments today.</td></tr>";
-            document.getElementById("upcomingAppointment").innerHTML = "<p>No upcoming appointments.</p>";
-            return;
-        }
+        </div>
 
-        let todayCount = 0;
-        let appointments = []; // ✅ Store today's appointments
-        let upcomingAppointments = []; // ✅ Store upcoming appointments
+        <button
+            class="icon-btn"
+            onclick="closeBarberModal()"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
 
-        snapshot.forEach(childSnapshot => {
-            let data = childSnapshot.val();
-            let storedDate = data.date ? data.date.trim() : null;
-        let storedTime = data.time ? data.time.trim() : null;
+    </div>
 
-        // skip invalid bookings
-        if (!storedDate || !storedTime) return;
+    <div class="add-barber">
 
-            if (storedDate === todayStr) {
-                let storedDateTime = new Date(
-                    parseInt(storedDate.split("-")[2]), 
-                    parseInt(storedDate.split("-")[1]) - 1, 
-                    parseInt(storedDate.split("-")[0])
+        <input
+            type="text"
+            id="newBarberName"
+            class="form-input"
+            placeholder="Nom du nouveau barbier"
+        >
+
+        <button
+            class="primary-btn"
+            onclick="addBarber()"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Ajouter
+        </button>
+
+    </div>
+
+    <div
+        id="barberList"
+        class="barber-list"
+    ></div>
+
+</div>
+
+</div>
+
+<div
+    id="dateModal"
+    class="modal"
+>
+
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <div class="modal-title">
+
+            <span>
+                <i class="fa-solid fa-calendar-days"></i>
+            </span>
+
+            <div>
+                <h2>Disponibilités</h2>
+                <p>Désactiver des dates pour ce barbier</p>
+            </div>
+
+        </div>
+
+        <button
+            class="icon-btn"
+            onclick="closeDateModal()"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+    </div>
+
+    <div class="date-fields">
+
+        <div class="date-field">
+
+            <label for="disableDateFrom">
+                À partir du
+            </label>
+
+            <input
+                type="date"
+                id="disableDateFrom"
+                class="form-input"
+            >
+
+        </div>
+
+        <div class="date-field">
+
+            <label for="disableDateTo">
+                Jusqu'au
+            </label>
+
+            <input
+                type="date"
+                id="disableDateTo"
+                class="form-input"
+            >
+
+        </div>
+
+    </div>
+
+    <div class="date-actions">
+
+        <button
+            class="date-action disable-dates"
+            onclick="saveDisabledDateRange()"
+            title="Désactiver les dates"
+        >
+            <i class="fa-solid fa-calendar-xmark"></i>
+        </button>
+
+        <button
+            class="date-action enable-dates"
+            onclick="enableAllDates()"
+            title="Réactiver toutes les dates"
+        >
+            <i class="fa-solid fa-rotate-left"></i>
+        </button>
+
+        <button
+            class="date-action close-dates"
+            onclick="closeDateModal()"
+            title="Fermer"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+    </div>
+
+    <div
+        id="disabledDatesList"
+        class="disabled-list"
+    ></div>
+
+</div>
+
+</div>
+
+<div
+    id="toast"
+    class="toast"
+>
+
+    <i
+        id="toastIcon"
+        class="fa-solid fa-circle-check"
+    ></i>
+
+    <span id="toastText"></span>
+
+</div>
+
+<script>
+firebase.initializeApp({
+
+    apiKey:
+        "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
+
+    authDomain:
+        "empiresalonbarber.firebaseapp.com",
+
+    databaseURL:
+        "https://empiresalonbarber-default-rtdb.europe-west1.firebasedatabase.app/",
+
+    projectId:
+        "empiresalonbarber",
+
+    storageBucket:
+        "empiresalonbarber.appspot.com",
+
+    messagingSenderId:
+        "365303178903",
+
+    appId:
+        "1:365303178903:web:c6f9eb19766934e443ebd2",
+
+    measurementId:
+        "G-LMHTQJBCP6"
+});
+
+const auth =
+    firebase.auth();
+
+const db =
+    firebase.database();
+
+let selectedBarberId =
+    null;
+
+let toastTimer =
+    null;
+
+function showToast(
+    message,
+    type="success"
+){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    const icon =
+        document.getElementById(
+            "toastIcon"
+        );
+
+    document.getElementById(
+        "toastText"
+    ).textContent =
+        message;
+
+    toast.className =
+        `toast ${type} show`;
+
+    icon.className =
+        type === "error"
+        ? "fa-solid fa-circle-exclamation"
+        : "fa-solid fa-circle-check";
+
+    clearTimeout(
+        toastTimer
+    );
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
                 );
 
-                let [hours, minutes] = storedTime.split(":").map(num => parseInt(num));
-                storedDateTime.setHours(hours, minutes);
-
-                let appointmentData = {
-                    username: data.username,
-                    mobile: data.mobile,
-                    service: data.service,
-                    time: storedTime,
-                    status: storedDateTime < now ? `<span class="done-icon">✅ Done</span>` : "",
-                    timestamp: storedDateTime.getTime() // ✅ Use timestamp for sorting
-                };
-
-                // ✅ Check if appointment is within the next 30 minutes
-                if (storedDateTime >= now && storedDateTime <= thirtyMinutesLater) {
-                    upcomingAppointments.push(appointmentData);
-                }
-
-                appointments.push(appointmentData);
-                todayCount++;
-            }
-        });
-
-        // ✅ Sort appointments by time (earliest first)
-        appointments.sort((a, b) => a.timestamp - b.timestamp);
-
-        let todayTableHTML = appointments.map(data => `
-            <tr>
-                <td>${data.username}</td>
-                <td>${data.mobile}</td>
-                <td>${data.service}</td>
-                <td>${data.barber}</td> <!-- ✅ NEW -->
-                <td>${data.time}</td>
-                <td>${data.status}</td>
-                <td>
-                    <button class="call-btn" onclick="callCustomer('${data.mobile}')">Call</button>
-                </td>
-            </tr>
-        `).join("");
-
-        document.getElementById("todaysAppointments").textContent = todayCount;
-        document.getElementById("todaysAppointmentsTable").innerHTML = todayTableHTML || "<tr><td colspan='6'>No appointments today.</td></tr>";
-
-        // ✅ Afficher les rendez-vous à venir (30 minutes avant)
-if (upcomingAppointments.length > 0) {
-    let upcomingHTML = upcomingAppointments.map(data => `
-        <p style="color: #ff5733; font-size: 16px; font-weight: bold;">
-            ⏳ Prochain : ${data.time} - ${data.username} (${data.service} - ${data.barber})
-            <br>📞 <button class="call-btn" onclick="callCustomer('${data.mobile}')">Appeler</button>
-        </p>
-    `).join("");
-
-    document.getElementById("upcomingAppointment").innerHTML = upcomingHTML;
-} else {
-    document.getElementById("upcomingAppointment").innerHTML = "<p>Aucun rendez-vous à venir.</p>";
-}
-    });
-    }
-    function callCustomer(mobile) {
-        window.location.href = `tel:${mobile}`;
-    }
-        document.addEventListener("DOMContentLoaded", fetchAppointments);
-        setInterval(fetchAppointments, 5000);
-        function logout() {
-    firebase.auth().signOut()
-    .then(() => {
-        // Redirect to login page after logout
-        window.location.href = "login.html";
-    })
-    .catch((error) => {
-        console.log("Logout Error:", error);
-        alert("Error logging out");
-    });
+            },
+            3000
+        );
 }
 
-function openBarberModal(){
-    document.getElementById("barberModal").classList.add("show");
-    loadBarbers();
-}
-let selectedBarberId = null;
-function closeBarberModal(){
-    document.getElementById("barberModal").classList.remove("show");
-}
+auth.onAuthStateChanged(
+    user => {
 
-// 🔥 LOAD BARBERS FROM FIREBASE
-// 🔥 LOAD BARBERS
-function loadBarbers(){
-    const container = document.getElementById("barberList");
-    container.innerHTML = "Loading...";
+        if(!user){
 
-    db.ref("barbers").on("value", snapshot => {
+            window.location.href =
+                "login.html";
 
-        if(!snapshot.exists()){
-            container.innerHTML = "No barbers found";
             return;
         }
 
-        let html = "";
+        const allowedEmail =
+            "hphp96921@gmail.com";
 
-        snapshot.forEach(child => {
-            const data = child.val();
-            const id = child.key;
+        if(
+            user.email !==
+            allowedEmail
+        ){
 
-            html += `
-                <div class="barber-row">
-                    
-                    <!-- ✏️ NAME (EDITABLE) -->
-                    <input 
-                        value="${data.name}" 
-                        onchange="editBarber('${id}', this.value)"
-                        style="flex:1; padding:5px;"
-                    >
+            auth.signOut()
+            .then(() => {
 
-<div style="display:flex; gap:5px;">
+                window.location.href =
+                    "login.html";
 
-    <!-- GLOBAL ENABLE/DISABLE -->
-    <button 
-        class="toggle-btn ${data.active ? "disable" : "enable"}"
-        onclick="toggleBarber('${id}', ${data.active})"
-        title="${data.active ? "Disable Barber" : "Enable Barber"}"
-        style="
-            width:40px;
-            height:40px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        "
-    >
-        <i class="fa-solid ${data.active ? "fa-user-slash" : "fa-user-check"}"></i>
-    </button>
+            });
 
-    <!-- DATE MANAGER -->
-    <button 
-        onclick="openDateModal('${id}')"
-        title="Manage Dates"
-        style="
-            background:orange;
-            color:white;
-            border:none;
-            width:40px;
-            height:40px;
-            border-radius:10px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            cursor:pointer;
-        "
-    >
-        <i class="fa-solid fa-calendar-xmark"></i>
-    </button>
+            return;
+        }
 
-</div>
-                    <!-- ❌ DELETE -->
-                    <button 
-                        style="background:red; color:white;"
-                        onclick="deleteBarber('${id}')"
-                    >
-                        X
-                    </button>
+        document.getElementById(
+            "userEmail"
+        ).textContent =
+            user.email;
+    }
+);
 
-                </div>
-            `;
-        });
+function getTodayFirebaseDate(){
 
-        container.innerHTML = html;
-    });
+    const now =
+        new Date();
+
+    return (
+        now.getDate() +
+        "-" +
+        (now.getMonth()+1) +
+        "-" +
+        now.getFullYear()
+    );
 }
-function addBarber(){
-    const name = document.getElementById("newBarberName").value.trim();
 
-    if(!name){
-        alert("Enter barber name");
+function getDailySlotsPerBarber(){
+
+    const day =
+        new Date().getDay();
+
+    /*
+        Sunday = 0
+        Monday = 1
+        Saturday = 6
+    */
+
+    if(
+        day === 0 ||
+        day === 1
+    ){
+        return 0;
+    }
+
+    /*
+        Saturday:
+
+        09:00
+        09:30
+        10:00
+        10:30
+        11:00
+        11:30
+
+        13:00
+        13:30
+        14:00
+        14:30
+        15:00
+        15:30
+        16:00
+        16:30
+        17:00
+
+        = 15
+    */
+
+    if(day === 6){
+        return 15;
+    }
+
+    /*
+        Tuesday - Friday:
+
+        Same slots +
+        17:30
+        18:00
+
+        = 17
+    */
+
+    return 17;
+}
+
+async function fetchAppointments(){
+
+    const now =
+        new Date();
+
+    const todayStr =
+        getTodayFirebaseDate();
+
+    const thirtyMinutesLater =
+        new Date(
+            now.getTime() +
+            30 * 60 * 1000
+        );
+
+    try{
+
+        /*
+            REAL FIREBASE DATA
+
+            We read BOTH:
+            bookings
+            barbers
+
+            No time-slot calculations
+            are used to create booking counts.
+        */
+
+        const results =
+            await Promise.all([
+
+                db.ref("bookings")
+                    .once("value"),
+
+                db.ref("barbers")
+                    .once("value")
+
+            ]);
+
+        const bookingsSnapshot =
+            results[0];
+
+        const barbersSnapshot =
+            results[1];
+
+        const appointments =
+            [];
+
+        const upcomingAppointments =
+            [];
+
+        let completedCount =
+            0;
+
+        let remainingCount =
+            0;
+
+        /*
+            Store actual barbers
+            directly from Firebase.
+        */
+
+        const firebaseBarbers =
+            [];
+
+        const barberCounts =
+            {};
+
+        if(
+            barbersSnapshot.exists()
+        ){
+
+            barbersSnapshot.forEach(
+                child => {
+
+                    const data =
+                        child.val() || {};
+
+                    const barberName =
+                        String(
+                            data.name || ""
+                        ).trim();
+
+                    if(!barberName){
+                        return;
+                    }
+
+                    firebaseBarbers.push({
+
+                        id:
+                            child.key,
+
+                        name:
+                            barberName,
+
+                        active:
+                            data.active !== false
+
+                    });
+
+                    if(
+                        barberCounts[
+                            barberName
+                        ] === undefined
+                    ){
+
+                        barberCounts[
+                            barberName
+                        ] = 0;
+
+                    }
+
+                }
+            );
+        }
+
+        /*
+            Count ONLY real booking nodes
+            whose Firebase date equals today.
+        */
+
+        if(
+            bookingsSnapshot.exists()
+        ){
+
+            bookingsSnapshot.forEach(
+                child => {
+
+                    const data =
+                        child.val() || {};
+
+                    const storedDate =
+                        data.date
+                        ? String(
+                            data.date
+                        ).trim()
+                        : "";
+
+                    /*
+                        IMPORTANT FIX:
+
+                        We only check the date here.
+
+                        We DO NOT skip a booking
+                        because the time is old.
+
+                        If Firebase has the record,
+                        it counts.
+                    */
+
+                    if(
+                        storedDate !==
+                        todayStr
+                    ){
+                        return;
+                    }
+
+                    const storedTime =
+                        data.time
+                        ? String(
+                            data.time
+                        ).trim()
+                        : "";
+
+                    const barberName =
+                        data.barber
+                        ? String(
+                            data.barber
+                        ).trim()
+                        : "Sans barbier";
+
+                    /*
+                        Every matching Firebase node
+                        increments the barber count.
+                    */
+
+                    if(
+                        barberCounts[
+                            barberName
+                        ] === undefined
+                    ){
+
+                        barberCounts[
+                            barberName
+                        ] = 0;
+
+                    }
+
+                    barberCounts[
+                        barberName
+                    ]++;
+
+                    let timestamp =
+                        Number.MAX_SAFE_INTEGER;
+
+                    let isDone =
+                        false;
+
+                    let isFuture =
+                        false;
+
+                    let validDateTime =
+                        false;
+
+                    if(storedTime){
+
+                        const dateParts =
+                            storedDate
+                            .split("-")
+                            .map(Number);
+
+                        const timeParts =
+                            storedTime
+                            .split(":")
+                            .map(Number);
+
+                        if(
+                            dateParts.length === 3 &&
+                            timeParts.length === 2 &&
+                            dateParts.every(
+                                Number.isFinite
+                            ) &&
+                            timeParts.every(
+                                Number.isFinite
+                            )
+                        ){
+
+                            const appointmentDate =
+                                new Date(
+                                    dateParts[2],
+                                    dateParts[1]-1,
+                                    dateParts[0],
+                                    timeParts[0],
+                                    timeParts[1],
+                                    0,
+                                    0
+                                );
+
+                            timestamp =
+                                appointmentDate
+                                .getTime();
+
+                            validDateTime =
+                                !Number.isNaN(
+                                    timestamp
+                                );
+
+                            if(validDateTime){
+
+                                isDone =
+                                    appointmentDate <
+                                    now;
+
+                                isFuture =
+                                    appointmentDate >=
+                                    now;
+
+                                if(isDone){
+
+                                    completedCount++;
+
+                                }else{
+
+                                    remainingCount++;
+
+                                }
+
+                                if(
+                                    appointmentDate >=
+                                    now
+                                    &&
+                                    appointmentDate <=
+                                    thirtyMinutesLater
+                                ){
+
+                                    upcomingAppointments
+                                    .push({
+
+                                        username:
+                                            data.username ||
+                                            "-",
+
+                                        mobile:
+                                            data.mobile ||
+                                            "-",
+
+                                        service:
+                                            data.service ||
+                                            "-",
+
+                                        barber:
+                                            barberName,
+
+                                        time:
+                                            storedTime,
+
+                                        timestamp:
+                                            timestamp
+
+                                    });
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    /*
+                        This object exists because
+                        the Firebase booking exists.
+                    */
+
+                    appointments.push({
+
+                        key:
+                            child.key,
+
+                        username:
+                            data.username ||
+                            "-",
+
+                        mobile:
+                            data.mobile ||
+                            "-",
+
+                        service:
+                            data.service ||
+                            "-",
+
+                        barber:
+                            barberName,
+
+                        time:
+                            storedTime ||
+                            "-",
+
+                        timestamp:
+                            timestamp,
+
+                        validDateTime:
+                            validDateTime,
+
+                        isDone:
+                            isDone,
+
+                        isFuture:
+                            isFuture
+
+                    });
+
+                }
+            );
+        }
+
+        /*
+            Sort real records by booking time.
+            Invalid/missing times go last.
+        */
+
+        appointments.sort(
+            (a,b) => {
+
+                return (
+                    a.timestamp -
+                    b.timestamp
+                );
+
+            }
+        );
+
+        upcomingAppointments.sort(
+            (a,b) => {
+
+                return (
+                    a.timestamp -
+                    b.timestamp
+                );
+
+            }
+        );
+
+        /*
+            TOTAL = actual number
+            of Firebase booking nodes today.
+        */
+
+        const actualBookingCount =
+            appointments.length;
+
+        document.getElementById(
+            "todaysAppointments"
+        ).textContent =
+            actualBookingCount;
+
+        document.getElementById(
+            "completedAppointments"
+        ).textContent =
+            completedCount;
+
+        document.getElementById(
+            "remainingAppointments"
+        ).textContent =
+            remainingCount;
+
+        renderCapacityInfo(
+            actualBookingCount,
+            firebaseBarbers
+        );
+
+        renderBarberStats(
+            barberCounts,
+            firebaseBarbers
+        );
+
+        renderAppointmentsTable(
+            appointments
+        );
+
+        renderUpcomingAppointments(
+            upcomingAppointments
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Firebase dashboard error:",
+            error
+        );
+
+        showToast(
+            "Impossible de charger les données Firebase.",
+            "error"
+        );
+    }
+}
+
+function renderCapacityInfo(
+    actualBookingCount,
+    firebaseBarbers
+){
+
+    const slotsPerBarber =
+        getDailySlotsPerBarber();
+
+    const activeBarbers =
+        firebaseBarbers.filter(
+            barber =>
+                barber.active
+        );
+
+    const totalCapacity =
+        slotsPerBarber *
+        activeBarbers.length;
+
+    const totalCapacityText =
+        document.getElementById(
+            "totalCapacityText"
+        );
+
+    const description =
+        document.getElementById(
+            "capacityDescription"
+        );
+
+    if(slotsPerBarber === 0){
+
+        totalCapacityText.textContent =
+            "Jour fermé";
+
+        description.textContent =
+            "Le salon est fermé aujourd'hui.";
+
         return;
     }
 
-    db.ref("barbers").push({
-        name: name,
-        active: true
-    }).then(() => {
-        document.getElementById("newBarberName").value = "";
+    totalCapacityText.textContent =
+        `${actualBookingCount} / ${totalCapacity} places`;
+
+    description.textContent =
+        `${slotsPerBarber} horaires par barbier · ${activeBarbers.length} barbier(s) actif(s)`;
+}
+
+function renderBarberStats(
+    barberCounts,
+    firebaseBarbers
+){
+
+    const container =
+        document.getElementById(
+            "barberStats"
+        );
+
+    const slotsPerBarber =
+        getDailySlotsPerBarber();
+
+    /*
+        First display every barber
+        that currently exists in Firebase.
+    */
+
+    const displayedNames =
+        new Set();
+
+    let html =
+        "";
+
+    firebaseBarbers.forEach(
+        barber => {
+
+            const count =
+                barberCounts[
+                    barber.name
+                ] || 0;
+
+            displayedNames.add(
+                barber.name
+            );
+
+            html +=
+                createBarberStatCard(
+                    barber.name,
+                    count,
+                    slotsPerBarber,
+                    barber.active
+                );
+
+        }
+    );
+
+    /*
+        If a booking contains a barber name
+        which no longer exists in /barbers,
+        we STILL show it.
+
+        This prevents real Firebase bookings
+        from disappearing from the count.
+    */
+
+    Object.entries(
+        barberCounts
+    )
+    .forEach(
+        ([name,count]) => {
+
+            if(
+                displayedNames.has(
+                    name
+                )
+            ){
+                return;
+            }
+
+            html +=
+                createBarberStatCard(
+                    name,
+                    count,
+                    slotsPerBarber,
+                    null
+                );
+
+        }
+    );
+
+    if(!html){
+
+        container.innerHTML = `
+            <div class="barber-stat-card">
+
+                <div class="barber-stat-left">
+
+                    <div class="barber-avatar">
+                        <i class="fa-solid fa-user-slash"></i>
+                    </div>
+
+                    <div class="barber-stat-info">
+
+                        <strong>
+                            Aucun barbier
+                        </strong>
+
+                        <span>
+                            Aucun barbier dans Firebase
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        html;
+}
+
+function createBarberStatCard(
+    name,
+    count,
+    capacity,
+    active
+){
+
+    let statusHTML =
+        "";
+
+    if(active === true){
+
+        statusHTML = `
+            <span class="barber-status active">
+                Actif
+            </span>
+        `;
+
+    }
+
+    else if(active === false){
+
+        statusHTML = `
+            <span class="barber-status inactive">
+                Désactivé
+            </span>
+        `;
+
+    }
+
+    else{
+
+        statusHTML = `
+            <span class="barber-status inactive">
+                Ancienne donnée
+            </span>
+        `;
+
+    }
+
+    return `
+        <div class="barber-stat-card">
+
+            <div class="barber-stat-left">
+
+                <div class="barber-avatar">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+
+                <div class="barber-stat-info">
+
+                    <strong>
+                        ${escapeHTML(name)}
+                    </strong>
+
+                    <span>
+                        Réservations Firebase aujourd'hui
+                    </span>
+
+                    ${statusHTML}
+
+                </div>
+
+            </div>
+
+            <div class="barber-count">
+
+                <strong>
+                    ${count} / ${capacity}
+                </strong>
+
+                <small>
+                    réservés
+                </small>
+
+            </div>
+
+        </div>
+    `;
+}
+
+function renderAppointmentsTable(
+    appointments
+){
+
+    const table =
+        document.getElementById(
+            "todaysAppointmentsTable"
+        );
+
+    if(
+        !appointments.length
+    ){
+
+        table.innerHTML = `
+            <tr>
+
+                <td
+                    colspan="8"
+                    class="empty-state"
+                >
+                    Aucune réservation Firebase aujourd'hui.
+                </td>
+
+            </tr>
+        `;
+
+        return;
+    }
+
+    table.innerHTML =
+        appointments
+        .map(
+            (data,index) => {
+
+                let statusHTML;
+
+                if(
+                    !data.validDateTime
+                ){
+
+                    statusHTML = `
+                        <span class="status-unknown">
+                            <i class="fa-solid fa-question"></i>
+                            Inconnu
+                        </span>
+                    `;
+
+                }
+
+                else if(
+                    data.isDone
+                ){
+
+                    statusHTML = `
+                        <span class="status-done">
+                            <i class="fa-solid fa-check"></i>
+                            Terminé
+                        </span>
+                    `;
+
+                }
+
+                else{
+
+                    statusHTML = `
+                        <span class="status-new">
+                            <i class="fa-regular fa-clock"></i>
+                            À venir
+                        </span>
+                    `;
+
+                }
+
+                return `
+                    <tr>
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(data.username)}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(data.mobile)}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(data.service)}
+                        </td>
+
+                        <td>
+
+                            <strong>
+                                ${escapeHTML(data.barber)}
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+                                ${escapeHTML(data.time)}
+                            </strong>
+
+                        </td>
+
+                        <td>
+                            ${statusHTML}
+                        </td>
+
+                        <td>
+
+                            ${
+                                data.mobile !== "-"
+                                ? `
+                                    <button
+                                        class="call-btn"
+                                        onclick="callCustomer('${escapeJS(data.mobile)}')"
+                                        title="Appeler"
+                                    >
+                                        <i class="fa-solid fa-phone"></i>
+                                    </button>
+                                `
+                                : "-"
+                            }
+
+                        </td>
+
+                    </tr>
+                `;
+
+            }
+        )
+        .join("");
+}
+
+function renderUpcomingAppointments(
+    upcomingAppointments
+){
+
+    const upcomingBox =
+        document.getElementById(
+            "upcomingAppointment"
+        );
+
+    if(
+        !upcomingAppointments.length
+    ){
+
+        upcomingBox.textContent =
+            "Aucun rendez-vous Firebase dans les 30 prochaines minutes.";
+
+        return;
+    }
+
+    upcomingBox.innerHTML =
+        upcomingAppointments
+        .map(
+            data => `
+                <div class="upcoming-item">
+
+                    <div class="upcoming-details">
+
+                        <strong>
+                            ${escapeHTML(data.time)}
+                            ·
+                            ${escapeHTML(data.username)}
+                        </strong>
+
+                        <br>
+
+                        <span>
+                            ${escapeHTML(data.service)}
+                            ·
+                            ${escapeHTML(data.barber)}
+                        </span>
+
+                    </div>
+
+                    ${
+                        data.mobile !== "-"
+                        ? `
+                            <button
+                                class="small-call-btn"
+                                onclick="callCustomer('${escapeJS(data.mobile)}')"
+                            >
+                                <i class="fa-solid fa-phone"></i>
+                            </button>
+                        `
+                        : ""
+                    }
+
+                </div>
+            `
+        )
+        .join("");
+}
+
+function callCustomer(
+    mobile
+){
+
+    window.location.href =
+        `tel:${mobile}`;
+}
+
+function logout(){
+
+    auth.signOut()
+    .then(() => {
+
+        sessionStorage.removeItem(
+            "ownerLoggedIn"
+        );
+
+        window.location.href =
+            "login.html";
+
+    })
+    .catch(
+        error => {
+
+            console.error(
+                error
+            );
+
+            showToast(
+                "Erreur lors de la déconnexion.",
+                "error"
+            );
+        }
+    );
+}
+
+function openBarberModal(){
+
+    document
+        .getElementById(
+            "barberModal"
+        )
+        .classList.add(
+            "show"
+        );
+
+    loadBarbers();
+}
+
+function closeBarberModal(){
+
+    document
+        .getElementById(
+            "barberModal"
+        )
+        .classList.remove(
+            "show"
+        );
+}
+
+function loadBarbers(){
+
+    const container =
+        document.getElementById(
+            "barberList"
+        );
+
+    container.innerHTML = `
+        <div class="empty-state">
+            Chargement...
+        </div>
+    `;
+
+    db.ref(
+        "barbers"
+    )
+    .once(
+        "value"
+    )
+    .then(
+        snapshot => {
+
+            if(
+                !snapshot.exists()
+            ){
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        Aucun barbier trouvé.
+                    </div>
+                `;
+
+                return;
+            }
+
+            let html =
+                "";
+
+            snapshot.forEach(
+                child => {
+
+                    const data =
+                        child.val() || {};
+
+                    const id =
+                        child.key;
+
+                    html += `
+                        <div class="barber-row">
+
+                            <input
+                                value="${escapeAttribute(data.name || "")}"
+                                onchange="editBarber('${escapeJS(id)}',this.value)"
+                            >
+
+                            <div class="barber-actions">
+
+                                <button
+                                    class="mini-btn ${
+                                        data.active !== false
+                                        ? "disable"
+                                        : "enable"
+                                    }"
+                                    onclick="toggleBarber(
+                                        '${escapeJS(id)}',
+                                        ${data.active !== false}
+                                    )"
+                                    title="${
+                                        data.active !== false
+                                        ? "Désactiver"
+                                        : "Activer"
+                                    }"
+                                >
+
+                                    <i class="fa-solid ${
+                                        data.active !== false
+                                        ? "fa-user-slash"
+                                        : "fa-user-check"
+                                    }"></i>
+
+                                </button>
+
+                                <button
+                                    class="mini-btn date-btn"
+                                    onclick="openDateModal('${escapeJS(id)}')"
+                                    title="Gérer les dates"
+                                >
+                                    <i class="fa-solid fa-calendar-xmark"></i>
+                                </button>
+
+                                <button
+                                    class="mini-btn delete-btn"
+                                    onclick="deleteBarber('${escapeJS(id)}')"
+                                    title="Supprimer"
+                                >
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                }
+            );
+
+            container.innerHTML =
+                html;
+        }
+    )
+    .catch(
+        error => {
+
+            console.error(
+                error
+            );
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    Erreur de chargement.
+                </div>
+            `;
+        }
+    );
+}
+
+function addBarber(){
+
+    const input =
+        document.getElementById(
+            "newBarberName"
+        );
+
+    const name =
+        input.value.trim();
+
+    if(!name){
+
+        showToast(
+            "Entrez le nom du barbier.",
+            "error"
+        );
+
+        input.focus();
+
+        return;
+    }
+
+    db.ref(
+        "barbers"
+    )
+    .push({
+
+        name:name,
+        active:true
+
+    })
+    .then(() => {
+
+        input.value =
+            "";
+
+        showToast(
+            "Barbier ajouté."
+        );
+
+        loadBarbers();
+
+        fetchAppointments();
+
+    })
+    .catch(() => {
+
+        showToast(
+            "Impossible d'ajouter le barbier.",
+            "error"
+        );
+
     });
 }
 
-function editBarber(id, newName){
-    if(!newName.trim()) return;
+function editBarber(
+    id,
+    newName
+){
 
-    db.ref("barbers/" + id).update({
-        name: newName
+    const cleanName =
+        newName.trim();
+
+    if(!cleanName){
+
+        loadBarbers();
+
+        return;
+    }
+
+    db.ref(
+        "barbers/" + id
+    )
+    .update({
+
+        name:
+            cleanName
+
+    })
+    .then(() => {
+
+        showToast(
+            "Nom du barbier mis à jour."
+        );
+
+        fetchAppointments();
+
     });
 }
 
-// 🔥 TOGGLE ENABLE / DISABLE
-function toggleBarber(id, currentStatus){
+function toggleBarber(
+    id,
+    currentStatus
+){
 
-    db.ref("barbers/" + id).update({
-        active: !currentStatus
-    }).then(() => {
-        loadBarbers(); // refresh UI
+    db.ref(
+        "barbers/" + id
+    )
+    .update({
+
+        active:
+            !currentStatus
+
+    })
+    .then(() => {
+
+        showToast(
+            currentStatus
+            ? "Barbier désactivé."
+            : "Barbier activé."
+        );
+
+        loadBarbers();
+
+        fetchAppointments();
+
     });
 }
-function openDateModal(id){
 
-selectedBarberId = id;
+function deleteBarber(
+    id
+){
 
-document
-.getElementById("dateModal")
-.classList.add("show");
+    const ok =
+        confirm(
+            "Supprimer définitivement ce barbier ?"
+        );
 
-loadDisabledDates();
+    if(!ok){
+        return;
+    }
+
+    db.ref(
+        "barbers/" + id
+    )
+    .remove()
+    .then(() => {
+
+        showToast(
+            "Barbier supprimé."
+        );
+
+        loadBarbers();
+
+        fetchAppointments();
+
+    });
+}
+
+function openDateModal(
+    id
+){
+
+    selectedBarberId =
+        id;
+
+    document
+        .getElementById(
+            "dateModal"
+        )
+        .classList.add(
+            "show"
+        );
+
+    loadDisabledDates();
+}
+
+function closeDateModal(){
+
+    document
+        .getElementById(
+            "dateModal"
+        )
+        .classList.remove(
+            "show"
+        );
 }
 
 function loadDisabledDates(){
 
-const container =
-    document.getElementById("disabledDatesList");
+    const container =
+        document.getElementById(
+            "disabledDatesList"
+        );
 
-db.ref(
-    "barbers/" +
-    selectedBarberId +
-    "/disabledDates"
-).on("value", snapshot => {
-
-    if(!snapshot.exists()){
-
-        container.innerHTML =
-        "<p style='color:white;'>No disabled dates</p>";
-
-        return;
-    }
-
-    let html = `
-        <h3 style="color:#00c6ff;">
-            Disabled Dates
-        </h3>
+    container.innerHTML = `
+        <div class="empty-state">
+            Chargement...
+        </div>
     `;
 
-    snapshot.forEach(child => {
+    db.ref(
+        `barbers/${selectedBarberId}/disabledDates`
+    )
+    .once(
+        "value"
+    )
+    .then(
+        snapshot => {
 
-        const date = child.key;
+            if(
+                !snapshot.exists()
+            ){
 
-        html += `
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                background:rgba(255,255,255,0.08);
-                padding:10px;
-                border-radius:10px;
-                margin-top:10px;
-                
-            ">
+                container.innerHTML = `
+                    <div class="empty-state">
+                        Aucune date désactivée.
+                    </div>
+                `;
 
-                <span>${date}</span>
+                return;
+            }
 
-                <button
-                    style="
-                        background:green;
-                        color:white;
-                        border:none;
-                        padding:6px 12px;
-                        border-radius:8px;
-                    "
-                    onclick="enableDisabledDate('${date}')"
-                >
-                    Enable
-                </button>
+            let html = `
+                <div class="disabled-list-title">
+                    Dates actuellement désactivées
+                </div>
+            `;
 
-            </div>
-        `;
-    });
+            snapshot.forEach(
+                child => {
 
-    container.innerHTML = html;
-});
-}
+                    const date =
+                        child.key;
 
+                    html += `
+                        <div class="disabled-date-row">
 
-function closeDateModal(){
+                            <span>
 
-document
-.getElementById("dateModal")
-.classList.remove("show");
+                                <i class="fa-regular fa-calendar"></i>
+
+                                &nbsp;
+
+                                ${escapeHTML(date)}
+
+                            </span>
+
+                            <button
+                                class="enable-date-btn"
+                                onclick="enableDisabledDate('${escapeJS(date)}')"
+                            >
+                                Réactiver
+                            </button>
+
+                        </div>
+                    `;
+
+                }
+            );
+
+            container.innerHTML =
+                html;
+        }
+    );
 }
 
 function saveDisabledDateRange(){
 
-const from =
-document.getElementById("disableDateFrom").value;
+    if(
+        !selectedBarberId
+    ){
+        return;
+    }
 
-const to =
-document.getElementById("disableDateTo").value;
+    const from =
+        document.getElementById(
+            "disableDateFrom"
+        ).value;
 
-// ✅ MUST select at least FROM
-if(!from){
+    const to =
+        document.getElementById(
+            "disableDateTo"
+        ).value;
 
-    alert("Select a date");
+    if(!from){
 
-    return;
-}
+        showToast(
+            "Sélectionnez une date.",
+            "error"
+        );
 
-// ✅ ONLY ONE DAY
-if(from && !to){
+        return;
+    }
 
-    const d = new Date(from);
+    const startDate =
+        createLocalDate(
+            from
+        );
 
-    const day = d.getDate();
-    const month = d.getMonth() + 1;
-    const year = d.getFullYear();
+    const endDate =
+        to
+        ? createLocalDate(to)
+        : new Date(startDate);
 
-    const formattedDate =
-    `${day}-${month}-${year}`;
+    if(
+        startDate >
+        endDate
+    ){
+
+        showToast(
+            "La période sélectionnée est incorrecte.",
+            "error"
+        );
+
+        return;
+    }
+
+    const updates =
+        {};
+
+    const current =
+        new Date(
+            startDate
+        );
+
+    while(
+        current <=
+        endDate
+    ){
+
+        const formattedDate =
+            current.getDate()
+            +
+            "-"
+            +
+            (current.getMonth()+1)
+            +
+            "-"
+            +
+            current.getFullYear();
+
+        updates[
+            formattedDate
+        ] = true;
+
+        current.setDate(
+            current.getDate()+1
+        );
+    }
 
     db.ref(
-        "barbers/" +
-        selectedBarberId +
-        "/disabledDates/" +
-        formattedDate
+        `barbers/${selectedBarberId}/disabledDates`
     )
-    .set(true)
+    .update(
+        updates
+    )
     .then(() => {
 
-        alert("1 date disabled");
+        document.getElementById(
+            "disableDateFrom"
+        ).value =
+            "";
 
-        document.getElementById("disableDateFrom").value = "";
-        document.getElementById("disableDateTo").value = "";
+        document.getElementById(
+            "disableDateTo"
+        ).value =
+            "";
+
+        showToast(
+            Object.keys(
+                updates
+            ).length === 1
+            ? "Date désactivée."
+            : "Dates désactivées."
+        );
+
+        loadDisabledDates();
+
     });
-
-    return;
 }
 
-// ✅ RANGE
-const startDate = new Date(from);
-const endDate = new Date(to);
-
-if(startDate > endDate){
-
-    alert("Invalid range");
-
-    return;
-}
-
-let updates = {};
-
-let current = new Date(startDate);
-
-while(current <= endDate){
-
-    const day = current.getDate();
-    const month = current.getMonth() + 1;
-    const year = current.getFullYear();
-
-    const formattedDate =
-    `${day}-${month}-${year}`;
-
-    updates[formattedDate] = true;
-
-    current.setDate(current.getDate() + 1);
-}
-
-db.ref(
-    "barbers/" +
-    selectedBarberId +
-    "/disabledDates"
-)
-.update(updates)
-.then(() => {
-
-    alert("Dates disabled");
-
-    document.getElementById("disableDateFrom").value = "";
-    document.getElementById("disableDateTo").value = "";
-});
-}
-function enableDisabledDate(formattedDate){
-
-db.ref(
-    "barbers/" +
-    selectedBarberId +
-    "/disabledDates/" +
+function enableDisabledDate(
     formattedDate
-)
-.remove()
-.then(() => {
+){
 
-    alert("Date enabled");
-});
+    db.ref(
+        `barbers/${selectedBarberId}/disabledDates/${formattedDate}`
+    )
+    .remove()
+    .then(() => {
+
+        showToast(
+            "Date réactivée."
+        );
+
+        loadDisabledDates();
+
+    });
 }
 
 function enableAllDates(){
 
-if(!selectedBarberId){
-    return;
+    if(
+        !selectedBarberId
+    ){
+        return;
+    }
+
+    const ok =
+        confirm(
+            "Réactiver toutes les dates désactivées ?"
+        );
+
+    if(!ok){
+        return;
+    }
+
+    db.ref(
+        `barbers/${selectedBarberId}/disabledDates`
+    )
+    .remove()
+    .then(() => {
+
+        showToast(
+            "Toutes les dates sont maintenant disponibles."
+        );
+
+        loadDisabledDates();
+
+    });
 }
 
-const confirmDelete =
-confirm("Enable all disabled dates?");
+function createLocalDate(
+    value
+){
 
-if(!confirmDelete){
-    return;
+    const parts =
+        value
+        .split("-")
+        .map(Number);
+
+    return new Date(
+        parts[0],
+        parts[1]-1,
+        parts[2]
+    );
 }
 
-db.ref(
-    "barbers/" +
-    selectedBarberId +
-    "/disabledDates"
+function escapeHTML(
+    value
+){
+
+    return String(
+        value
+    )
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+}
+
+function escapeAttribute(
+    value
+){
+    return escapeHTML(
+        value
+    );
+}
+
+function escapeJS(
+    value
+){
+
+    return String(
+        value
+    )
+    .replaceAll(
+        "\\",
+        "\\\\"
+    )
+    .replaceAll(
+        "'",
+        "\\'"
+    );
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    fetchAppointments
+);
+
+setInterval(
+    fetchAppointments,
+    5000
+);
+
+document
+.getElementById(
+    "newBarberName"
 )
-.remove()
-.then(() => {
+.addEventListener(
+    "keydown",
+    event => {
 
-    alert("All dates enabled");
+        if(
+            event.key ===
+            "Enter"
+        ){
+            addBarber();
+        }
 
-    document.getElementById(
-        "disabledDatesList"
-    ).innerHTML =
-    "<p style='color:white;'>No disabled dates</p>";
-});
-}
-    </script>
+    }
+);
+
+document
+.getElementById(
+    "barberModal"
+)
+.addEventListener(
+    "click",
+    event => {
+
+        if(
+            event.target.id ===
+            "barberModal"
+        ){
+            closeBarberModal();
+        }
+
+    }
+);
+
+document
+.getElementById(
+    "dateModal"
+)
+.addEventListener(
+    "click",
+    event => {
+
+        if(
+            event.target.id ===
+            "dateModal"
+        ){
+            closeDateModal();
+        }
+
+    }
+);
+</script>
+
 </body>
 </html>
+
