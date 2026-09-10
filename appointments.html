@@ -15,250 +15,273 @@
 >
 
 <style>
-*{
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
 html,
-body{
-    width:100%;
-    margin:0;
-    padding:0;
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-body{
-    padding:20px;
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
-    color:#222;
+body {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
 }
 
 /* =========================
-   MAIN CONTAINER
+   CONTAINER
 ========================= */
 
-.container{
-    width:100%;
-    max-width:1200px;
-    margin:auto;
-    padding:25px;
-    background:#fff;
-    border-radius:15px;
-    box-shadow:0 5px 25px rgba(0,0,0,.08);
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, .08);
 }
 
 /* =========================
    HEADER
 ========================= */
 
-.header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:20px;
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-.header h2{
-    margin:0;
-    font-size:27px;
+.header h2 {
+    margin: 0;
+    font-size: 27px;
 }
 
-.back-btn{
-    min-height:44px;
-    padding:11px 16px;
-    border:none;
-    border-radius:9px;
-    background:#ffc107;
-    color:#111;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:14px;
-    transition:.2s ease;
+.back-btn {
+    min-height: 44px;
+    padding: 11px 16px;
+    border: none;
+    border-radius: 9px;
+    background: #ffc107;
+    color: #111;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: .2s;
 }
 
-.back-btn:hover{
-    background:#e0a800;
+.back-btn:hover {
+    background: #e0a800;
 }
 
 /* =========================
    COUNT
 ========================= */
 
-.appointment-count{
-    margin:0 0 20px;
-    color:#555;
-    font-size:17px;
+.appointment-count {
+    margin: 0 0 20px;
+    color: #555;
+    font-size: 17px;
 }
 
 /* =========================
    CONTROLS
 ========================= */
 
-.controls{
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:20px;
+.controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-input{
-    min-height:44px;
-    padding:10px 12px;
-    border:1px solid #ddd;
-    border-radius:9px;
-    outline:none;
-    background:#fff;
-    font-size:14px;
+input {
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    outline: none;
+    background: #fff;
+    font-size: 14px;
 }
 
-input:focus{
-    border-color:#007bff;
-    box-shadow:0 0 0 3px rgba(0,123,255,.08);
+input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, .08);
 }
 
-#liveSearch{
-    flex:1;
-    min-width:220px;
+#liveSearch {
+    flex: 1;
+    min-width: 220px;
 }
 
-button{
-    min-height:44px;
-    padding:9px 14px;
-    border:none;
-    border-radius:9px;
-    cursor:pointer;
-    font-size:14px;
-    transition:.2s ease;
+button {
+    min-height: 44px;
+    padding: 9px 14px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: .2s;
 }
 
-button:hover{
-    opacity:.88;
+button:hover {
+    opacity: .88;
 }
 
-.refresh-btn{
-    background:#28a745;
-    color:#fff;
+.refresh-btn {
+    background: #28a745;
+    color: #fff;
 }
 
-.delete-month-btn{
-    background:#dc3545;
-    color:#fff;
-    font-weight:bold;
+.delete-month-btn {
+    background: #dc3545;
+    color: #fff;
+    font-weight: bold;
 }
 
 /* =========================
    MONTH WARNING
 ========================= */
 
-.month-danger{
-    width:100%;
-    margin-top:5px;
-    margin-bottom:15px;
-    padding:11px 13px;
-    display:none;
-    border-radius:9px;
-    background:#fff3f3;
-    border:1px solid #ffd0d0;
-    color:#b52020;
-    font-size:12px;
-    line-height:1.6;
+.month-danger {
+    width: 100%;
+    margin: 5px 0 15px;
+    padding: 11px 13px;
+    display: none;
+    border-radius: 9px;
+    background: #fff3f3;
+    border: 1px solid #ffd0d0;
+    color: #b52020;
+    font-size: 12px;
+    line-height: 1.6;
 }
 
-.month-danger.show{
-    display:block;
+.month-danger.show {
+    display: block;
 }
 
 /* =========================
    TABLE
 ========================= */
 
-.table-container{
-    width:100%;
-    border:1px solid #e3e3e3;
-    border-radius:12px;
-    overflow:hidden;
-    background:#fff;
+.table-container {
+    width: 100%;
+    border: 1px solid #e3e3e3;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
 }
 
-.table-scroll{
-    width:100%;
-    max-height:770px;
-    overflow:auto;
-    overscroll-behavior:contain;
-    scrollbar-width:thin;
-    scrollbar-color:#007bff #eee;
+/*
+    IMPORTANT:
+
+    Vertical and horizontal scrolling are both enabled.
+
+    JavaScript below locks the movement:
+    - vertical swipe = only vertical scroll
+    - horizontal swipe = only horizontal scroll
+*/
+
+.table-scroll {
+    width: 100%;
+    height: auto;
+    max-height: 670px;
+
+    overflow-x: auto;
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #eee;
 }
 
-.table-scroll::-webkit-scrollbar{
-    width:8px;
-    height:8px;
+.table-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
 }
 
-.table-scroll::-webkit-scrollbar-track{
-    background:#eee;
+.table-scroll::-webkit-scrollbar-track {
+    background: #eee;
 }
 
-.table-scroll::-webkit-scrollbar-thumb{
-    background:#007bff;
-    border-radius:20px;
+.table-scroll::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 20px;
 }
 
-table{
-    width:100%;
-    min-width:790px;
-    border-collapse:separate;
-    border-spacing:0;
-    table-layout:fixed;
+table {
+    width: 100%;
+    min-width: 790px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
 }
 
-thead{
-    background:#007bff;
+thead {
+    background: #007bff;
 }
 
-th{
-    position:sticky;
-    top:0;
-    z-index:5;
-    height:50px;
-    padding:10px 12px;
-    background:#007bff;
-    color:#fff;
-    font-size:13px;
-    font-weight:600;
-    text-align:center;
-    white-space:nowrap;
-    border-right:1px solid rgba(255,255,255,.18);
+th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+
+    height: 50px;
+    padding: 10px 12px;
+
+    background: #007bff;
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+
+    white-space: nowrap;
+
+    border-right: 1px solid rgba(255, 255, 255, .18);
 }
 
-td{
-    height:48px;
-    padding:9px 12px;
-    border-bottom:1px solid #eee;
-    border-right:1px solid #eee;
-    text-align:center;
-    font-size:13px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+td {
+    height: 48px;
+    padding: 9px 12px;
+
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+
+    text-align: center;
+    font-size: 13px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 th:last-child,
-td:last-child{
-    border-right:none;
+td:last-child {
+    border-right: none;
 }
 
-tbody tr:nth-child(even){
-    background:#fafafa;
+tbody tr:nth-child(even) {
+    background: #fafafa;
 }
 
-tbody tr:hover{
-    background:#f1f7ff;
+tbody tr:hover {
+    background: #f1f7ff;
 }
 
-tbody tr:last-child td{
-    border-bottom:none;
+tbody tr:last-child td {
+    border-bottom: none;
 }
 
 /* =========================
@@ -266,354 +289,498 @@ tbody tr:last-child td{
 ========================= */
 
 th:nth-child(1),
-td:nth-child(1){
-    width:50px;
+td:nth-child(1) {
+    width: 50px;
 }
 
 th:nth-child(2),
-td:nth-child(2){
-    width:155px;
+td:nth-child(2) {
+    width: 155px;
 }
 
 th:nth-child(3),
-td:nth-child(3){
-    width:135px;
+td:nth-child(3) {
+    width: 135px;
 }
 
 th:nth-child(4),
-td:nth-child(4){
-    width:110px;
+td:nth-child(4) {
+    width: 110px;
 }
 
 th:nth-child(5),
-td:nth-child(5){
-    width:85px;
+td:nth-child(5) {
+    width: 85px;
 }
 
 th:nth-child(6),
-td:nth-child(6){
-    width:125px;
+td:nth-child(6) {
+    width: 125px;
 }
 
 th:nth-child(7),
-td:nth-child(7){
-    width:150px;
+td:nth-child(7) {
+    width: 150px;
 }
 
-/* Small action column */
-
 th:nth-child(8),
-td:nth-child(8){
-    width:52px;
-    padding-left:5px;
-    padding-right:5px;
+td:nth-child(8) {
+    width: 52px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 /* =========================
-   DELETE ICON
+   NAME BUTTON
 ========================= */
 
-.delete-btn{
-    width:32px;
-    min-width:32px;
-    height:32px;
-    min-height:32px;
-    padding:0;
-    margin:auto;
+.name-btn {
+    display: inline-block;
+    max-width: 100%;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    padding: 6px 8px;
+    min-height: 0;
 
-    border:none;
-    border-radius:7px;
+    border: none;
+    border-radius: 6px;
 
-    background:#dc3545;
-    color:#fff;
+    background: transparent;
+    color: #0069d9;
 
-    font-size:13px;
+    font-weight: 700;
+    font-size: inherit;
 
-    cursor:pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
-    transition:
-        background .2s ease,
-        transform .2s ease;
+    cursor: pointer;
 }
 
-.delete-btn:hover{
-    background:#bd2130;
-    transform:scale(1.06);
-    opacity:1;
+.name-btn:hover {
+    background: #e8f2ff;
+    color: #004c9f;
+    opacity: 1;
 }
 
-.delete-btn i{
-    pointer-events:none;
+/* =========================
+   DELETE BUTTON
+========================= */
+
+.delete-btn {
+    width: 32px;
+    min-width: 32px;
+
+    height: 32px;
+    min-height: 32px;
+
+    padding: 0;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #dc3545;
+    color: #fff;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #bd2130;
+    transform: scale(1.06);
+    opacity: 1;
+}
+
+.delete-btn i {
+    pointer-events: none;
 }
 
 /* =========================
    EMPTY
 ========================= */
 
-.empty-row{
-    height:100px;
-    color:#888;
-    text-align:center;
+.empty-row {
+    height: 100px;
+    color: #888;
+    text-align: center;
+}
+
+/* =========================
+   DELETE MODAL
+========================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, .55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.delete-modal {
+    width: 100%;
+    max-width: 430px;
+
+    padding: 28px;
+
+    background: #fff;
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, .25);
+
+    animation: modalOpen .2s ease;
+}
+
+@keyframes modalOpen {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-icon {
+    width: 68px;
+    height: 68px;
+
+    margin: 0 auto 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #ffe7e9;
+    color: #dc3545;
+
+    font-size: 28px;
+}
+
+.delete-modal h3 {
+    margin: 0 0 10px;
+    font-size: 23px;
+}
+
+.delete-modal > p {
+    margin: 0 0 18px;
+    color: #666;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.modal-client {
+    margin-bottom: 22px;
+    padding: 14px;
+
+    background: #f7f8fa;
+    border-radius: 10px;
+
+    text-align: left;
+}
+
+.modal-client-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 6px 0;
+
+    font-size: 14px;
+}
+
+.modal-client-row span {
+    color: #777;
+}
+
+.modal-client-row strong {
+    color: #222;
+    text-align: right;
+}
+
+.modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.modal-cancel {
+    background: #e9ecef;
+    color: #222;
+    font-weight: bold;
+}
+
+.modal-cancel:hover {
+    background: #d8dadd;
+    opacity: 1;
+}
+
+.modal-delete {
+    background: #dc3545;
+    color: #fff;
+    font-weight: bold;
+}
+
+.modal-delete:hover {
+    background: #bd2130;
+    opacity: 1;
+}
+
+.modal-delete:disabled {
+    opacity: .6;
+    cursor: not-allowed;
 }
 
 /* =========================
    TABLET
 ========================= */
 
-@media(max-width:900px){
+@media (max-width: 900px) {
 
-    body{
-        padding:12px;
+    body {
+        padding: 12px;
     }
 
-    .container{
-        padding:16px;
-        border-radius:12px;
+    .container {
+        padding: 16px;
+        border-radius: 12px;
     }
 
-    .header h2{
-        font-size:23px;
+    .header h2 {
+        font-size: 23px;
     }
 
-    table{
-        min-width:700px;
+    table {
+        min-width: 700px;
     }
 
     th,
-    td{
-        padding:8px 6px;
-        font-size:12px;
+    td {
+        padding: 8px 6px;
+        font-size: 12px;
     }
 
     th:nth-child(1),
-    td:nth-child(1){
-        width:42px;
+    td:nth-child(1) {
+        width: 42px;
     }
 
     th:nth-child(2),
-    td:nth-child(2){
-        width:120px;
+    td:nth-child(2) {
+        width: 120px;
     }
 
     th:nth-child(3),
-    td:nth-child(3){
-        width:110px;
+    td:nth-child(3) {
+        width: 110px;
     }
 
     th:nth-child(4),
-    td:nth-child(4){
-        width:90px;
+    td:nth-child(4) {
+        width: 90px;
     }
 
     th:nth-child(5),
-    td:nth-child(5){
-        width:68px;
+    td:nth-child(5) {
+        width: 68px;
     }
 
     th:nth-child(6),
-    td:nth-child(6){
-        width:100px;
+    td:nth-child(6) {
+        width: 100px;
     }
 
     th:nth-child(7),
-    td:nth-child(7){
-        width:115px;
+    td:nth-child(7) {
+        width: 115px;
     }
 
     th:nth-child(8),
-    td:nth-child(8){
-        width:48px;
-        padding-left:4px;
-        padding-right:4px;
-    }
-
-    .delete-btn{
-        width:30px;
-        min-width:30px;
-        height:30px;
-        min-height:30px;
-        font-size:12px;
+    td:nth-child(8) {
+        width: 48px;
     }
 }
 
 /* =========================
    MOBILE
-   REAL GRID / TABLE
 ========================= */
 
-@media(max-width:700px){
+@media (max-width: 700px) {
 
-    body{
-        padding:7px;
-        background:#f4f5f7;
+    body {
+        padding: 7px;
+        background: #f4f5f7;
     }
 
-    .container{
-        width:100%;
-        padding:10px;
-        border-radius:10px;
-        box-shadow:none;
+    .container {
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: none;
     }
 
-    /* Header */
-
-    .header{
-        display:grid;
-        grid-template-columns:1fr;
-        gap:10px;
-        margin-bottom:14px;
+    .header {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
     }
 
-    .header h2{
-        order:1;
-        text-align:center;
-        font-size:20px;
+    .header h2 {
+        order: 1;
+        text-align: center;
+        font-size: 20px;
     }
 
-    .back-btn{
-        order:2;
-        width:100%;
-        min-height:42px;
-        font-size:13px;
+    .back-btn {
+        order: 2;
+        width: 100%;
     }
 
-    /* Counter */
-
-    .appointment-count{
-        margin-bottom:13px;
-        text-align:center;
-        font-size:15px;
+    .appointment-count {
+        margin-bottom: 13px;
+        text-align: center;
+        font-size: 15px;
     }
 
-    /* Controls */
-
-    .controls{
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:7px;
-        margin-bottom:13px;
+    .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+        margin-bottom: 13px;
     }
 
-    #liveSearch{
-        grid-column:1 / -1;
-        width:100%;
-        min-width:0;
+    #liveSearch {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-width: 0;
     }
 
-    #monthPicker{
-        width:100%;
-        min-width:0;
+    #monthPicker,
+    .refresh-btn {
+        width: 100%;
     }
 
-    .refresh-btn{
-        width:100%;
-    }
-
-    .delete-month-btn{
-        grid-column:1 / -1;
-        width:100%;
+    .delete-month-btn {
+        grid-column: 1 / -1;
+        width: 100%;
     }
 
     input,
-    button{
-        min-height:42px;
-        font-size:13px;
+    button {
+        min-height: 42px;
+        font-size: 13px;
     }
 
-    /* Table */
-
-    .table-container{
-        width:100%;
-        border-radius:8px;
-        overflow:hidden;
+    .table-container {
+        border-radius: 8px;
     }
 
-    .table-scroll{
-        width:100%;
-        max-height:650px;
-
-        overflow-x:auto;
-        overflow-y:auto;
-
-        -webkit-overflow-scrolling:touch;
+    .table-scroll {
+        max-height: 620px;
     }
 
-    table{
-        width:100%;
-        min-width:590px;
-        table-layout:fixed;
+    table {
+        min-width: 590px;
     }
 
-    th{
-        height:44px;
-        padding:5px 3px;
-        font-size:10px;
+    th {
+        height: 44px;
+        padding: 5px 3px;
+        font-size: 10px;
     }
 
-    td{
-        height:43px;
-        padding:5px 3px;
-        font-size:10px;
+    td {
+        height: 43px;
+        padding: 5px 3px;
+        font-size: 10px;
     }
 
     th:nth-child(1),
-    td:nth-child(1){
-        width:33px;
+    td:nth-child(1) {
+        width: 33px;
     }
 
     th:nth-child(2),
-    td:nth-child(2){
-        width:98px;
+    td:nth-child(2) {
+        width: 98px;
     }
 
     th:nth-child(3),
-    td:nth-child(3){
-        width:90px;
+    td:nth-child(3) {
+        width: 90px;
     }
 
     th:nth-child(4),
-    td:nth-child(4){
-        width:75px;
+    td:nth-child(4) {
+        width: 75px;
     }
 
     th:nth-child(5),
-    td:nth-child(5){
-        width:53px;
+    td:nth-child(5) {
+        width: 53px;
     }
 
     th:nth-child(6),
-    td:nth-child(6){
-        width:75px;
+    td:nth-child(6) {
+        width: 75px;
     }
 
     th:nth-child(7),
-    td:nth-child(7){
-        width:105px;
+    td:nth-child(7) {
+        width: 105px;
     }
 
     th:nth-child(8),
-    td:nth-child(8){
-        width:42px;
-        padding-left:2px;
-        padding-right:2px;
+    td:nth-child(8) {
+        width: 42px;
     }
 
-    .delete-btn{
-        width:27px;
-        min-width:27px;
-        height:27px;
-        min-height:27px;
-        padding:0;
-        border-radius:5px;
-        font-size:10px;
+    .delete-btn {
+        width: 27px;
+        min-width: 27px;
+        height: 27px;
+        min-height: 27px;
+        font-size: 10px;
     }
 
-    .month-danger{
-        font-size:11px;
+    .name-btn {
+        padding: 4px;
+        font-size: 10px;
+    }
+
+    .delete-modal {
+        padding: 22px 17px;
+        border-radius: 15px;
+    }
+
+    .modal-actions {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -621,107 +788,98 @@ td:nth-child(8){
    SMALL MOBILE
 ========================= */
 
-@media(max-width:480px){
+@media (max-width: 480px) {
 
-    body{
-        padding:4px;
+    body {
+        padding: 4px;
     }
 
-    .container{
-        padding:7px;
-        border-radius:8px;
+    .container {
+        padding: 7px;
     }
 
-    .header{
-        gap:7px;
+    .header h2 {
+        font-size: 18px;
     }
 
-    .header h2{
-        font-size:18px;
-    }
-
-    .appointment-count{
-        font-size:14px;
-    }
-
-    .controls{
-        grid-template-columns:1fr;
+    .controls {
+        grid-template-columns: 1fr;
     }
 
     #liveSearch,
     #monthPicker,
     .refresh-btn,
-    .delete-month-btn{
-        grid-column:1;
-        width:100%;
+    .delete-month-btn {
+        grid-column: 1;
+        width: 100%;
     }
 
-    table{
-        min-width:550px;
+    table {
+        min-width: 550px;
     }
 
-    th{
-        height:40px;
-        padding:4px 2px;
-        font-size:9px;
+    th {
+        height: 40px;
+        padding: 4px 2px;
+        font-size: 9px;
     }
 
-    td{
-        height:40px;
-        padding:4px 2px;
-        font-size:9px;
+    td {
+        height: 40px;
+        padding: 4px 2px;
+        font-size: 9px;
     }
 
     th:nth-child(1),
-    td:nth-child(1){
-        width:28px;
+    td:nth-child(1) {
+        width: 28px;
     }
 
     th:nth-child(2),
-    td:nth-child(2){
-        width:85px;
+    td:nth-child(2) {
+        width: 85px;
     }
 
     th:nth-child(3),
-    td:nth-child(3){
-        width:82px;
+    td:nth-child(3) {
+        width: 82px;
     }
 
     th:nth-child(4),
-    td:nth-child(4){
-        width:70px;
+    td:nth-child(4) {
+        width: 70px;
     }
 
     th:nth-child(5),
-    td:nth-child(5){
-        width:47px;
+    td:nth-child(5) {
+        width: 47px;
     }
 
     th:nth-child(6),
-    td:nth-child(6){
-        width:67px;
+    td:nth-child(6) {
+        width: 67px;
     }
 
     th:nth-child(7),
-    td:nth-child(7){
-        width:95px;
+    td:nth-child(7) {
+        width: 95px;
     }
 
     th:nth-child(8),
-    td:nth-child(8){
-        width:37px;
-        padding-left:1px;
-        padding-right:1px;
+    td:nth-child(8) {
+        width: 37px;
     }
 
-    .delete-btn{
-        width:24px;
-        min-width:24px;
-        height:24px;
-        min-height:24px;
-        padding:0;
-        border-radius:5px;
-        font-size:9px;
+    .delete-btn {
+        width: 24px;
+        min-width: 24px;
+        height: 24px;
+        min-height: 24px;
+        font-size: 9px;
+    }
+
+    .name-btn {
+        font-size: 9px;
     }
 }
 </style>
@@ -733,16 +891,11 @@ td:nth-child(8){
 
     <div class="header">
 
-        <button
-            class="back-btn"
-            onclick="goBack()"
-        >
+        <button class="back-btn" onclick="goBack()">
             ← Retour au tableau de bord
         </button>
 
-        <h2>
-            Rendez-vous clients
-        </h2>
+        <h2>Rendez-vous clients</h2>
 
     </div>
 
@@ -770,6 +923,7 @@ td:nth-child(8){
             class="refresh-btn"
             onclick="fetchAppointments()"
         >
+            <i class="fa-solid fa-rotate"></i>
             Actualiser
         </button>
 
@@ -777,6 +931,7 @@ td:nth-child(8){
             class="delete-month-btn"
             onclick="deleteSelectedMonth()"
         >
+            <i class="fa-solid fa-calendar-xmark"></i>
             Supprimer le mois
         </button>
 
@@ -832,75 +987,119 @@ td:nth-child(8){
 
 </div>
 
+<!-- =========================
+     DELETE MODAL
+========================= -->
+
+<div
+    class="modal-overlay"
+    id="deleteModal"
+>
+
+    <div class="delete-modal">
+
+        <div class="modal-icon">
+            <i class="fa-solid fa-trash-can"></i>
+        </div>
+
+        <h3>Supprimer ce rendez-vous ?</h3>
+
+        <p>
+            Voulez-vous vraiment supprimer ce rendez-vous ?
+            Cette action est définitive.
+        </p>
+
+        <div class="modal-client">
+
+            <div class="modal-client-row">
+                <span>Nom</span>
+                <strong id="modalName">-</strong>
+            </div>
+
+            <div class="modal-client-row">
+                <span>Mobile</span>
+                <strong id="modalMobile">-</strong>
+            </div>
+
+            <div class="modal-client-row">
+                <span>Date</span>
+                <strong id="modalDate">-</strong>
+            </div>
+
+            <div class="modal-client-row">
+                <span>Heure</span>
+                <strong id="modalTime">-</strong>
+            </div>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-cancel"
+                onclick="closeDeleteModal()"
+            >
+                <i class="fa-solid fa-xmark"></i>
+                Annuler
+            </button>
+
+            <button
+                class="modal-delete"
+                id="confirmDeleteBtn"
+                onclick="confirmDeleteAppointment()"
+            >
+                <i class="fa-solid fa-trash"></i>
+                Supprimer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <script>
 /* =========================
    FIREBASE
 ========================= */
 
 firebase.initializeApp({
-
-    apiKey:
-        "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
-
-    authDomain:
-        "empiresalonbarber.firebaseapp.com",
-
-    databaseURL:
-        "https://empiresalonbarber-default-rtdb.europe-west1.firebasedatabase.app/",
-
-    projectId:
-        "empiresalonbarber",
-
-    storageBucket:
-        "empiresalonbarber.appspot.com",
-
-    messagingSenderId:
-        "365303178903",
-
-    appId:
-        "1:365303178903:web:c6f9eb19766934e443ebd2",
-
-    measurementId:
-        "G-LMHTQJBCP6"
+    apiKey: "AIzaSyDtfwLl6xJxYJrgBMUGTlnyH1Ks9E5LOQs",
+    authDomain: "empiresalonbarber.firebaseapp.com",
+    databaseURL: "https://empiresalonbarber-default-rtdb.europe-west1.firebasedatabase.app/",
+    projectId: "empiresalonbarber",
+    storageBucket: "empiresalonbarber.appspot.com",
+    messagingSenderId: "365303178903",
+    appId: "1:365303178903:web:c6f9eb19766934e443ebd2",
+    measurementId: "G-LMHTQJBCP6"
 });
 
-const db =
-    firebase.database();
+const db = firebase.database();
 
-let allAppointments =
-    [];
+let allAppointments = [];
+let pendingDeleteId = null;
 
 /* =========================
    COUNTER
 ========================= */
 
-function updateCounter(num){
-
-    document
-        .getElementById(
-            "appointmentCount"
-        )
-        .innerText =
-            "Total des rendez-vous : " + num;
+function updateCounter(num) {
+    document.getElementById("appointmentCount").innerText =
+        "Total des rendez-vous : " + num;
 }
 
 /* =========================
    FETCH
 ========================= */
 
-function fetchAppointments(){
+function fetchAppointments() {
 
     const body =
-        document.getElementById(
-            "appointmentsBody"
-        );
+        document.getElementById("appointmentsBody");
 
     body.innerHTML = `
         <tr>
-            <td
-                colspan="8"
-                class="empty-row"
-            >
+            <td colspan="8" class="empty-row">
                 Chargement...
             </td>
         </tr>
@@ -910,7 +1109,7 @@ function fetchAppointments(){
         .once("value")
         .then(snapshot => {
 
-            if(!snapshot.exists()){
+            if (!snapshot.exists()) {
 
                 allAppointments = [];
 
@@ -918,64 +1117,54 @@ function fetchAppointments(){
 
                 body.innerHTML = `
                     <tr>
-                        <td
-                            colspan="8"
-                            class="empty-row"
-                        >
+                        <td colspan="8" class="empty-row">
                             Aucun rendez-vous.
                         </td>
                     </tr>
                 `;
 
+                updateMonthDeleteInfo();
+
                 return;
             }
 
-            const appointments =
-                [];
+            const appointments = [];
 
             snapshot.forEach(child => {
 
-                const data =
-                    child.val() || {};
+                const data = child.val() || {};
 
-                if(
-                    !data.date ||
-                    !data.time
-                ){
+                if (!data.date || !data.time) {
                     return;
                 }
 
-                const d =
-                    String(
-                        data.date
-                    ).split("-");
+                const dateParts =
+                    String(data.date).split("-");
 
-                const t =
-                    String(
-                        data.time
-                    ).split(":");
+                const timeParts =
+                    String(data.time).split(":");
 
-                if(
-                    d.length !== 3 ||
-                    t.length !== 2
-                ){
+                if (
+                    dateParts.length !== 3 ||
+                    timeParts.length < 2
+                ) {
                     return;
                 }
 
                 const day =
-                    Number(d[0]);
+                    Number(dateParts[0]);
 
                 const month =
-                    Number(d[1]);
+                    Number(dateParts[1]);
 
                 const year =
-                    Number(d[2]);
+                    Number(dateParts[2]);
 
                 const hour =
-                    Number(t[0]);
+                    Number(timeParts[0]);
 
                 const minute =
-                    Number(t[1]);
+                    Number(timeParts[1]);
 
                 const fullDate =
                     new Date(
@@ -987,53 +1176,28 @@ function fetchAppointments(){
                     );
 
                 appointments.push({
-
-                    id:
-                        child.key,
-
-                    username:
-                        data.username || "-",
-
-                    mobile:
-                        data.mobile || "-",
-
-                    date:
-                        data.date,
-
-                    time:
-                        data.time,
-
-                    barber:
-                        data.barber || "N/A",
-
-                    service:
-                        data.service || "-",
-
-                    year:
-                        String(year),
-
-                    month:
-                        String(month)
-                            .padStart(2,"0"),
-
-                    timestamp:
-                        fullDate.getTime()
-
+                    id: child.key,
+                    username: data.username || "-",
+                    mobile: data.mobile || "-",
+                    date: data.date,
+                    time: data.time,
+                    barber: data.barber || "N/A",
+                    service: data.service || "-",
+                    year: String(year),
+                    month: String(month).padStart(2, "0"),
+                    timestamp: fullDate.getTime()
                 });
-
             });
 
             appointments.sort(
-                (a,b) =>
-                    b.timestamp -
-                    a.timestamp
+                (a, b) =>
+                    b.timestamp - a.timestamp
             );
 
             allAppointments =
                 appointments;
 
             applyFilters();
-
         })
         .catch(error => {
 
@@ -1044,149 +1208,86 @@ function fetchAppointments(){
 
             body.innerHTML = `
                 <tr>
-                    <td
-                        colspan="8"
-                        class="empty-row"
-                    >
+                    <td colspan="8" class="empty-row">
                         Erreur lors du chargement.
                     </td>
                 </tr>
             `;
-
         });
 }
 
 /* =========================
-   FILTER
+   FILTERS
 ========================= */
 
-function applyFilters(){
+function applyFilters() {
 
     const search =
         document
-            .getElementById(
-                "liveSearch"
-            )
+            .getElementById("liveSearch")
             .value
             .trim()
             .toLowerCase();
 
     const selectedMonth =
         document
-            .getElementById(
-                "monthPicker"
-            )
+            .getElementById("monthPicker")
             .value;
 
     let filtered =
         [...allAppointments];
 
-    if(selectedMonth){
+    if (selectedMonth) {
 
-        const [
-            year,
-            month
-        ] =
+        const [year, month] =
             selectedMonth.split("-");
 
         filtered =
-            filtered.filter(
-                app =>
-                    app.year === year &&
-                    app.month === month
+            filtered.filter(app =>
+                app.year === year &&
+                app.month === month
             );
     }
 
-    if(search){
+    if (search) {
 
         filtered =
             filtered.filter(app => {
 
-                return (
+                const searchableText = [
+                    app.username,
+                    app.mobile,
+                    app.date,
+                    app.time,
+                    app.barber,
+                    app.service
+                ]
+                .join(" ")
+                .toLowerCase();
 
-                    String(
-                        app.username
-                    )
-                    .toLowerCase()
-                    .includes(search)
-
-                    ||
-
-                    String(
-                        app.mobile
-                    )
-                    .toLowerCase()
-                    .includes(search)
-
-                    ||
-
-                    String(
-                        app.date
-                    )
-                    .toLowerCase()
-                    .includes(search)
-
-                    ||
-
-                    String(
-                        app.time
-                    )
-                    .toLowerCase()
-                    .includes(search)
-
-                    ||
-
-                    String(
-                        app.barber
-                    )
-                    .toLowerCase()
-                    .includes(search)
-
-                    ||
-
-                    String(
-                        app.service
-                    )
-                    .toLowerCase()
-                    .includes(search)
-
-                );
-
+                return searchableText.includes(search);
             });
     }
 
-    updateCounter(
-        filtered.length
-    );
-
-    renderAppointments(
-        filtered
-    );
-
+    updateCounter(filtered.length);
+    renderAppointments(filtered);
     updateMonthDeleteInfo();
 }
 
 /* =========================
-   RENDER GRID
+   RENDER TABLE
 ========================= */
 
-function renderAppointments(
-    appointments
-){
+function renderAppointments(appointments) {
 
     const body =
-        document.getElementById(
-            "appointmentsBody"
-        );
+        document.getElementById("appointmentsBody");
 
-    if(!appointments.length){
+    if (!appointments.length) {
 
         body.innerHTML = `
             <tr>
-                <td
-                    colspan="8"
-                    class="empty-row"
-                >
+                <td colspan="8" class="empty-row">
                     Aucun rendez-vous trouvé.
                 </td>
             </tr>
@@ -1197,78 +1298,241 @@ function renderAppointments(
 
     body.innerHTML =
         appointments
-            .map(
-                (app,index) => `
-                    <tr>
+            .map((app, index) => `
+                <tr>
 
-                        <td>
-                            ${index + 1}
-                        </td>
+                    <td>
+                        ${index + 1}
+                    </td>
 
-                        <td
-                            title="${escapeHTML(app.username)}"
+                    <td>
+                        <button
+                            type="button"
+                            class="name-btn"
+                            data-delete-id="${escapeHTML(app.id)}"
+                            title="Cliquez pour supprimer ce rendez-vous"
                         >
                             ${escapeHTML(app.username)}
-                        </td>
+                        </button>
+                    </td>
 
-                        <td
-                            title="${escapeHTML(app.mobile)}"
+                    <td title="${escapeHTML(app.mobile)}">
+                        ${escapeHTML(app.mobile)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(app.date)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(app.time)}
+                    </td>
+
+                    <td title="${escapeHTML(app.barber)}">
+                        <strong>
+                            ${escapeHTML(app.barber)}
+                        </strong>
+                    </td>
+
+                    <td title="${escapeHTML(app.service)}">
+                        ${escapeHTML(app.service)}
+                    </td>
+
+                    <td>
+
+                        <button
+                            type="button"
+                            class="delete-btn"
+                            data-delete-id="${escapeHTML(app.id)}"
+                            title="Supprimer"
+                            aria-label="Supprimer"
                         >
-                            ${escapeHTML(app.mobile)}
-                        </td>
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
 
-                        <td>
-                            ${escapeHTML(app.date)}
-                        </td>
+                    </td>
 
-                        <td>
-                            ${escapeHTML(app.time)}
-                        </td>
-
-                        <td
-                            title="${escapeHTML(app.barber)}"
-                        >
-                            <strong>
-                                ${escapeHTML(app.barber)}
-                            </strong>
-                        </td>
-
-                        <td
-                            title="${escapeHTML(app.service)}"
-                        >
-                            ${escapeHTML(app.service)}
-                        </td>
-
-                        <td>
-
-                            <button
-                                class="delete-btn"
-                                onclick="deleteAppointment('${app.id}')"
-                                title="Supprimer"
-                                aria-label="Supprimer"
-                            >
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-
-                        </td>
-
-                    </tr>
-                `
-            )
+                </tr>
+            `)
             .join("");
 }
 
 /* =========================
-   MONTH DELETE INFO
+   CLICK NAME / DELETE ICON
 ========================= */
 
-function updateMonthDeleteInfo(){
+document
+    .getElementById("appointmentsBody")
+    .addEventListener("click", event => {
+
+        const button =
+            event.target.closest(
+                "[data-delete-id]"
+            );
+
+        if (!button) {
+            return;
+        }
+
+        const id =
+            button.dataset.deleteId;
+
+        openDeleteModal(id);
+    });
+
+/* =========================
+   OPEN DELETE MODAL
+========================= */
+
+function openDeleteModal(id) {
+
+    const appointment =
+        allAppointments.find(
+            app => app.id === id
+        );
+
+    if (!appointment) {
+        return;
+    }
+
+    pendingDeleteId = id;
+
+    document.getElementById("modalName").textContent =
+        appointment.username;
+
+    document.getElementById("modalMobile").textContent =
+        appointment.mobile;
+
+    document.getElementById("modalDate").textContent =
+        appointment.date;
+
+    document.getElementById("modalTime").textContent =
+        appointment.time;
+
+    document
+        .getElementById("deleteModal")
+        .classList.add("show");
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+/* =========================
+   CLOSE DELETE MODAL
+========================= */
+
+function closeDeleteModal() {
+
+    pendingDeleteId = null;
+
+    document
+        .getElementById("deleteModal")
+        .classList.remove("show");
+
+    document.body.style.overflow =
+        "";
+}
+
+/* =========================
+   CONFIRM DELETE
+========================= */
+
+function confirmDeleteAppointment() {
+
+    if (!pendingDeleteId) {
+        return;
+    }
+
+    const id =
+        pendingDeleteId;
+
+    const button =
+        document.getElementById(
+            "confirmDeleteBtn"
+        );
+
+    button.disabled = true;
+
+    button.innerHTML = `
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Suppression...
+    `;
+
+    db.ref("bookings/" + id)
+        .remove()
+        .then(() => {
+
+            closeDeleteModal();
+
+            fetchAppointments();
+        })
+        .catch(error => {
+
+            console.error(
+                "Delete error:",
+                error
+            );
+
+            alert(
+                "Une erreur est survenue lors de la suppression du rendez-vous."
+            );
+        })
+        .finally(() => {
+
+            button.disabled = false;
+
+            button.innerHTML = `
+                <i class="fa-solid fa-trash"></i>
+                Supprimer
+            `;
+        });
+}
+
+/* =========================
+   CLOSE MODAL BY BACKGROUND
+========================= */
+
+document
+    .getElementById("deleteModal")
+    .addEventListener("click", event => {
+
+        if (
+            event.target.id ===
+            "deleteModal"
+        ) {
+            closeDeleteModal();
+        }
+    });
+
+/* =========================
+   ESC KEY
+========================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            document
+                .getElementById("deleteModal")
+                .classList
+                .contains("show")
+        ) {
+            closeDeleteModal();
+        }
+    }
+);
+
+/* =========================
+   MONTH INFO
+========================= */
+
+function updateMonthDeleteInfo() {
 
     const selectedMonth =
         document
-            .getElementById(
-                "monthPicker"
-            )
+            .getElementById("monthPicker")
             .value;
 
     const box =
@@ -1276,31 +1540,22 @@ function updateMonthDeleteInfo(){
             "monthDanger"
         );
 
-    if(!selectedMonth){
+    if (!selectedMonth) {
 
-        box.classList.remove(
-            "show"
-        );
-
+        box.classList.remove("show");
         box.innerHTML = "";
 
         return;
     }
 
-    const [
-        year,
-        month
-    ] =
+    const [year, month] =
         selectedMonth.split("-");
 
     const count =
-        allAppointments
-            .filter(
-                app =>
-                    app.year === year &&
-                    app.month === month
-            )
-            .length;
+        allAppointments.filter(app =>
+            app.year === year &&
+            app.month === month
+        ).length;
 
     box.innerHTML = `
         Le mois sélectionné contient
@@ -1311,62 +1566,21 @@ function updateMonthDeleteInfo(){
         ces rendez-vous de Firebase.
     `;
 
-    box.classList.add(
-        "show"
-    );
-}
-
-/* =========================
-   DELETE ONE
-========================= */
-
-function deleteAppointment(id){
-
-    const confirmed =
-        confirm(
-            "Supprimer ce rendez-vous ?"
-        );
-
-    if(!confirmed){
-        return;
-    }
-
-    db.ref(
-        "bookings/" + id
-    )
-    .remove()
-    .then(() => {
-
-        fetchAppointments();
-
-    })
-    .catch(error => {
-
-        console.error(
-            error
-        );
-
-        alert(
-            "Erreur lors de la suppression."
-        );
-
-    });
+    box.classList.add("show");
 }
 
 /* =========================
    DELETE MONTH
 ========================= */
 
-function deleteSelectedMonth(){
+function deleteSelectedMonth() {
 
     const selectedMonth =
         document
-            .getElementById(
-                "monthPicker"
-            )
+            .getElementById("monthPicker")
             .value;
 
-    if(!selectedMonth){
+    if (!selectedMonth) {
 
         alert(
             "Veuillez d'abord sélectionner un mois."
@@ -1375,23 +1589,16 @@ function deleteSelectedMonth(){
         return;
     }
 
-    const [
-        year,
-        month
-    ] =
+    const [year, month] =
         selectedMonth.split("-");
 
     const appointmentsToDelete =
-        allAppointments
-            .filter(
-                app =>
-                    app.year === year &&
-                    app.month === month
-            );
+        allAppointments.filter(app =>
+            app.year === year &&
+            app.month === month
+        );
 
-    if(
-        appointmentsToDelete.length === 0
-    ){
+    if (!appointmentsToDelete.length) {
 
         alert(
             "Aucun rendez-vous trouvé pour ce mois."
@@ -1408,7 +1615,7 @@ function deleteSelectedMonth(){
             `Supprimer définitivement les ${appointmentsToDelete.length} rendez-vous du mois ${formattedMonth} ?`
         );
 
-    if(!confirmed){
+    if (!confirmed) {
         return;
     }
 
@@ -1417,27 +1624,20 @@ function deleteSelectedMonth(){
             "Cette action supprimera tous les rendez-vous de ce mois dans Firebase. Continuer ?"
         );
 
-    if(!secondConfirm){
+    if (!secondConfirm) {
         return;
     }
 
-    const updates =
-        {};
+    const updates = {};
 
-    appointmentsToDelete
-        .forEach(app => {
-
-            updates[
-                "bookings/" +
-                app.id
-            ] = null;
-
-        });
+    appointmentsToDelete.forEach(app => {
+        updates[
+            "bookings/" + app.id
+        ] = null;
+    });
 
     db.ref()
-        .update(
-            updates
-        )
+        .update(updates)
         .then(() => {
 
             alert(
@@ -1445,13 +1645,10 @@ function deleteSelectedMonth(){
             );
 
             document
-                .getElementById(
-                    "monthPicker"
-                )
+                .getElementById("monthPicker")
                 .value = "";
 
             fetchAppointments();
-
         })
         .catch(error => {
 
@@ -1463,7 +1660,6 @@ function deleteSelectedMonth(){
             alert(
                 "Erreur lors de la suppression du mois."
             );
-
         });
 }
 
@@ -1471,165 +1667,184 @@ function deleteSelectedMonth(){
    ESCAPE HTML
 ========================= */
 
-function escapeHTML(value){
+function escapeHTML(value) {
 
     return String(value)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
-/* =========================
-   TABLE SCROLL
-========================= */
+/* =========================================================
+   SCROLL DIRECTION LOCK
+=========================================================
+
+   Vertical:
+   finger moves up/down
+   ONLY tableScroll.scrollTop changes.
+
+   Horizontal:
+   finger moves left/right
+   ONLY tableScroll.scrollLeft changes.
+
+   This prevents diagonal scrolling.
+========================================================= */
 
 const tableScroll =
     document.getElementById(
         "tableScroll"
     );
 
-let touchStartX = 0;
-let touchStartY = 0;
+let startX = 0;
+let startY = 0;
 
-let touchStartScrollLeft = 0;
-let touchStartScrollTop = 0;
+let startScrollLeft = 0;
+let startScrollTop = 0;
 
-let lockedAxis = null;
+let scrollAxis = null;
+
+const AXIS_THRESHOLD = 7;
+
+/* =========================
+   TOUCH START
+========================= */
 
 tableScroll.addEventListener(
     "touchstart",
     event => {
 
-        if(
-            event.touches.length !== 1
-        ){
+        if (event.touches.length !== 1) {
             return;
         }
 
         const touch =
             event.touches[0];
 
-        touchStartX =
+        startX =
             touch.clientX;
 
-        touchStartY =
+        startY =
             touch.clientY;
 
-        touchStartScrollLeft =
+        startScrollLeft =
             tableScroll.scrollLeft;
 
-        touchStartScrollTop =
+        startScrollTop =
             tableScroll.scrollTop;
 
-        lockedAxis =
-            null;
-
+        scrollAxis = null;
     },
     {
-        passive:true
+        passive: true
     }
 );
+
+/* =========================
+   TOUCH MOVE
+========================= */
 
 tableScroll.addEventListener(
     "touchmove",
     event => {
 
-        if(
-            event.touches.length !== 1
-        ){
+        if (event.touches.length !== 1) {
             return;
         }
 
         const touch =
             event.touches[0];
 
-        const moveX =
-            touch.clientX -
-            touchStartX;
+        const deltaX =
+            touch.clientX - startX;
 
-        const moveY =
-            touch.clientY -
-            touchStartY;
+        const deltaY =
+            touch.clientY - startY;
 
-        if(!lockedAxis){
+        /*
+            Wait a little before deciding
+            which direction the user wants.
+        */
 
-            if(
-                Math.abs(moveX) < 6 &&
-                Math.abs(moveY) < 6
-            ){
+        if (!scrollAxis) {
+
+            if (
+                Math.abs(deltaX) <
+                    AXIS_THRESHOLD &&
+                Math.abs(deltaY) <
+                    AXIS_THRESHOLD
+            ) {
                 return;
             }
 
-            lockedAxis =
-                Math.abs(moveY) >
-                Math.abs(moveX)
-                ? "vertical"
-                : "horizontal";
+            if (
+                Math.abs(deltaY) >
+                Math.abs(deltaX)
+            ) {
+                scrollAxis =
+                    "vertical";
+            } else {
+                scrollAxis =
+                    "horizontal";
+            }
         }
 
-        if(
-            lockedAxis ===
+        /*
+            Stop browser's diagonal
+            scrolling behavior.
+        */
+
+        event.preventDefault();
+
+        /* VERTICAL ONLY */
+
+        if (
+            scrollAxis ===
             "vertical"
-        ){
-
-            tableScroll.scrollLeft =
-                touchStartScrollLeft;
-
-        }
-
-        else{
+        ) {
 
             tableScroll.scrollTop =
-                touchStartScrollTop;
+                startScrollTop -
+                deltaY;
 
+            tableScroll.scrollLeft =
+                startScrollLeft;
         }
 
+        /* HORIZONTAL ONLY */
+
+        else {
+
+            tableScroll.scrollLeft =
+                startScrollLeft -
+                deltaX;
+
+            tableScroll.scrollTop =
+                startScrollTop;
+        }
     },
     {
-        passive:true
+        passive: false
     }
 );
 
+/* =========================
+   TOUCH END
+========================= */
+
+function resetScrollAxis() {
+    scrollAxis = null;
+}
+
 tableScroll.addEventListener(
     "touchend",
-    () => {
-
-        lockedAxis =
-            null;
-
-    }
+    resetScrollAxis
 );
 
 tableScroll.addEventListener(
     "touchcancel",
-    () => {
-
-        lockedAxis =
-            null;
-
-    }
+    resetScrollAxis
 );
 
 /* =========================
@@ -1640,33 +1855,42 @@ tableScroll.addEventListener(
     "wheel",
     event => {
 
-        const horizontal =
+        /*
+            Detect the strongest direction.
+        */
+
+        const isHorizontal =
             Math.abs(event.deltaX) >
             Math.abs(event.deltaY);
 
-        if(horizontal){
+        /*
+            HORIZONTAL
+        */
+
+        if (isHorizontal) {
 
             event.preventDefault();
 
             tableScroll.scrollLeft +=
-                event.deltaX !== 0
-                    ? event.deltaX
-                    : event.deltaY;
+                event.deltaX;
 
+            return;
         }
 
-        else{
+        /*
+            VERTICAL
+        */
+
+        if (event.deltaY !== 0) {
 
             event.preventDefault();
 
             tableScroll.scrollTop +=
                 event.deltaY;
-
         }
-
     },
     {
-        passive:false
+        passive: false
     }
 );
 
@@ -1675,18 +1899,14 @@ tableScroll.addEventListener(
 ========================= */
 
 document
-    .getElementById(
-        "liveSearch"
-    )
+    .getElementById("liveSearch")
     .addEventListener(
         "input",
         applyFilters
     );
 
 document
-    .getElementById(
-        "monthPicker"
-    )
+    .getElementById("monthPicker")
     .addEventListener(
         "change",
         applyFilters
@@ -1701,8 +1921,7 @@ document.addEventListener(
    BACK
 ========================= */
 
-function goBack(){
-
+function goBack() {
     window.location.href =
         "dashboard.html";
 }
