@@ -2,53 +2,59 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Rendez-vous clients</title>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
 <style>
 *{
     box-sizing:border-box;
 }
 
+html,
 body{
+    width:100%;
     margin:0;
+    padding:0;
+}
+
+body{
     padding:20px;
-
     font-family:Arial,sans-serif;
-
     background:#f5f5f5;
     color:#222;
 }
 
+/* =========================
+   MAIN CONTAINER
+========================= */
+
 .container{
     width:100%;
     max-width:1200px;
-
     margin:auto;
     padding:25px;
-
     background:#fff;
-
     border-radius:15px;
-
-    box-shadow:
-        0 5px 25px
-        rgba(0,0,0,.08);
+    box-shadow:0 5px 25px rgba(0,0,0,.08);
 }
+
+/* =========================
+   HEADER
+========================= */
 
 .header{
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     gap:15px;
     margin-bottom:20px;
 }
@@ -59,59 +65,57 @@ body{
 }
 
 .back-btn{
+    min-height:44px;
     padding:11px 16px;
-
     border:none;
     border-radius:9px;
-
     background:#ffc107;
     color:#111;
-
     cursor:pointer;
     font-weight:bold;
+    font-size:14px;
+    transition:.2s ease;
 }
 
 .back-btn:hover{
     background:#e0a800;
 }
 
+/* =========================
+   COUNT
+========================= */
+
 .appointment-count{
     margin:0 0 20px;
-
     color:#555;
     font-size:17px;
 }
+
+/* =========================
+   CONTROLS
+========================= */
 
 .controls{
     display:flex;
     align-items:center;
     flex-wrap:wrap;
-
     gap:10px;
     margin-bottom:20px;
 }
 
 input{
     min-height:44px;
-
     padding:10px 12px;
-
     border:1px solid #ddd;
     border-radius:9px;
-
     outline:none;
-
     background:#fff;
-
     font-size:14px;
 }
 
 input:focus{
     border-color:#007bff;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(0,123,255,.08);
+    box-shadow:0 0 0 3px rgba(0,123,255,.08);
 }
 
 #liveSearch{
@@ -121,16 +125,11 @@ input:focus{
 
 button{
     min-height:44px;
-
     padding:9px 14px;
-
     border:none;
     border-radius:9px;
-
     cursor:pointer;
-
     font-size:14px;
-
     transition:.2s ease;
 }
 
@@ -149,34 +148,45 @@ button:hover{
     font-weight:bold;
 }
 
+/* =========================
+   MONTH WARNING
+========================= */
+
+.month-danger{
+    width:100%;
+    margin-top:5px;
+    margin-bottom:15px;
+    padding:11px 13px;
+    display:none;
+    border-radius:9px;
+    background:#fff3f3;
+    border:1px solid #ffd0d0;
+    color:#b52020;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.month-danger.show{
+    display:block;
+}
+
+/* =========================
+   TABLE
+========================= */
+
 .table-container{
     width:100%;
-
     border:1px solid #e3e3e3;
     border-radius:12px;
-
     overflow:hidden;
-
     background:#fff;
 }
 
 .table-scroll{
     width:100%;
-
-    /*
-        15 rows visible before
-        vertical scrolling starts.
-    */
     max-height:770px;
-
     overflow:auto;
-
-    /*
-        Prevent page bounce while
-        scrolling inside the table.
-    */
     overscroll-behavior:contain;
-
     scrollbar-width:thin;
     scrollbar-color:#007bff #eee;
 }
@@ -197,10 +207,10 @@ button:hover{
 
 table{
     width:100%;
-    min-width:850px;
-
+    min-width:790px;
     border-collapse:separate;
     border-spacing:0;
+    table-layout:fixed;
 }
 
 thead{
@@ -211,34 +221,32 @@ th{
     position:sticky;
     top:0;
     z-index:5;
-
     height:50px;
-
     padding:10px 12px;
-
     background:#007bff;
     color:#fff;
-
     font-size:13px;
     font-weight:600;
-
     text-align:center;
-
     white-space:nowrap;
+    border-right:1px solid rgba(255,255,255,.18);
 }
 
 td{
     height:48px;
-
     padding:9px 12px;
-
     border-bottom:1px solid #eee;
-
+    border-right:1px solid #eee;
     text-align:center;
-
     font-size:13px;
-
     white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+th:last-child,
+td:last-child{
+    border-right:none;
 }
 
 tbody tr:nth-child(even){
@@ -253,50 +261,110 @@ tbody tr:last-child td{
     border-bottom:none;
 }
 
-.delete-btn{
-    min-height:34px;
+/* =========================
+   COLUMN WIDTHS
+========================= */
 
-    padding:6px 11px;
+th:nth-child(1),
+td:nth-child(1){
+    width:50px;
+}
+
+th:nth-child(2),
+td:nth-child(2){
+    width:155px;
+}
+
+th:nth-child(3),
+td:nth-child(3){
+    width:135px;
+}
+
+th:nth-child(4),
+td:nth-child(4){
+    width:110px;
+}
+
+th:nth-child(5),
+td:nth-child(5){
+    width:85px;
+}
+
+th:nth-child(6),
+td:nth-child(6){
+    width:125px;
+}
+
+th:nth-child(7),
+td:nth-child(7){
+    width:150px;
+}
+
+/* Small action column */
+
+th:nth-child(8),
+td:nth-child(8){
+    width:52px;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+/* =========================
+   DELETE ICON
+========================= */
+
+.delete-btn{
+    width:32px;
+    min-width:32px;
+    height:32px;
+    min-height:32px;
+    padding:0;
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:none;
+    border-radius:7px;
 
     background:#dc3545;
     color:#fff;
 
-    font-size:12px;
+    font-size:13px;
+
+    cursor:pointer;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
 }
+
+.delete-btn:hover{
+    background:#bd2130;
+    transform:scale(1.06);
+    opacity:1;
+}
+
+.delete-btn i{
+    pointer-events:none;
+}
+
+/* =========================
+   EMPTY
+========================= */
 
 .empty-row{
     height:100px;
-
     color:#888;
-
     text-align:center;
 }
 
-.month-danger{
-    width:100%;
+/* =========================
+   TABLET
+========================= */
 
-    margin-top:5px;
-    margin-bottom:15px;
-
-    padding:11px 13px;
-
-    display:none;
-
-    border-radius:9px;
-
-    background:#fff3f3;
-    border:1px solid #ffd0d0;
-
-    color:#b52020;
-
-    font-size:12px;
-}
-
-.month-danger.show{
-    display:block;
-}
-
-@media(max-width:768px){
+@media(max-width:900px){
 
     body{
         padding:12px;
@@ -307,56 +375,353 @@ tbody tr:last-child td{
         border-radius:12px;
     }
 
+    .header h2{
+        font-size:23px;
+    }
+
+    table{
+        min-width:700px;
+    }
+
+    th,
+    td{
+        padding:8px 6px;
+        font-size:12px;
+    }
+
+    th:nth-child(1),
+    td:nth-child(1){
+        width:42px;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2){
+        width:120px;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3){
+        width:110px;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4){
+        width:90px;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5){
+        width:68px;
+    }
+
+    th:nth-child(6),
+    td:nth-child(6){
+        width:100px;
+    }
+
+    th:nth-child(7),
+    td:nth-child(7){
+        width:115px;
+    }
+
+    th:nth-child(8),
+    td:nth-child(8){
+        width:48px;
+        padding-left:4px;
+        padding-right:4px;
+    }
+
+    .delete-btn{
+        width:30px;
+        min-width:30px;
+        height:30px;
+        min-height:30px;
+        font-size:12px;
+    }
+}
+
+/* =========================
+   MOBILE
+   REAL GRID / TABLE
+========================= */
+
+@media(max-width:700px){
+
+    body{
+        padding:7px;
+        background:#f4f5f7;
+    }
+
+    .container{
+        width:100%;
+        padding:10px;
+        border-radius:10px;
+        box-shadow:none;
+    }
+
+    /* Header */
+
     .header{
-        flex-direction:column;
-        align-items:stretch;
+        display:grid;
+        grid-template-columns:1fr;
+        gap:10px;
+        margin-bottom:14px;
     }
 
     .header h2{
-        font-size:23px;
+        order:1;
         text-align:center;
+        font-size:20px;
     }
 
     .back-btn{
+        order:2;
+        width:100%;
+        min-height:42px;
+        font-size:13px;
+    }
+
+    /* Counter */
+
+    .appointment-count{
+        margin-bottom:13px;
+        text-align:center;
+        font-size:15px;
+    }
+
+    /* Controls */
+
+    .controls{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:7px;
+        margin-bottom:13px;
+    }
+
+    #liveSearch{
+        grid-column:1 / -1;
+        width:100%;
+        min-width:0;
+    }
+
+    #monthPicker{
+        width:100%;
+        min-width:0;
+    }
+
+    .refresh-btn{
         width:100%;
     }
 
+    .delete-month-btn{
+        grid-column:1 / -1;
+        width:100%;
+    }
+
+    input,
+    button{
+        min-height:42px;
+        font-size:13px;
+    }
+
+    /* Table */
+
+    .table-container{
+        width:100%;
+        border-radius:8px;
+        overflow:hidden;
+    }
+
+    .table-scroll{
+        width:100%;
+        max-height:650px;
+
+        overflow-x:auto;
+        overflow-y:auto;
+
+        -webkit-overflow-scrolling:touch;
+    }
+
+    table{
+        width:100%;
+        min-width:590px;
+        table-layout:fixed;
+    }
+
+    th{
+        height:44px;
+        padding:5px 3px;
+        font-size:10px;
+    }
+
+    td{
+        height:43px;
+        padding:5px 3px;
+        font-size:10px;
+    }
+
+    th:nth-child(1),
+    td:nth-child(1){
+        width:33px;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2){
+        width:98px;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3){
+        width:90px;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4){
+        width:75px;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5){
+        width:53px;
+    }
+
+    th:nth-child(6),
+    td:nth-child(6){
+        width:75px;
+    }
+
+    th:nth-child(7),
+    td:nth-child(7){
+        width:105px;
+    }
+
+    th:nth-child(8),
+    td:nth-child(8){
+        width:42px;
+        padding-left:2px;
+        padding-right:2px;
+    }
+
+    .delete-btn{
+        width:27px;
+        min-width:27px;
+        height:27px;
+        min-height:27px;
+        padding:0;
+        border-radius:5px;
+        font-size:10px;
+    }
+
+    .month-danger{
+        font-size:11px;
+    }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media(max-width:480px){
+
+    body{
+        padding:4px;
+    }
+
+    .container{
+        padding:7px;
+        border-radius:8px;
+    }
+
+    .header{
+        gap:7px;
+    }
+
+    .header h2{
+        font-size:18px;
+    }
+
+    .appointment-count{
+        font-size:14px;
+    }
+
     .controls{
-        flex-direction:column;
-        align-items:stretch;
+        grid-template-columns:1fr;
     }
 
     #liveSearch,
     #monthPicker,
     .refresh-btn,
     .delete-month-btn{
+        grid-column:1;
         width:100%;
     }
 
-    th,
+    table{
+        min-width:550px;
+    }
+
+    th{
+        height:40px;
+        padding:4px 2px;
+        font-size:9px;
+    }
+
     td{
-        font-size:12px;
-    }
-}
-
-@media(max-width:480px){
-
-    body{
-        padding:8px;
+        height:40px;
+        padding:4px 2px;
+        font-size:9px;
     }
 
-    .container{
-        padding:12px;
+    th:nth-child(1),
+    td:nth-child(1){
+        width:28px;
     }
 
-    .header h2{
-        font-size:20px;
+    th:nth-child(2),
+    td:nth-child(2){
+        width:85px;
     }
 
-    th,
-    td{
-        padding:8px;
-        font-size:11px;
+    th:nth-child(3),
+    td:nth-child(3){
+        width:82px;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4){
+        width:70px;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5){
+        width:47px;
+    }
+
+    th:nth-child(6),
+    td:nth-child(6){
+        width:67px;
+    }
+
+    th:nth-child(7),
+    td:nth-child(7){
+        width:95px;
+    }
+
+    th:nth-child(8),
+    td:nth-child(8){
+        width:37px;
+        padding-left:1px;
+        padding-right:1px;
+    }
+
+    .delete-btn{
+        width:24px;
+        min-width:24px;
+        height:24px;
+        min-height:24px;
+        padding:0;
+        border-radius:5px;
+        font-size:9px;
     }
 }
 </style>
@@ -432,7 +797,6 @@ tbody tr:last-child td{
             <table>
 
                 <thead>
-
                     <tr>
                         <th>#</th>
                         <th>Nom</th>
@@ -441,22 +805,21 @@ tbody tr:last-child td{
                         <th>Heure</th>
                         <th>Barbier</th>
                         <th>Service</th>
-                        <th>Actions</th>
+                        <th>
+                            <i class="fa-solid fa-gear"></i>
+                        </th>
                     </tr>
-
                 </thead>
 
                 <tbody id="appointmentsBody">
 
                     <tr>
-
                         <td
                             colspan="8"
                             class="empty-row"
                         >
                             Chargement...
                         </td>
-
                     </tr>
 
                 </tbody>
@@ -470,6 +833,10 @@ tbody tr:last-child td{
 </div>
 
 <script>
+/* =========================
+   FIREBASE
+========================= */
+
 firebase.initializeApp({
 
     apiKey:
@@ -503,15 +870,23 @@ const db =
 let allAppointments =
     [];
 
+/* =========================
+   COUNTER
+========================= */
+
 function updateCounter(num){
 
     document
-    .getElementById(
-        "appointmentCount"
-    )
-    .innerText =
-        "Total des rendez-vous : " + num;
+        .getElementById(
+            "appointmentCount"
+        )
+        .innerText =
+            "Total des rendez-vous : " + num;
 }
+
+/* =========================
+   FETCH
+========================= */
 
 function fetchAppointments(){
 
@@ -522,190 +897,186 @@ function fetchAppointments(){
 
     body.innerHTML = `
         <tr>
-
             <td
                 colspan="8"
                 class="empty-row"
             >
                 Chargement...
             </td>
-
         </tr>
     `;
 
     db.ref("bookings")
-    .once("value")
-    .then(snapshot => {
+        .once("value")
+        .then(snapshot => {
 
-        if(!snapshot.exists()){
+            if(!snapshot.exists()){
 
-            allAppointments = [];
+                allAppointments = [];
 
-            updateCounter(0);
+                updateCounter(0);
+
+                body.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="8"
+                            class="empty-row"
+                        >
+                            Aucun rendez-vous.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            const appointments =
+                [];
+
+            snapshot.forEach(child => {
+
+                const data =
+                    child.val() || {};
+
+                if(
+                    !data.date ||
+                    !data.time
+                ){
+                    return;
+                }
+
+                const d =
+                    String(
+                        data.date
+                    ).split("-");
+
+                const t =
+                    String(
+                        data.time
+                    ).split(":");
+
+                if(
+                    d.length !== 3 ||
+                    t.length !== 2
+                ){
+                    return;
+                }
+
+                const day =
+                    Number(d[0]);
+
+                const month =
+                    Number(d[1]);
+
+                const year =
+                    Number(d[2]);
+
+                const hour =
+                    Number(t[0]);
+
+                const minute =
+                    Number(t[1]);
+
+                const fullDate =
+                    new Date(
+                        year,
+                        month - 1,
+                        day,
+                        hour,
+                        minute
+                    );
+
+                appointments.push({
+
+                    id:
+                        child.key,
+
+                    username:
+                        data.username || "-",
+
+                    mobile:
+                        data.mobile || "-",
+
+                    date:
+                        data.date,
+
+                    time:
+                        data.time,
+
+                    barber:
+                        data.barber || "N/A",
+
+                    service:
+                        data.service || "-",
+
+                    year:
+                        String(year),
+
+                    month:
+                        String(month)
+                            .padStart(2,"0"),
+
+                    timestamp:
+                        fullDate.getTime()
+
+                });
+
+            });
+
+            appointments.sort(
+                (a,b) =>
+                    b.timestamp -
+                    a.timestamp
+            );
+
+            allAppointments =
+                appointments;
+
+            applyFilters();
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Firebase error:",
+                error
+            );
 
             body.innerHTML = `
                 <tr>
-
                     <td
                         colspan="8"
                         class="empty-row"
                     >
-                        Aucun rendez-vous.
+                        Erreur lors du chargement.
                     </td>
-
                 </tr>
             `;
 
-            return;
-        }
-
-        const appointments =
-            [];
-
-        snapshot.forEach(child => {
-
-            const data =
-                child.val() || {};
-
-            if(
-                !data.date ||
-                !data.time
-            ){
-                return;
-            }
-
-            const d =
-                String(
-                    data.date
-                )
-                .split("-");
-
-            const t =
-                String(
-                    data.time
-                )
-                .split(":");
-
-            if(
-                d.length !== 3 ||
-                t.length !== 2
-            ){
-                return;
-            }
-
-            const day =
-                Number(d[0]);
-
-            const month =
-                Number(d[1]);
-
-            const year =
-                Number(d[2]);
-
-            const hour =
-                Number(t[0]);
-
-            const minute =
-                Number(t[1]);
-
-            const fullDate =
-                new Date(
-                    year,
-                    month - 1,
-                    day,
-                    hour,
-                    minute
-                );
-
-            appointments.push({
-
-                id:
-                    child.key,
-
-                username:
-                    data.username || "-",
-
-                mobile:
-                    data.mobile || "-",
-
-                date:
-                    data.date,
-
-                time:
-                    data.time,
-
-                barber:
-                    data.barber || "N/A",
-
-                service:
-                    data.service || "-",
-
-                year:
-                    String(year),
-
-                month:
-                    String(month)
-                    .padStart(2,"0"),
-
-                timestamp:
-                    fullDate.getTime()
-
-            });
-
         });
-
-        appointments.sort(
-            (a,b) =>
-                b.timestamp -
-                a.timestamp
-        );
-
-        allAppointments =
-            appointments;
-
-        applyFilters();
-
-    })
-    .catch(error => {
-
-        console.error(
-            "Firebase error:",
-            error
-        );
-
-        body.innerHTML = `
-            <tr>
-
-                <td
-                    colspan="8"
-                    class="empty-row"
-                >
-                    Erreur lors du chargement.
-                </td>
-
-            </tr>
-        `;
-
-    });
 }
+
+/* =========================
+   FILTER
+========================= */
 
 function applyFilters(){
 
     const search =
         document
-        .getElementById(
-            "liveSearch"
-        )
-        .value
-        .trim()
-        .toLowerCase();
+            .getElementById(
+                "liveSearch"
+            )
+            .value
+            .trim()
+            .toLowerCase();
 
     const selectedMonth =
         document
-        .getElementById(
-            "monthPicker"
-        )
-        .value;
+            .getElementById(
+                "monthPicker"
+            )
+            .value;
 
     let filtered =
         [...allAppointments];
@@ -716,8 +1087,7 @@ function applyFilters(){
             year,
             month
         ] =
-            selectedMonth
-            .split("-");
+            selectedMonth.split("-");
 
         filtered =
             filtered.filter(
@@ -759,6 +1129,14 @@ function applyFilters(){
                     ||
 
                     String(
+                        app.time
+                    )
+                    .toLowerCase()
+                    .includes(search)
+
+                    ||
+
+                    String(
                         app.barber
                     )
                     .toLowerCase()
@@ -788,6 +1166,10 @@ function applyFilters(){
     updateMonthDeleteInfo();
 }
 
+/* =========================
+   RENDER GRID
+========================= */
+
 function renderAppointments(
     appointments
 ){
@@ -801,14 +1183,12 @@ function renderAppointments(
 
         body.innerHTML = `
             <tr>
-
                 <td
                     colspan="8"
                     class="empty-row"
                 >
                     Aucun rendez-vous trouvé.
                 </td>
-
             </tr>
         `;
 
@@ -817,65 +1197,79 @@ function renderAppointments(
 
     body.innerHTML =
         appointments
-        .map(
-            (app,index) => `
-                <tr>
+            .map(
+                (app,index) => `
+                    <tr>
 
-                    <td>
-                        ${index + 1}
-                    </td>
+                        <td>
+                            ${index + 1}
+                        </td>
 
-                    <td>
-                        ${escapeHTML(app.username)}
-                    </td>
-
-                    <td>
-                        ${escapeHTML(app.mobile)}
-                    </td>
-
-                    <td>
-                        ${escapeHTML(app.date)}
-                    </td>
-
-                    <td>
-                        ${escapeHTML(app.time)}
-                    </td>
-
-                    <td>
-                        <strong>
-                            ${escapeHTML(app.barber)}
-                        </strong>
-                    </td>
-
-                    <td>
-                        ${escapeHTML(app.service)}
-                    </td>
-
-                    <td>
-
-                        <button
-                            class="delete-btn"
-                            onclick="deleteAppointment('${app.id}')"
+                        <td
+                            title="${escapeHTML(app.username)}"
                         >
-                            Supprimer
-                        </button>
+                            ${escapeHTML(app.username)}
+                        </td>
 
-                    </td>
+                        <td
+                            title="${escapeHTML(app.mobile)}"
+                        >
+                            ${escapeHTML(app.mobile)}
+                        </td>
 
-                </tr>
-            `
-        )
-        .join("");
+                        <td>
+                            ${escapeHTML(app.date)}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(app.time)}
+                        </td>
+
+                        <td
+                            title="${escapeHTML(app.barber)}"
+                        >
+                            <strong>
+                                ${escapeHTML(app.barber)}
+                            </strong>
+                        </td>
+
+                        <td
+                            title="${escapeHTML(app.service)}"
+                        >
+                            ${escapeHTML(app.service)}
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="delete-btn"
+                                onclick="deleteAppointment('${app.id}')"
+                                title="Supprimer"
+                                aria-label="Supprimer"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+
+                        </td>
+
+                    </tr>
+                `
+            )
+            .join("");
 }
+
+/* =========================
+   MONTH DELETE INFO
+========================= */
 
 function updateMonthDeleteInfo(){
 
     const selectedMonth =
         document
-        .getElementById(
-            "monthPicker"
-        )
-        .value;
+            .getElementById(
+                "monthPicker"
+            )
+            .value;
 
     const box =
         document.getElementById(
@@ -897,17 +1291,16 @@ function updateMonthDeleteInfo(){
         year,
         month
     ] =
-        selectedMonth
-        .split("-");
+        selectedMonth.split("-");
 
     const count =
         allAppointments
-        .filter(
-            app =>
-                app.year === year &&
-                app.month === month
-        )
-        .length;
+            .filter(
+                app =>
+                    app.year === year &&
+                    app.month === month
+            )
+            .length;
 
     box.innerHTML = `
         Le mois sélectionné contient
@@ -922,6 +1315,10 @@ function updateMonthDeleteInfo(){
         "show"
     );
 }
+
+/* =========================
+   DELETE ONE
+========================= */
 
 function deleteAppointment(id){
 
@@ -956,14 +1353,18 @@ function deleteAppointment(id){
     });
 }
 
+/* =========================
+   DELETE MONTH
+========================= */
+
 function deleteSelectedMonth(){
 
     const selectedMonth =
         document
-        .getElementById(
-            "monthPicker"
-        )
-        .value;
+            .getElementById(
+                "monthPicker"
+            )
+            .value;
 
     if(!selectedMonth){
 
@@ -978,16 +1379,15 @@ function deleteSelectedMonth(){
         year,
         month
     ] =
-        selectedMonth
-        .split("-");
+        selectedMonth.split("-");
 
     const appointmentsToDelete =
         allAppointments
-        .filter(
-            app =>
-                app.year === year &&
-                app.month === month
-        );
+            .filter(
+                app =>
+                    app.year === year &&
+                    app.month === month
+            );
 
     if(
         appointmentsToDelete.length === 0
@@ -1025,90 +1425,85 @@ function deleteSelectedMonth(){
         {};
 
     appointmentsToDelete
-    .forEach(app => {
+        .forEach(app => {
 
-        updates[
-            "bookings/" +
-            app.id
-        ] = null;
+            updates[
+                "bookings/" +
+                app.id
+            ] = null;
 
-    });
+        });
 
     db.ref()
-    .update(
-        updates
-    )
-    .then(() => {
-
-        alert(
-            `${appointmentsToDelete.length} rendez-vous supprimés.`
-        );
-
-        document
-        .getElementById(
-            "monthPicker"
+        .update(
+            updates
         )
-        .value =
-            "";
+        .then(() => {
 
-        fetchAppointments();
+            alert(
+                `${appointmentsToDelete.length} rendez-vous supprimés.`
+            );
 
-    })
-    .catch(error => {
+            document
+                .getElementById(
+                    "monthPicker"
+                )
+                .value = "";
 
-        console.error(
-            "Delete month error:",
-            error
-        );
+            fetchAppointments();
 
-        alert(
-            "Erreur lors de la suppression du mois."
-        );
+        })
+        .catch(error => {
 
-    });
+            console.error(
+                "Delete month error:",
+                error
+            );
+
+            alert(
+                "Erreur lors de la suppression du mois."
+            );
+
+        });
 }
+
+/* =========================
+   ESCAPE HTML
+========================= */
 
 function escapeHTML(value){
 
     return String(value)
 
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
 
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
 
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
 
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
 
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 }
 
-/*
-    ==================================
-    ONE-DIRECTION TABLE SCROLL
-    ==================================
-
-    Vertical gesture:
-    only scroll up / down.
-
-    Horizontal gesture:
-    only scroll left / right.
-*/
+/* =========================
+   TABLE SCROLL
+========================= */
 
 const tableScroll =
     document.getElementById(
@@ -1178,11 +1573,6 @@ tableScroll.addEventListener(
             touch.clientY -
             touchStartY;
 
-        /*
-            Wait until the finger has
-            moved enough before choosing
-            vertical or horizontal.
-        */
         if(!lockedAxis){
 
             if(
@@ -1204,24 +1594,13 @@ tableScroll.addEventListener(
             "vertical"
         ){
 
-            /*
-                Keep horizontal position
-                exactly where it started.
-            */
             tableScroll.scrollLeft =
                 touchStartScrollLeft;
 
         }
 
-        else if(
-            lockedAxis ===
-            "horizontal"
-        ){
+        else{
 
-            /*
-                Keep vertical position
-                exactly where it started.
-            */
             tableScroll.scrollTop =
                 touchStartScrollTop;
 
@@ -1253,10 +1632,9 @@ tableScroll.addEventListener(
     }
 );
 
-/*
-    Trackpad / mouse wheel
-    direction lock.
-*/
+/* =========================
+   TRACKPAD / MOUSE WHEEL
+========================= */
 
 tableScroll.addEventListener(
     "wheel",
@@ -1272,8 +1650,8 @@ tableScroll.addEventListener(
 
             tableScroll.scrollLeft +=
                 event.deltaX !== 0
-                ? event.deltaX
-                : event.deltaY;
+                    ? event.deltaX
+                    : event.deltaY;
 
         }
 
@@ -1292,28 +1670,36 @@ tableScroll.addEventListener(
     }
 );
 
-document
-.getElementById(
-    "liveSearch"
-)
-.addEventListener(
-    "input",
-    applyFilters
-);
+/* =========================
+   EVENTS
+========================= */
 
 document
-.getElementById(
-    "monthPicker"
-)
-.addEventListener(
-    "change",
-    applyFilters
-);
+    .getElementById(
+        "liveSearch"
+    )
+    .addEventListener(
+        "input",
+        applyFilters
+    );
+
+document
+    .getElementById(
+        "monthPicker"
+    )
+    .addEventListener(
+        "change",
+        applyFilters
+    );
 
 document.addEventListener(
     "DOMContentLoaded",
     fetchAppointments
 );
+
+/* =========================
+   BACK
+========================= */
 
 function goBack(){
 
