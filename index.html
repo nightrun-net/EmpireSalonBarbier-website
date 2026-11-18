@@ -757,6 +757,376 @@ select{
     font-weight:700;
 }
 
+.beauty-link-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+}
+
+.beauty-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: min(330px, 100%);
+    padding: 16px 22px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #bd718c, #eab0bf);
+    color: #201016;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 12px 35px rgba(189,113,140,.25);
+    transition: .3s ease;
+}
+
+.beauty-link:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 45px rgba(189,113,140,.4);
+}
+
+.beauty-link i {
+    font-size: 18px;
+}
+
+
+/* =============================================
+   EMPIRE SALON BARBER - LUXURY HERO
+   ============================================= */
+
+#home.barber-hero {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 90px max(25px, 8vw);
+    overflow: hidden;
+    isolation: isolate;
+    background: #101010;
+}
+
+/* Disable previous hero overlay */
+#home.barber-hero::before {
+    display: none;
+}
+
+/* Background video */
+.barber-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: -3;
+    pointer-events: none;
+}
+
+/* Dark cinematic overlay */
+.barber-hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+
+    background: linear-gradient(
+        90deg,
+        rgba(0,0,0,.96) 0%,
+        rgba(0,0,0,.85) 30%,
+        rgba(0,0,0,.55) 58%,
+        rgba(0,0,0,.12) 100%
+    );
+}
+
+/* Main content */
+.barber-hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(680px, 100%);
+    text-align: left;
+    animation: barberFadeUp 1s ease both;
+}
+
+/* Small gold title */
+.barber-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    color: #f4b400;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.barber-line {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        #f4b400,
+        #ffd45c
+    );
+}
+
+/* Big luxury heading */
+#home .barber-hero-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(42px, 6vw, 82px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+
+    margin: 25px 0 22px;
+    text-align: left;
+
+    text-shadow: 0 8px 35px rgba(0,0,0,.35);
+}
+
+/* Remove the generic heading underline */
+#home .barber-hero-title::after {
+    display: none;
+}
+
+/* Subtitle */
+.barber-hero-description {
+    max-width: 510px;
+    color: #dedede;
+    font-size: clamp(15px, 1.7vw, 19px);
+    line-height: 1.9;
+    margin: 0 0 32px;
+}
+
+/* Hero buttons */
+.barber-hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* Main booking button */
+.barber-btn-primary {
+    min-height: 56px;
+    padding: 15px 25px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    border-radius: 14px;
+    border: 1px solid transparent;
+
+    background: linear-gradient(
+        135deg,
+        #f4b400,
+        #ffd45c
+    );
+
+    color: #151515;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+
+    box-shadow: 0 12px 35px rgba(244,180,0,.22);
+    transition: .3s ease;
+}
+
+.barber-btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(244,180,0,.36);
+}
+
+/* Women's salon button */
+.barber-btn-secondary {
+    min-height: 56px;
+    padding: 15px 23px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.28);
+
+    background: rgba(20,20,20,.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .3s ease;
+}
+
+.barber-btn-secondary:hover {
+    transform: translateY(-4px);
+    border-color: #e5a1b7;
+    color: #e5a1b7;
+    background: rgba(229,161,183,.10);
+}
+
+/* Language selection */
+.barber-language-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+}
+
+.barber-language-bar label {
+    color: #d0d0d0;
+    font-size: 13px;
+}
+
+.barber-language-bar #language {
+    min-width: 150px;
+    padding: 11px 15px;
+
+    color: #ffffff;
+    background: rgba(20,20,20,.8);
+
+    border: 1px solid rgba(244,180,0,.5);
+    border-radius: 12px;
+    outline: none;
+}
+
+/* Scroll down indicator */
+.barber-hero-scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    color: #f4b400;
+    font-size: 23px;
+    animation: barberBounce 2s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes barberFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes barberBounce {
+    0%,100% {
+        transform: translate(-50%, 0);
+    }
+    50% {
+        transform: translate(-50%, 10px);
+    }
+}
+
+/* =============================================
+   TABLET AND MOBILE
+   ============================================= */
+
+@media (max-width: 768px) {
+
+    #home.barber-hero {
+        min-height: 100svh;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 75px 20px 100px;
+    }
+
+    .barber-hero-video {
+        object-position: 60% center;
+    }
+
+    .barber-hero-overlay {
+        background: linear-gradient(
+            180deg,
+            rgba(0,0,0,.12) 0%,
+            rgba(0,0,0,.28) 25%,
+            rgba(0,0,0,.78) 58%,
+            rgba(0,0,0,.98) 100%
+        );
+    }
+
+    .barber-hero-content {
+        width: 100%;
+        text-align: center;
+    }
+
+    .barber-eyebrow {
+        justify-content: center;
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+
+    #home .barber-hero-title {
+        font-size: clamp(35px, 8vw, 52px);
+        text-align: center;
+        line-height: 1.16;
+        margin: 20px 0;
+    }
+
+    .barber-hero-description {
+        font-size: 14px;
+        line-height: 1.8;
+        margin: 0 auto 26px;
+    }
+
+    .barber-hero-actions {
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .barber-btn-primary,
+    .barber-btn-secondary {
+        width: min(340px,100%);
+        min-height: 53px;
+        font-size: 13px;
+    }
+
+    .barber-language-bar {
+        justify-content: center;
+        margin-top: 24px;
+    }
+
+    .barber-hero-scroll {
+        bottom: 20px;
+    }
+}
+
+@media (max-width: 370px) {
+    #home.barber-hero {
+        padding: 65px 15px 85px;
+    }
+
+    #home .barber-hero-title {
+        font-size: 32px;
+    }
+
+    .barber-hero-actions {
+        gap: 9px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .barber-hero-content,
+    .barber-hero-scroll {
+        animation: none;
+    }
+}
+
+
 @media(max-width:600px){
 
     section{
@@ -840,35 +1210,83 @@ select{
 
 <body>
 
-<section id="home" class="fade-in">
 
-    <video class="hero-video" autoplay muted loop playsinline>
+<!-- LUXURY MEN'S BARBER HERO -->
+<section id="home" class="barber-hero">
+
+    <!-- Background video -->
+    <video class="barber-hero-video"
+           autoplay
+           muted
+           loop
+           playsinline>
         <source src="2.mp4" type="video/mp4">
     </video>
 
-    <div class="home-container">
+    <!-- Dark overlay -->
+    <div class="barber-hero-overlay"></div>
 
-        <img src="FullLogo_Transparent.png" alt="Empire Salon Logo" class="logo">
+    <!-- Hero content -->
+    <div class="barber-hero-content">
 
-        <label class="home-label">
+        <div class="barber-eyebrow">
+            <span class="barber-line"></span>
+            <span>EMPIRE SALON BARBER</span>
+        </div>
+
+        <h1 class="barber-hero-title">
             Bienvenue chez Empire Salon Barber
-        </label>
+        </h1>
 
-        <div class="language-selector">
+        <p class="barber-hero-description">
+            L'art de la coiffure masculine.
+            Un style unique, une expérience exceptionnelle.
+        </p>
 
-            <label for="language">Choisissez la langue:</label>
+        <!-- Buttons -->
+        <div class="barber-hero-actions">
+
+            <a href="#booking" class="barber-btn-primary">
+                <i class="fas fa-calendar-check"></i>
+                <span>Prendre un rendez-vous</span>
+            </a>
+
+            <a href="women.html" class="barber-btn-secondary">
+                <i class="fas fa-spa"></i>
+                <span>Beauty Salon for Women</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <!-- Language selector -->
+        <div class="barber-language-bar">
+
+            <label for="language">
+                Choisissez la langue:
+            </label>
 
             <select id="language" onchange="switchLanguage()">
-                <option value="franch.html">English</option>
-                <option value="index.html" selected>Français</option>
-                <option value="Deutsch.html">Deutsch</option>
+                <option value="en">English</option>
+                <option value="fr" selected>Français</option>
+                <option value="de">Deutsch</option>
             </select>
 
         </div>
 
     </div>
 
+    <!-- Scroll indicator -->
+    <a href="#gallery"
+       class="barber-hero-scroll"
+       aria-label="Scroll to gallery">
+
+        <i class="fas fa-chevron-down"></i>
+
+    </a>
+
 </section>
+
 
 <section id="gallery" class="fade-in">
 
@@ -1258,10 +1676,6 @@ select{
 </div>
 
 <script>
-function switchLanguage() {
-    var selectedLang = document.getElementById("language").value;
-    window.location.href = selectedLang;
-}
 
 document.addEventListener("scroll", function () {
 
@@ -1424,6 +1838,7 @@ function formatAndValidateMobile() {
 }
 </script>
 
+<script src="translate.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -1571,7 +1986,11 @@ function renderCalendar(month, year) {
     today.setHours(0,0,0,0);
 
     monthYearText.textContent =
-        `${monthNames[month]} ${year}`;
+        new Intl.DateTimeFormat(
+            currentLanguage === "fr" ? "fr-FR" :
+            currentLanguage === "de" ? "de-DE" : "en-GB",
+            { month: "long", year: "numeric" }
+        ).format(new Date(year, month, 1));
 
     calendarBody.innerHTML = "";
 
@@ -1904,8 +2323,8 @@ function showTimeSlots() {
 
         showModal(
             "warning",
-            "Choisir un coiffeur",
-            "Veuillez d'abord choisir un coiffeur"
+            tr("Choisir un coiffeur"),
+            tr("Veuillez d'abord choisir un coiffeur")
         );
 
         return;
@@ -2228,8 +2647,8 @@ document
 
                 showModal(
                     "warning",
-                    "Choisir date et heure",
-                    "Veuillez choisir une date et une heure"
+                    tr("Choisir date et heure"),
+                    tr("Veuillez choisir une date et une heure")
                 );
 
                 return;
@@ -2242,8 +2661,8 @@ document
 
                 showModal(
                     "warning",
-                    "Informations manquantes",
-                    "Le nom et le numéro sont requis"
+                    tr("Informations manquantes"),
+                    tr("Le nom et le numéro sont requis")
                 );
 
                 return;
@@ -2266,8 +2685,8 @@ document
 
                     showModal(
                         "error",
-                        "Réservation bloquée",
-                        "Ce numéro est bloqué"
+                        tr("Réservation bloquée"),
+                        tr("Ce numéro est bloqué")
                     );
 
                     return;
@@ -2292,13 +2711,13 @@ document
 
                 showModal(
                     "success",
-                    "Rendez-vous confirmé",
-                    `👨‍🦱 Coiffeur: ${selectedBarber}
-📅 Date: ${selectedDate}
-⏰ Heure: ${selectedTime}
-👤 Nom: ${name}
-📞 Mobile: ${mobile}
-💇 Service: ${service}`
+                    tr("Rendez-vous confirmé"),
+                    `👨‍🦱 ${tr("Coiffeur:")} ${selectedBarber}
+                    📅 ${tr("Date:")} ${selectedDate}
+                    ⏰ ${tr("Heure:")} ${selectedTime}
+                    👤 ${tr("Nom:")} ${name}
+                    📞 ${tr("Mobile:")} ${mobile}
+                    💇 ${tr("Service:")} ${tr(service)}`
                 );
 
                 document.getElementById(
@@ -2328,8 +2747,8 @@ document
 
                 showModal(
                     "error",
-                    "Échec du rendez-vous",
-                    "Une erreur est survenue"
+                    tr("Échec du rendez-vous"),
+                    tr("Une erreur est survenue")
                 );
 
             }
@@ -2357,18 +2776,14 @@ document.addEventListener(
                     section.classList.add(
                         "visible"
                     );
-
                 }
-
             });
 
         renderCalendar(
             currentMonth,
             currentYear
         );
-
         fetchDaysOff();
-
     }
 );
 </script>
