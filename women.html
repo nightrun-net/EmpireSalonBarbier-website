@@ -483,7 +483,12 @@ section {
     font-size: 24px;
     animation: bounce 2s infinite;
 }
-
+.contact-card p[data-i18n="contactHours"] {
+    white-space: pre-line;
+    line-height: 2;
+    color: #e8d7df;
+    font-size: 15px;
+}
 
 .beauty-service-info {
     display: grid;
@@ -605,9 +610,11 @@ section {
 
     <div class="beauty-hero-content">
 
-        <div class="hero-eyebrow">
-            <span class="hero-line"></span>
-            <span>EMPIRE BEAUTY SALON</span>
+        <div class="barber-eyebrow">
+            <span class="barber-line"></span>
+            <span data-i18n="beautySalonName">
+                EMPIRE SALON DE BEAUTÉ
+            </span>
         </div>
 
         <h1 data-i18n="welcome">
@@ -674,21 +681,6 @@ section {
                 <h3 data-i18n="makeup">Maquillage</h3>
                 <p data-i18n="makeupDesc">Maquillage pour les occasions spéciales</p>
             </div>
-            <div class="service-card">
-                <i class="fas fa-hand-sparkles"></i>
-                <h3 data-i18n="nails">Onglerie</h3>
-                <p data-i18n="nailsDesc">Manucure et pédicure</p>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-spa"></i>
-                <h3 data-i18n="facial">Soins du visage</h3>
-                <p data-i18n="facialDesc">Soins et beauté du visage</p>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-eye"></i>
-                <h3 data-i18n="brows">Sourcils & Cils</h3>
-                <p data-i18n="browsDesc">Mise en beauté du regard</p>
-            </div>
         </div>
     </div>
 </section>
@@ -702,7 +694,7 @@ section {
         <div class="gallery-grid">
             <div class="gallery-tile"><i class="fas fa-scissors"></i><span data-i18n="hair">Coiffure</span></div>
             <div class="gallery-tile"><i class="fas fa-spa"></i><span data-i18n="facial">Soins du visage</span></div>
-            <div class="gallery-tile"><i class="fas fa-hand-sparkles"></i><span data-i18n="nails">Onglerie</span></div>
+           
         </div>
     </div>
 </section>
@@ -802,8 +794,14 @@ section {
             </div>
             <div class="contact-card">
                 <i class="fas fa-clock"></i>
+
                 <h3 data-i18n="hours">Horaires</h3>
-                <p data-i18n="contactHours">Horaires à confirmer</p>
+
+                <p data-i18n="contactHours">
+                    Vendredi & Samedi
+                    09:00 – 12:00
+                    13:00 – 18:30
+                </p>
             </div>
         </div>
     </div>
@@ -865,10 +863,13 @@ fr: {
     success:"Votre réservation a été envoyée.",
     error:"Impossible de réserver. Veuillez réessayer.",
     booked:"Cet horaire vient d'être réservé.",
-    unavailable:"Le service de réservation est indisponible."
+    unavailable:"Le service de réservation est indisponible.",
+    beautySalonName: "EMPIRE SALON DE BEAUTÉ",
+    contactHours: "Vendredi & Samedi\n09:00 – 12:00\n13:00 – 18:30",
 },
 en: {
     tagline:"Women's Beauty Studio",
+    beautySalonName: "EMPIRE BEAUTY SALON",
     welcome:"Welcome to Empire Beauty Salon",
     intro:"Your beauty is our passion. An elegant space dedicated to your well-being.",
     book:"Book Appointment",men:"Men's Salon",
@@ -895,7 +896,8 @@ en: {
     success:"Your booking has been submitted.",
     error:"Unable to book. Please try again.",
     booked:"This time was just booked.",
-    unavailable:"The booking service is unavailable."
+    unavailable:"The booking service is unavailable.",
+    contactHours: "Friday & Saturday\n09:00 – 12:00\n13:00 – 18:30",
 },
 de: {
     tagline:"Damen-Beauty-Studio",
@@ -925,7 +927,9 @@ de: {
     success:"Ihre Buchung wurde übermittelt.",
     error:"Buchung fehlgeschlagen. Bitte erneut versuchen.",
     booked:"Dieser Termin wurde gerade gebucht.",
-    unavailable:"Der Buchungsdienst ist nicht verfügbar."
+    beautySalonName: "EMPIRE SCHÖNHEITSSALON",
+    unavailable:"Der Buchungsdienst ist nicht verfügbar.",
+    contactHours: "Freitag & Samstag\n09:00 – 12:00\n13:00 – 18:30",
 }
 };
 
@@ -934,7 +938,7 @@ const SERVICES = {
     short: [
         {
             value: "coupe_style",
-            label: "Coupe & Style",
+            label: "Coupe",
             duration: 30,
             types: [
                 { id: "rapide", label: "La Rapide Coupe à sec", price: 40 },
@@ -958,7 +962,7 @@ const SERVICES = {
     long: [
         {
             value: "couleur_effets",
-            label: "Couleur & Effets",
+            label: "Coloration",
             duration: 90,
             types: [
                 { id: "racine", label: "Racine", price: 53 },
@@ -975,20 +979,10 @@ const SERVICES = {
                 { id: "balayage_mi_long", label: "Balayage - Mi-Long", price: 85 },
                 { id: "balayage_long", label: "Balayage - Long", price: 105 }
             ]
-        },
-        {
-            value: "decoloration",
-            label: "Décoloration",
-            duration: 90,
-            types: [
-                { id: "racine", label: "Racine", price: 55 },
-                { id: "decolo_court", label: "Décoloration - Court", price: 69 },
-                { id: "decolo_mi_long", label: "Décoloration - Mi-Long", price: 89 },
-                { id: "decolo_long", label: "Décoloration - Long", price: 109 }
-            ]
         }
     ]
 };
+
 
 // Fixed appointment starts.
 // No appointment crosses the lunch break or closing time.
