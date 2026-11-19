@@ -259,7 +259,7 @@ const TRANSLATIONS = {
     de: "Die Kunst der Herrenpflege. Einzigartiger Stil, außergewöhnliches Erlebnis."
     },
 
-    "Beauty Salon for Women": {
+    "Salon de beauté pour femmes": {
         en: "Beauty Salon for Women",
         de: "Damenschönheitssalon"
     },
@@ -276,6 +276,11 @@ const TRANSLATIONS = {
     "Choisissez le type": {
     en: "Choose service type",
     de: "Leistungsvariante auswählen"
+    },
+
+    "EMPIRE SALON BARBER": {
+    en: "EMPIRE SALON BARBER ",
+    de: "EMPIRE HERRENFRISEUR"
     },
     
 };
